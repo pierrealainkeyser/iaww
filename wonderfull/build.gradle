@@ -1,0 +1,36 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+}
+
+repositories {
+	mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'eclipse'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+springBoot {
+	buildInfo()
+}
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+	implementation(
+			'org.springframework.boot:spring-boot-starter-websocket',
+			'org.springframework.boot:spring-boot-starter-security',
+			'org.springframework.boot:spring-boot-starter-jdbc',
+			'org.flywaydb:flyway-core',
+			'com.h2database:h2'
+	)
+	
+	testImplementation(
+			'org.springframework.boot:spring-boot-starter-test'
+	)
+}
+
+test {
+	useJUnitPlatform()
+}

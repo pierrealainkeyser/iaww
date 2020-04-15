@@ -1,0 +1,1041 @@
+[
+	{
+		"name": "recycling_station",
+		"type": "MATERIAL",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*2",
+		"produce": {
+			"MATERIAL": {
+				"constant": 2
+			}
+		},
+		"occurence": 7
+	},
+	{
+		"name": "wind_turbines",
+		"type": "MATERIAL",
+		"recycle": "ENERGY",
+		"cost": "MATERIAL*2",
+		"produce": {
+			"ENERGY": {
+				"constant": 1
+			}
+		},
+		"occurence": 6
+	},
+	{
+		"name": "nuclear_plant",
+		"type": "MATERIAL",
+		"recycle": "ENERGY",
+		"cost": "MATERIAL*4, SCIENCE*1",
+		"produce": {
+			"ENERGY": {
+				"constant": 3
+			}
+		},
+		"occurence": 5
+	},
+	{
+		"name": "research_center",
+		"type": "MATERIAL",
+		"recycle": "SCIENCE",
+		"cost": "MATERIAL*3, ENERGY*1",
+		"produce": {
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"occurence": 7
+	},
+	{
+		"name": "financial_center",
+		"type": "MATERIAL",
+		"recycle": "GOLD",
+		"cost": "MATERIAL*4, ENERGY*1",
+		"bonus": "BUSINESSMAN",
+		"produce": {
+			"GOLD": {
+				"constant": 2
+			}
+		},
+		"occurence": 5
+	},
+	{
+		"name": "offshore_oil_rig",
+		"type": "MATERIAL",
+		"recycle": "ENERGY",
+		"cost": "MATERIAL*3, DISCOVERY",
+		"bonus": "BUSINESSMAN",
+		"produce": {
+			"GOLD": {
+				"constant": 1
+			},
+			"ENERGY": {
+				"constant": 1
+			}
+		},
+		"occurence": 5
+	},
+	{
+		"name": "military_base",
+		"type": "MATERIAL",
+		"recycle": "SCIENCE",
+		"cost": "MATERIAL*3, ENERGY",
+		"bonus": "GENERAL",
+		"produce": {
+			"MATERIAL": {
+				"constant": 1
+			},
+			"SCIENCE": {
+				"constant": 1
+			}
+		},
+		"occurence": 6
+	},
+	{
+		"name": "industrial_complex",
+		"type": "MATERIAL",
+		"recycle": "GOLD",
+		"cost": "MATERIAL*3, ENERGY",
+		"bonus": "BUSINESSMAN",
+		"produce": {
+			"MATERIAL": {
+				"constant": 1
+			},
+			"GOLD": {
+				"constant": 1
+			}
+		},
+		"occurence": 6
+	},
+	{
+		"name": "transportation_network",
+		"type": "MATERIAL",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*3",
+		"scoring": {
+			"empire": "ENERGY"
+		},
+		"occurence": 2
+	},
+	{
+		"name": "mega_drill",
+		"type": "ENERGY",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL, ENERGY*2",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 1
+			},
+			"MATERIAL": {
+				"constant": 1
+			}
+		},
+		"occurence": 4
+	},
+	{
+		"name": "tank_division",
+		"type": "ENERGY",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL, ENERGY*2",
+		"bonus": "GENERAL",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 1
+			}
+		},
+		"occurence": 7
+	},
+	{
+		"name": "zeppelin",
+		"type": "ENERGY",
+		"recycle": "DISCOVERY",
+		"cost": "ENERGY*2",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 1
+			}
+		},
+		"occurence": 6
+	},
+	{
+		"name": "icebreaker",
+		"type": "ENERGY",
+		"recycle": "DISCOVERY",
+		"cost": "ENERGY*3, SCIENCE",
+		"bonus": "GENERAL",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"occurence": 4
+	},
+	{
+		"name": "saucer_squadron",
+		"type": "ENERGY",
+		"recycle": "SCIENCE",
+		"cost": "ENERGY*3, SCIENCE*2",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 3
+			}
+		},
+		"occurence": 2
+	},
+	{
+		"name": "airborn_laboratory",
+		"type": "ENERGY",
+		"recycle": "SCIENCE",
+		"cost": "ENERGY*3",
+		"produce": {
+			"SCIENCE": {
+				"constant": 1
+			},
+			"DISCOVERY": {
+				"constant": 1
+			}
+		},
+		"occurence": 3
+	},
+	{
+		"name": "submarine",
+		"type": "ENERGY",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*2, ENERGY*3",
+		"bonus": "GENERAL",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"occurence": 3
+	},
+	{
+		"name": "juggernaut",
+		"type": "ENERGY",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*3, ENERGY*3, KRYSTALIUM",
+		"bonus": "GENERAL*2",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"empire": "ENERGY"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "aircraft_carrier",
+		"type": "ENERGY",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*3, ENERGY*4",
+		"bonus": "GENERAL*2",
+		"produce": {
+			"DISCOVERY": {
+				"empire": "ENERGY"
+			}
+		},
+		"occurence": 1
+	},
+	{
+		"name": "transmutation",
+		"type": "SCIENCE",
+		"recycle": "GOLD",
+		"cost": "SCIENCE*3, GOLD*2",
+		"bonus": "KRYSTALIUM",
+		"produce": {
+			"GOLD": {
+				"constant": 3
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "super_sonar",
+		"type": "SCIENCE",
+		"recycle": "DISCOVERY",
+		"cost": "SCIENCE*4",
+		"produce": {
+			"DISCOVERY": {
+				"empire": "ENERGY"
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "supercomputer",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*4",
+		"produce": {
+			"SCIENCE": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"empire": "ENERGY"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "quantum_generator",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*5",
+		"produce": {
+			"ENERGY": {
+				"constant": 3
+			}
+		},
+		"scoring": {
+			"empire": "ENERGY"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "aquaculture",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*4, GOLD*2",
+		"bonus": "BUSINESSMAN",
+		"scoring": {
+			"empire": "BUSINESSMAN"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "cryopreservation",
+		"type": "SCIENCE",
+		"recycle": "GOLD",
+		"cost": "SCIENCE*7",
+		"bonus": "BUSINESSMAN*2",
+		"scoring": {
+			"empire": "BUSINESSMAN"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "unknown_technology",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*7",
+		"bonus": "BUSINESSMAN*2, KRYSTALIUM",
+		"scoring": {
+			"empire": "SCIENCE*3"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "robot_assistants",
+		"type": "SCIENCE",
+		"recycle": "MATERIAL",
+		"cost": "SCIENCE*3",
+		"produce": {
+			"MATERIAL": {
+				"empire": "MATERIAL"
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "robotic_animals",
+		"type": "SCIENCE",
+		"recycle": "ENERGY",
+		"cost": "ENERGY, SCIENCE*2",
+		"produce": {
+			"MATERIAL": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 1
+	},
+	{
+		"name": "human_cloning",
+		"type": "SCIENCE",
+		"recycle": "GOLD",
+		"cost": "SCIENCE*2, GOLD",
+		"produce": {
+			"GOLD": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "universal_vaccine",
+		"type": "SCIENCE",
+		"recycle": "GOLD",
+		"cost": "SCIENCE*3",
+		"scoring": {
+			"empire": "GOLD"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "neuroscience",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*3",
+		"produce": {
+			"SCIENCE": {
+				"empire": "SCIENCE"
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "mega_bomb",
+		"type": "SCIENCE",
+		"recycle": "ENERGY",
+		"cost": "ENERGY*2, SCIENCE*2",
+		"bonus": "GENERAL*2",
+		"scoring": {
+			"constant": 3
+		},
+		"occurence": 1
+	},
+	{
+		"name": "genetic_upgrades",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*4",
+		"bonus": "BUSINESSMAN*2",
+		"scoring": {
+			"constant": 3
+		},
+		"occurence": 1
+	},
+	{
+		"name": "climate_control",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*5",
+		"produce": {
+			"ENERGY": {
+				"constant": 2
+			},
+			"GOLD": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 1
+	},
+	{
+		"name": "bionic_crafts",
+		"type": "SCIENCE",
+		"recycle": "MATERIAL",
+		"cost": "SCIENCE*5",
+		"bonus": "GENERAL",
+		"produce": {
+			"MATERIAL": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 4
+		},
+		"occurence": 1
+	},
+	{
+		"name": "security_automatons",
+		"type": "SCIENCE",
+		"recycle": "GOLD",
+		"cost": "SCIENCE*4, GOLD",
+		"scoring": {
+			"empire": "GENERAL"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "virtual_reality",
+		"type": "SCIENCE",
+		"recycle": "GOLD",
+		"cost": "SCIENCE*5",
+		"produce": {
+			"GOLD": {
+				"empire": "SCIENCE"
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 1
+	},
+	{
+		"name": "satellites",
+		"type": "SCIENCE",
+		"recycle": "DISCOVERY",
+		"cost": "ENERGY*2, SCIENCE*4",
+		"bonus": "GENERAL",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 3
+		},
+		"occurence": 1
+	},
+	{
+		"name": "gravity_inverter",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "ENERGY, SCIENCE*3, KRYSTALIUM",
+		"bonus": "BUSINESSMAN",
+		"scoring": {
+			"empire": "GOLD*2"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "super_soldiers",
+		"type": "SCIENCE",
+		"recycle": "DISCOVERY",
+		"cost": "SCIENCE*7",
+		"bonus": "GENERAL",
+		"scoring": {
+			"empire": "GENERAL"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "teleportation",
+		"type": "SCIENCE",
+		"recycle": "DISCOVERY",
+		"cost": "SCIENCE*8",
+		"bonus": "KRYSTALIUM*2",
+		"scoring": {
+			"constant": 8
+		},
+		"occurence": 1
+	},
+	{
+		"name": "time_travel",
+		"type": "SCIENCE",
+		"recycle": "DISCOVERY",
+		"cost": "SCIENCE*5, KRYSTALIUM*3",
+		"scoring": {
+			"constant": 15
+		},
+		"occurence": 1
+	},
+	{
+		"name": "propaganda_center",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "GOLD*3",
+		"bonus": "GENERAL",
+		"produce": {
+			"GOLD": {
+				"empire": "GOLD"
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 2
+	},
+	{
+		"name": "espionage_agency",
+		"type": "GOLD",
+		"recycle": "DISCOVERY",
+		"cost": "ENERGY*2, GOLD*2",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 2
+	},
+	{
+		"name": "harbor_zone",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "GOLD*5",
+		"bonus": "BUSINESSMAN*2",
+		"produce": {
+			"MATERIAL": {
+				"constant": 2
+			},
+			"GOLD": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 2
+	},
+	{
+		"name": "giant_dam",
+		"type": "GOLD",
+		"recycle": "ENERGY",
+		"cost": "MATERIAL*3, GOLD*2",
+		"produce": {
+			"ENERGY": {
+				"constant": 4
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "underwater_city",
+		"type": "GOLD",
+		"recycle": "DISCOVERY",
+		"cost": "ENERGY*2, SCIENCE*1, GOLD*2",
+		"produce": {
+			"SCIENCE": {
+				"constant": 1
+			},
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 3
+		},
+		"occurence": 2
+	},
+	{
+		"name": "secret_laboratory",
+		"type": "GOLD",
+		"recycle": "SCIENCE",
+		"cost": "MATERIAL*2, GOLD*3",
+		"bonus": "KRYSTALIUM",
+		"produce": {
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"empire": "SCIENCE"
+		},
+		"occurence": 2
+	},
+	{
+		"name": "museum",
+		"type": "GOLD",
+		"recycle": "DISCOVERY",
+		"cost": "GOLD*3",
+		"scoring": {
+			"empire": "DISCOVERY*2"
+		},
+		"occurence": 2
+	},
+	{
+		"name": "university",
+		"type": "GOLD",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE, GOLD*2",
+		"produce": {
+			"SCIENCE": {
+				"empire": "GOLD"
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 1
+	},
+	{
+		"name": "underground_city",
+		"type": "GOLD",
+		"recycle": "ENERGY",
+		"cost": "MATERIAL*3, GOLD*3",
+		"produce": {
+			"MATERIAL": {
+				"constant": 2
+			},
+			"ENERGY": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 2
+	},
+	{
+		"name": "casino_city",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "ENERGY*3, GOLD*4",
+		"produce": {
+			"GOLD": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"empire": "BUSINESSMAN"
+		},
+		"occurence": 2
+	},
+	{
+		"name": "magnetic_train",
+		"type": "GOLD",
+		"recycle": "SCIENCE",
+		"cost": "ENERGY, SCIENCE, GOLD*3",
+		"bonus": "BUSINESSMAN*2",
+		"produce": {
+			"GOLD": {
+				"empire": "MATERIAL"
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 1
+	},
+	{
+		"name": "space_elevator",
+		"type": "GOLD",
+		"recycle": "ENERGY",
+		"cost": "ENERGY*3, SCIENCE, GOLD*2",
+		"bonus": "BUSINESSMAN",
+		"scoring": {
+			"empire": "BUSINESSMAN"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "solar_cannon",
+		"type": "GOLD",
+		"recycle": "ENERGY",
+		"cost": "ENERGY*2, SCIENCE, GOLD*3",
+		"bonus": "GENERAL",
+		"scoring": {
+			"empire": "GENERAL"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "universal_exposition",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "GOLD*3, BUSINESSMAN*2",
+		"bonus": "BUSINESSMAN",
+		"scoring": {
+			"empire": "SCIENCE*3"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "world_congress",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "GOLD*5, BUSINESSMAN*3",
+		"scoring": {
+			"empire": "GOLD*3"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "lunar_base",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "ENERGY*2, SCIENCE*2, GOLD*2, KRYSTALIUM",
+		"bonus": "GENERAL*2",
+		"scoring": {
+			"constant": 10
+		},
+		"occurence": 1
+	},
+	{
+		"name": "polar_base",
+		"type": "GOLD",
+		"recycle": "DISCOVERY",
+		"cost": "ENERGY*3, GOLD*4",
+		"bonus": "GENERAL",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 3
+			}
+		},
+		"scoring": {
+			"empire": "DISCOVERY*2"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "giant_tower",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "MATERIAL*2, GOLD*3, BUSINESSMAN",
+		"scoring": {
+			"constant": 10
+		},
+		"occurence": 1
+	},
+	{
+		"name": "national_monument",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "MATERIAL*5, GOLD*3",
+		"scoring": {
+			"empire": "GOLD*2"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "city_of_agartha",
+		"type": "DISCOVERY",
+		"recycle": "DISCOVERY",
+		"cost": "DISCOVERY*4, KRYSTALIUM",
+		"produce": {
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"empire": "GENERAL"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "black_beard_treasure",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*3",
+		"produce": {
+			"GOLD": {
+				"empire": "DISCOVERY"
+			}
+		},
+		"scoring": {
+			"constant": 1
+		},
+		"occurence": 1
+	},
+	{
+		"name": "bermuda_triangle",
+		"type": "DISCOVERY",
+		"recycle": "SCIENCE",
+		"cost": "DISCOVERY*4",
+		"bonus": "KRYSTALIUM",
+		"produce": {
+			"SCIENCE": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 4
+		},
+		"occurence": 1
+	},
+	{
+		"name": "king_solomon's_mines",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*4",
+		"bonus": "KRYSTALIUM",
+		"produce": {
+			"GOLD": {
+				"empire": "MATERIAL"
+			}
+		},
+		"scoring": {
+			"constant": 2
+		},
+		"occurence": 1
+	},
+	{
+		"name": "roswell",
+		"type": "DISCOVERY",
+		"recycle": "SCIENCE",
+		"cost": "DISCOVERY*6",
+		"bonus": "GENERAL",
+		"produce": {
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"empire": "GENERAL"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "ancients_astronauts",
+		"type": "DISCOVERY",
+		"recycle": "SCIENCE",
+		"cost": "DISCOVERY*6, GENERAL",
+		"bonus": "KRYSTALIUM*2",
+		"produce": {
+			"SCIENCE": {
+				"empire": "DISCOVERY"
+			}
+		},
+		"scoring": {
+			"constant": 10
+		},
+		"occurence": 1
+	},
+	{
+		"name": "atlantis",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*7, GENERAL",
+		"bonus": "KRYSTALIUM*2",
+		"scoring": {
+			"empire": "GENERAL*2"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "cities_of_gold",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*4",
+		"produce": {
+			"GOLD": {
+				"constant": 3
+			}
+		},
+		"scoring": {
+			"constant": 3
+		},
+		"occurence": 1
+	},
+	{
+		"name": "ark_of_the_covenant",
+		"type": "DISCOVERY",
+		"recycle": "DISCOVERY",
+		"cost": "DISCOVERY*4",
+		"bonus": "KRYSTALIUM",
+		"scoring": {
+			"constant": 5
+		},
+		"occurence": 1
+	},
+	{
+		"name": "treasure_of_the_templars",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*5",
+		"bonus": "KRYSTALIUM*2",
+		"produce": {
+			"GOLD": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 3
+		},
+		"occurence": 1
+	},
+	{
+		"name": "island_of_avalon",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*5",
+		"produce": {
+			"GOLD": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 7
+		},
+		"occurence": 1
+	},
+	{
+		"name": "gardens_of_the_hesperides",
+		"type": "DISCOVERY",
+		"recycle": "DISCOVERY",
+		"cost": "DISCOVERY*5",
+		"scoring": {
+			"empire": "GOLD*2"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "lost_continent_of_mu",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*6",
+		"bonus": "KRYSTALIUM*2",
+		"produce": {
+			"GOLD": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"empire": "DISCOVERY*2"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "fountain_of_youth",
+		"type": "DISCOVERY",
+		"recycle": "ENERGY",
+		"cost": "DISCOVERY*7",
+		"bonus": "KRYSTALIUM*3",
+		"scoring": {
+			"empire": "GENERAL"
+		},
+		"occurence": 1
+	},
+	{
+		"name": "center_of_the_earth",
+		"type": "DISCOVERY",
+		"recycle": "DISCOVERY",
+		"cost": "DISCOVERY*5, KRYSTALIUM*2",
+		"scoring": {
+			"constant": 15
+		},
+		"occurence": 1
+	},
+	{
+		"name": "alexander's_tomb",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*7",
+		"bonus": "GENERAL*2",
+		"scoring": {
+			"constant": 10
+		},
+		"occurence": 1
+	},
+	{
+		"name": "parallel_dimension",
+		"type": "DISCOVERY",
+		"recycle": "DISCOVERY",
+		"cost": "SCIENCE*3, DISCOVERY*4, GENERAL",
+		"bonus": "KRYSTALIUM*3",
+		"scoring": {
+			"empire": "SCIENCE*3"
+		},
+		"occurence": 1
+	}
+]

@@ -1,0 +1,25 @@
+[
+	{
+		"name": "empire/basic",
+		"produce": {
+			"MATERIAL": {
+				"constant": 2
+			},
+			"ENERGY": {
+				"constant": 1
+			},
+			"SCIENCE": {
+				"constant": 1
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/krystalium",
+		"bonus": "KRYSTALIUM*5",
+		"produce": {
+			
+		},
+		"occurence": 0
+	}
+]
