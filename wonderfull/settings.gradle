@@ -1,0 +1,6 @@
+rootProject.name = 'wonderfull'
+
+include 'wonderfull-front'
+include 'wonderfull-back'
+
+
