@@ -15,6 +15,7 @@ import fr.keyser.wonderfull.world.action.ActionDraft;
 import fr.keyser.wonderfull.world.action.ActionMoveDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionRecycleDrafted;
 import fr.keyser.wonderfull.world.action.ActionRecycleDraftedToProduction;
+import fr.keyser.wonderfull.world.action.ActionRecycleProduction;
 import fr.keyser.wonderfull.world.action.ActionSupremacy;
 import fr.keyser.wonderfull.world.dto.GameDTO;
 import fr.keyser.wonderfull.world.game.InGameService;
@@ -80,4 +81,10 @@ public class GamingController {
 			@Payload ActionRecycleDraftedToProduction action) {
 		service.play(externalId, action);
 	}
+
+	@MessageMapping("/game/{externalId}/recycleProduction")
+	public void recycleProduction(@DestinationVariable String externalId, @Payload ActionRecycleProduction action) {
+		service.play(externalId, action);
+	}
+
 }

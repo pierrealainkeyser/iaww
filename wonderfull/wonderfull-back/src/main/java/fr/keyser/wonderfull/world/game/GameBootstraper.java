@@ -1,5 +1,7 @@
 package fr.keyser.wonderfull.world.game;
 
+import java.time.Instant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +30,7 @@ public class GameBootstraper {
 
 	public ActiveGame starts(GameConfiguration input) {
 
-		GameConfiguration conf = input.withRandomUUID();
+		GameConfiguration conf = input.withRandomUUID().at(Instant.now());
 		Automats<GameInfo> automats = builder.build(InstanceId.uuid(), conf.getPlayerCount());
 		logger.trace("Automats {}", automats);
 

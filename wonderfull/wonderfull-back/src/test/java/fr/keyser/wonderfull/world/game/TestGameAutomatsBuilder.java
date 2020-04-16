@@ -3,6 +3,7 @@ package fr.keyser.wonderfull.world.game;
 import static fr.keyser.wonderfull.world.EmpireConfiguration.empire;
 import static java.util.Arrays.asList;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class TestGameAutomatsBuilder {
 	void nominal() throws JsonProcessingException {
 
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire("p0", "krystalium"), empire("p1", "krystalium"), empire("p2", "basic")));
+				asList(empire("p0", "krystalium"), empire("p1", "krystalium"), empire("p2", "basic")), Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
 

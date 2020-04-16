@@ -6,14 +6,12 @@
 
   <v-card>
     <v-toolbar>
-      Lobby
+      <v-icon>mdi-folder-search</v-icon> Lobby
       <template v-slot:extension>
         <v-btn fab small color="primary" bottom left absolute @click="openDialog">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <v-spacer />
-      <v-btn outlined @click="logout">Logout</v-btn>
     </v-toolbar>
 
     <v-card-text>
@@ -22,7 +20,7 @@
         <v-list-item v-for="(g,i) in myGames" :key="i" link :to="'/game/'+g.externalId">
           <v-list-item-content>
             <v-list-item-title>{{formatDict(g)}}</v-list-item-title>
-            <v-list-item-subtitle> {{formatUsers(g)}}</v-list-item-subtitle>
+            <v-list-item-subtitle>Created at {{formatDate(g)}} with {{formatUsers(g)}}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-avatar>
             <v-icon v-if="g.terminated">mdi-check</v-icon>
@@ -37,6 +35,7 @@
 
 <script>
 import StompService from '@/services/StompService';
+import moment from 'moment';
 
 export default {
   data() {
@@ -57,13 +56,12 @@ export default {
     formatDict(g) {
       return g.dictionaries.join(' + ');
     },
+    formatDate(g) {
+      return moment(g.createdAt).format('YYYY/MM/DD HH:mm:ss');
+    },
     receive(games) {
       this.myGames.splice(0, this.myGames.length);
       Array.prototype.push.apply(this.myGames, games);
-    },
-    logout() {
-      this.$store.dispatch('user/logout');
-      this.$router.push('/login');
     }
   },
   mounted() {

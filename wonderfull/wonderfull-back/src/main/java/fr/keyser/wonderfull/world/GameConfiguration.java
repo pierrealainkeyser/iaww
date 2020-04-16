@@ -1,5 +1,6 @@
 package fr.keyser.wonderfull.world;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,22 +16,29 @@ public class GameConfiguration {
 
 	private final List<EmpireConfiguration> empires;
 
+	private final Instant createdAt;
+
 	@JsonCreator
 	public GameConfiguration(@JsonProperty("dictionaries") List<String> dictionaries,
-			@JsonProperty("empires") List<EmpireConfiguration> empires) {
+			@JsonProperty("empires") List<EmpireConfiguration> empires, @JsonProperty("createdAt") Instant createdAt) {
 		this.dictionaries = dictionaries;
 		this.empires = empires;
+		this.createdAt = createdAt;
+	}
+
+	public GameConfiguration at(Instant createdAt) {
+		return new GameConfiguration(dictionaries, empires, createdAt);
 	}
 
 	public PlayerGameDescription asDescription(String user, boolean terminated) {
 		String id = empires.stream().filter(e -> e.getUser().equals(user)).map(EmpireConfiguration::getExternalId)
 				.findFirst().orElse(null);
-		return new PlayerGameDescription(id, terminated, dictionaries, usersList());
+		return new PlayerGameDescription(id, terminated, dictionaries, usersList(), createdAt);
 
 	}
 
 	public ActiveGameDescription asGameDescription(InstanceId id) {
-		return new ActiveGameDescription(id, dictionaries, usersList());
+		return new ActiveGameDescription(id, dictionaries, usersList(), createdAt);
 	}
 
 	public List<String> getDictionaries() {
@@ -57,7 +65,11 @@ public class GameConfiguration {
 
 	public GameConfiguration withRandomUUID() {
 		return new GameConfiguration(dictionaries,
-				empires.stream().map(EmpireConfiguration::withRandomUUID).collect(Collectors.toList()));
+				empires.stream().map(EmpireConfiguration::withRandomUUID).collect(Collectors.toList()), createdAt);
+	}
+
+	public Instant getCreatedAt() {
+		return createdAt;
 	}
 
 }

@@ -3,6 +3,8 @@ package fr.keyser.wonderfull.world.game;
 import static fr.keyser.wonderfull.world.EmpireConfiguration.empire;
 import static java.util.Arrays.asList;
 
+import java.time.Instant;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -30,7 +32,7 @@ public class TestGameBootstraper {
 	void bootstrap() {
 
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire("p0", "krystalium"), empire("p1", "krystalium")));
+				asList(empire("p0", "krystalium"), empire("p1", "krystalium")), Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
 
@@ -58,7 +60,7 @@ public class TestGameBootstraper {
 	@Test
 	void backup() throws JsonProcessingException {
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire("p0", "krystalium"), empire("p1", "krystalium")));
+				asList(empire("p0", "krystalium"), empire("p1", "krystalium")), Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
 

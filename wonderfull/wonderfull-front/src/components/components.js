@@ -14,7 +14,7 @@
  import SupremacyDialog from '@/components/game/SupremacyDialog'
 
  import FadeText from '@/components/system/FadeText'
- import SystemBar from '@/components/system/SystemBar'
+ import SystemDrawer from '@/components/system/SystemDrawer'
 
 
  export default {
@@ -34,6 +34,6 @@
      Vue.component('AffectationDialog', AffectationDialog);
      Vue.component('SupremacyDialog', SupremacyDialog);
      Vue.component('fade-text', FadeText);
-     Vue.component('system-bar', SystemBar);
+     Vue.component('system-drawer', SystemDrawer);
    }
  }
