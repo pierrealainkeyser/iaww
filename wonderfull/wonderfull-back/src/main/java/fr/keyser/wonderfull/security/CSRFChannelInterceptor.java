@@ -8,18 +8,15 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class UserChannelInterceptor implements ChannelInterceptor {
+public class CSRFChannelInterceptor implements ChannelInterceptor {
 
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
 		StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 		if (StompCommand.CONNECT == accessor.getCommand()) {
-			List<String> user = accessor.getNativeHeader("X-User");
-			if (user != null && !user.isEmpty()) {
-				accessor.setUser(new UsernamePasswordAuthenticationToken(user.get(0), "N/A"));
-			}
+			List<String> csrf = accessor.getNativeHeader("X-CSRF");
+
 		}
 
 		return ChannelInterceptor.super.preSend(message, channel);

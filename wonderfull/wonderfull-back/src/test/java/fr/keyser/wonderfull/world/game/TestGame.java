@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import fr.keyser.wonderfull.security.UserPrincipal;
 import fr.keyser.wonderfull.world.GameConfiguration;
 import fr.keyser.wonderfull.world.MetaCardDictionnary;
 import fr.keyser.wonderfull.world.MetaCardDictionnaryLoader;
@@ -36,7 +37,10 @@ public class TestGame {
 	void nominal() throws JsonProcessingException {
 
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire("p0", "krystalium"), empire("p1", "krystalium"), empire("p2", "basic")), Instant.now());
+				asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
+						empire(new UserPrincipal(null, "p1"), "krystalium"),
+						empire(new UserPrincipal(null, "p2"), "basic")),
+				Instant.now());
 
 		PlayersStatus status = new PlayersStatus(
 				Arrays.asList(Status.WAITING_INPUT, Status.WAITING_INPUT, Status.WAITING_INPUT));

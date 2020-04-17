@@ -38,6 +38,8 @@ dependencies {
 			'org.springframework.boot:spring-boot-starter-websocket',
 			'org.springframework.boot:spring-boot-starter-security',
 			'org.springframework.boot:spring-boot-starter-jdbc',
+			'org.springframework.security:spring-security-oauth2-client',
+			'org.springframework.security:spring-security-oauth2-jose',
 			'org.flywaydb:flyway-core',
 			'com.h2database:h2'
 			)

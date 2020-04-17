@@ -5,20 +5,22 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.keyser.wonderfull.security.UserPrincipal;
+
 public class EmpireConfiguration {
 
-	private final String user;
+	private final UserPrincipal user;
 
 	private final String externalId;
 
 	private final String empire;
 
-	public static EmpireConfiguration empire(String player, String empire) {
+	public static EmpireConfiguration empire(UserPrincipal player, String empire) {
 		return new EmpireConfiguration(player, null, empire);
 	}
 
 	@JsonCreator
-	public EmpireConfiguration(@JsonProperty("user") String user, @JsonProperty("externalId") String externalId,
+	public EmpireConfiguration(@JsonProperty("user") UserPrincipal user, @JsonProperty("externalId") String externalId,
 			@JsonProperty("empire") String empire) {
 		this.user = user;
 		this.externalId = externalId;
@@ -29,7 +31,7 @@ public class EmpireConfiguration {
 		return new EmpireConfiguration(user, UUID.randomUUID().toString(), empire);
 	}
 
-	public String getUser() {
+	public UserPrincipal getUser() {
 		return user;
 	}
 

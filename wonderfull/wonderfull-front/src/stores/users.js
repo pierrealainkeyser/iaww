@@ -3,11 +3,16 @@ import StompService from '@/services/StompService';
 export default {
   namespaced: true,
   state: {
-    user: null
+    name: null,
+    uid: null,
+    xcsrf: null
   },
   mutations: {
     set: (state, user) => {
-      state.user = user;
+      const v = user || {}
+      state.name = v.name;
+      state.uid = v.uid;
+      state.xcsrf = v.xcsrf;
     }
   },
   actions: {
@@ -16,21 +21,20 @@ export default {
       },
       user
     ) => {
-      StompService.user = user;
+      StompService.csrf = user.xcsrf;
       StompService.connect();
       commit('set', user);
     },
     logout: ({
       commit
     }) => {
-      StompService.user = null;
       StompService.deactivate();
       commit('set', null);
     }
   },
   getters: {
     get: state => {
-      return state.user;
+      return state.name;
     }
   }
 }

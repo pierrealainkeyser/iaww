@@ -43,8 +43,6 @@
       </v-list-item-content>
     </v-list-item>
 
-
-
   </v-list>
 </v-navigation-drawer>
 </template>
@@ -55,15 +53,13 @@ import StompService from '@/services/StompService';
 export default {
   data() {
     return {
-      miniVariant: false,
-      connected: false,
-      connectedURL: StompService.brokerURL
+      connected: false
     };
   },
 
   computed: {
     status() {
-      return this.connected ? 'Connected as ' + this.user : 'Not connected';
+      return this.connected ? this.user : 'Not connected';
     },
     user() {
       return this.$store.getters['user/get'];

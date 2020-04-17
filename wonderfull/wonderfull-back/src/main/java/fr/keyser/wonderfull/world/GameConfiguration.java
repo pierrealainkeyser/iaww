@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.keyser.fsm.InstanceId;
+import fr.keyser.wonderfull.security.UserPrincipal;
 
 public class GameConfiguration {
 
@@ -31,7 +32,7 @@ public class GameConfiguration {
 	}
 
 	public PlayerGameDescription asDescription(String user, boolean terminated) {
-		String id = empires.stream().filter(e -> e.getUser().equals(user)).map(EmpireConfiguration::getExternalId)
+		String id = empires.stream().filter(e -> e.getUser().getUid().equals(user)).map(EmpireConfiguration::getExternalId)
 				.findFirst().orElse(null);
 		return new PlayerGameDescription(id, terminated, dictionaries, usersList(), createdAt);
 
@@ -59,7 +60,7 @@ public class GameConfiguration {
 		return String.format("[empires=%s, dictionaries=%s]", empires, dictionaries);
 	}
 
-	private List<String> usersList() {
+	private List<UserPrincipal> usersList() {
 		return empires.stream().map(EmpireConfiguration::getUser).collect(Collectors.toList());
 	}
 

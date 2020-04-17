@@ -9,6 +9,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
+import fr.keyser.wonderfull.security.ProviderPrincipal;
+import fr.keyser.wonderfull.security.ProviderPrincipalConverter;
 import fr.keyser.wonderfull.world.PlayerGameDescription;
 import fr.keyser.wonderfull.world.action.ActionAffectToProduction;
 import fr.keyser.wonderfull.world.action.ActionDraft;
@@ -25,13 +27,18 @@ public class GamingController {
 
 	private final InGameService service;
 
-	public GamingController(InGameService service) {
+	private final ProviderPrincipalConverter converter;
+
+	public GamingController(InGameService service, ProviderPrincipalConverter converter) {
 		this.service = service;
+		this.converter = converter;
 	}
 
 	@SubscribeMapping("/my-games")
 	public List<PlayerGameDescription> gamesFor(Principal principal) {
-		return service.gamesFor(principal.getName());
+		ProviderPrincipal convert = converter.convert(principal);
+
+		return service.gamesFor(convert.getUid());
 	}
 
 	@SubscribeMapping("/game/{externalId}")

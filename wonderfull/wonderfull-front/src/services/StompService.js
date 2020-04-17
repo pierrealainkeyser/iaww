@@ -4,7 +4,7 @@ import {
 
 import StompSubscription from './StompSubscription'
 
-const USER = Symbol();
+const CSRF = Symbol();
 const SUBSCRIPTIONS = Symbol();
 const CLIENT = Symbol();
 const STATUS = Symbol();
@@ -23,7 +23,7 @@ function wrap(callback) {
 class StompService {
 
   constructor() {
-    this[USER] = null;
+    this[CSRF] = null;
     this[STATUS] = false;
     this[SUBSCRIPTIONS] = [];
     this[LISTENERS] = [];
@@ -40,7 +40,7 @@ class StompService {
       brokerURL
     });
     client.beforeConnect = () => {
-      this[CLIENT].connectHeaders["X-User"] = this[USER];
+      this[CLIENT].connectHeaders["X-CSRF"] = this[CSRF];
     }
     client.onConnect = () => {
       this[SUBSCRIPTIONS] = this[SUBSCRIPTIONS].map(s => {
@@ -117,12 +117,10 @@ class StompService {
     return this[STATUS];
   }
 
-  get user() {
-    return this[USER];
-  }
 
-  set user(user) {
-    this[USER] = user;
+
+  set csrf(csrf) {
+    this[CSRF] = csrf;
   }
 
   deactivate() {

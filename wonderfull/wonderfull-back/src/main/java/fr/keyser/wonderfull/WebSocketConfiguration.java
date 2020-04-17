@@ -7,7 +7,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import fr.keyser.wonderfull.security.UserChannelInterceptor;
+import fr.keyser.wonderfull.security.CSRFChannelInterceptor;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -15,14 +15,14 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
-		registration.interceptors(new UserChannelInterceptor());
+		registration.interceptors(new CSRFChannelInterceptor());
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.setApplicationDestinationPrefixes("/app");
 		config.setUserDestinationPrefix("/user");
-		
+
 		// workarround for
 		// https://github.com/spring-projects/spring-framework/issues/23104
 		config.setPreservePublishOrder(true);

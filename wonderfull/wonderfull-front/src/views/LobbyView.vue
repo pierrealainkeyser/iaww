@@ -48,7 +48,6 @@ export default {
   methods: {
     openDialog() {
       this.doOpen = true;
-      console.log("openDialog")
     },
     formatUsers(g) {
       return g.users.join(', ');

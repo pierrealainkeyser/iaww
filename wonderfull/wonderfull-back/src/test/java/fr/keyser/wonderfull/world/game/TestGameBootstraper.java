@@ -15,10 +15,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import fr.keyser.fsm.InstanceId;
 import fr.keyser.fsm.impl.Automats;
 import fr.keyser.fsm.impl.AutomatsMemento;
+import fr.keyser.wonderfull.security.UserPrincipal;
 import fr.keyser.wonderfull.world.GameConfiguration;
 import fr.keyser.wonderfull.world.MetaCardDictionnaryLoader;
 import fr.keyser.wonderfull.world.UnresolvedGameIdException;
@@ -32,7 +34,10 @@ public class TestGameBootstraper {
 	void bootstrap() {
 
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire("p0", "krystalium"), empire("p1", "krystalium")), Instant.now());
+				asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
+						empire(new UserPrincipal(null, "p1"), "krystalium"),
+						empire(new UserPrincipal(null, "p2"), "basic")),
+				Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
 
@@ -60,7 +65,10 @@ public class TestGameBootstraper {
 	@Test
 	void backup() throws JsonProcessingException {
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire("p0", "krystalium"), empire("p1", "krystalium")), Instant.now());
+				asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
+						empire(new UserPrincipal(null, "p1"), "krystalium"),
+						empire(new UserPrincipal(null, "p2"), "basic")),
+				Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
 
@@ -76,7 +84,8 @@ public class TestGameBootstraper {
 		Automats<GameInfo> automats = started.getAutomats();
 
 		SimpleModule module = new WonderfullModuleBuilder(loader.load(conf.getDictionaries())).createModule();
-		ObjectMapper om = new ObjectMapper().setSerializationInclusion(Include.NON_NULL).registerModule(module);
+		ObjectMapper om = new ObjectMapper().setSerializationInclusion(Include.NON_NULL).registerModule(module)
+				.registerModule(new JavaTimeModule());
 		ObjectWriter printer = om.writerWithDefaultPrettyPrinter();
 		AutomatsMemento mementos = automats.memento();
 		String stored = printer.writeValueAsString(mementos);

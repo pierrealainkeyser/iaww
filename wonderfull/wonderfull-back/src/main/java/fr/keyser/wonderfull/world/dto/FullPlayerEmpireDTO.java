@@ -3,6 +3,7 @@ package fr.keyser.wonderfull.world.dto;
 import java.util.List;
 import java.util.Map;
 
+import fr.keyser.wonderfull.security.UserPrincipal;
 import fr.keyser.wonderfull.world.DraftableCard;
 import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.Empire;
@@ -22,7 +23,7 @@ public class FullPlayerEmpireDTO {
 
 	private Map<Token, Integer> available;
 
-	private String player;
+	private UserPrincipal player;
 
 	public Map<Token, Integer> getAvailable() {
 		return available;
@@ -40,7 +41,7 @@ public class FullPlayerEmpireDTO {
 		return inHand;
 	}
 
-	public String getPlayer() {
+	public UserPrincipal getPlayer() {
 		return player;
 	}
 
@@ -76,7 +77,7 @@ public class FullPlayerEmpireDTO {
 		this.inHand = inHand;
 	}
 
-	public void setPlayer(String player) {
+	public void setPlayer(UserPrincipal player) {
 		this.player = player;
 	}
 

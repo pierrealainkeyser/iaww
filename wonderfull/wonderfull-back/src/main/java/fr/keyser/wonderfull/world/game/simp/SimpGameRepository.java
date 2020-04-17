@@ -51,7 +51,7 @@ public class SimpGameRepository implements ActiveGameRepository {
 
 	private void broadcast(ActiveGame game) {
 		for (InGameId igi : game.getPlayers()) {
-			String user = igi.getUser();
+			String user = igi.getUser().getUid();
 			List<PlayerGameDescription> games = gamesFor(user);
 			simp.convertAndSendToUser(user, "/my-games", games);
 		}
