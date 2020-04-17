@@ -38,7 +38,7 @@ public class GamingController {
 	public List<PlayerGameDescription> gamesFor(Principal principal) {
 		ProviderPrincipal convert = converter.convert(principal);
 
-		return service.gamesFor(convert.getUid());
+		return service.gamesFor(convert.getName());
 	}
 
 	@SubscribeMapping("/game/{externalId}")

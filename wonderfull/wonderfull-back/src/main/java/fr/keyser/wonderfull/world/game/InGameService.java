@@ -62,7 +62,7 @@ public class InGameService {
 
 	private void send(InGameId player, GameDTO dto) {
 		String destination = MessageFormat.format("/game/{0}", player.getExternal());
-		sendingOperations.convertAndSendToUser(player.getUser().getUid(), destination, dto);
+		sendingOperations.convertAndSendToUser(player.getUser().getName(), destination, dto);
 	}
 
 }

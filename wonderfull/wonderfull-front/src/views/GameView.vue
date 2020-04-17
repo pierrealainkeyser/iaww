@@ -82,8 +82,6 @@
 </template>
 
 <script>
-//import StompService from '@/services/StompService';
-
 const PLAYERS_COLOR = ["blue", "red", "green", "pink", "amber"];
 
 function createEmptyEmpire(index) {
@@ -163,7 +161,7 @@ function mapEmpire(src, target, dictionnary, actions) {
   mapCards(src.empire.inProduction, target.empire.inProduction, dictionnary, actions);
   target.score = src.score;
   target.done = src.done;
-  target.player = src.player;
+  target.player = src.player.label;
 
   Object.keys(target.stats).forEach(key => {
     target.stats[key] = src.stats[key.toUpperCase()] || 0

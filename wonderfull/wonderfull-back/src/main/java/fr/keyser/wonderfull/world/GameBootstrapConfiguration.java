@@ -1,6 +1,5 @@
 package fr.keyser.wonderfull.world;
 
-import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -32,14 +31,11 @@ public class GameBootstrapConfiguration {
 
 	private final List<UserConfiguration> users;
 
-	private final Instant createdAt;
-
 	@JsonCreator
 	public GameBootstrapConfiguration(@JsonProperty("dictionaries") List<String> dictionaries,
-			@JsonProperty("empires") List<UserConfiguration> users, @JsonProperty("createdAt") Instant createdAt) {
+			@JsonProperty("empires") List<UserConfiguration> users) {
 		this.dictionaries = dictionaries;
 		this.users = users;
-		this.createdAt = createdAt;
 	}
 
 	public List<String> getDictionaries() {
@@ -49,9 +45,4 @@ public class GameBootstrapConfiguration {
 	public List<UserConfiguration> getUsers() {
 		return users;
 	}
-
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
-
 }

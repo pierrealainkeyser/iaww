@@ -27,15 +27,15 @@ export default {
     this.loading = true;
     this.$axios.get("auth/principal").then(r => {
       const xcsrf = r.headers['x-csrf-token'];
-      this.$axios.defaults.headers.commons["X-CSRF-TOKEN"] = xcsrf;
+      this.$axios.defaults.headers["X-CSRF-TOKEN"] = xcsrf;
       this.$store.dispatch('user/login', {
         name: r.data.name,
-        uid: r.data.uid
+        label: r.data.label
       });
       this.$router.push('/lobby');
     }).catch(e => {
       const response = e.response;
-      if (response && 403 === response.status) {
+      if (response && 401 === response.status) {
         const data = response.data;
         const baseURL = this.$axios.defaults.baseURL || "";
         Object.keys(data).forEach(key => {

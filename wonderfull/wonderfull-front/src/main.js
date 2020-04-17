@@ -20,9 +20,7 @@ const axiosConfig = {
 if (url) {
   axiosConfig.baseURL = url;
   axiosConfig.headers = {
-    commons: {
-      "X-CSRF-TOKEN": null
-    }
+    "X-CSRF-TOKEN": null
   }
 }
 

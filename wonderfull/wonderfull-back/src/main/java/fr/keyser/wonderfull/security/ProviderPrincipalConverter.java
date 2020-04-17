@@ -30,6 +30,10 @@ public class ProviderPrincipalConverter {
 			return convert(client, token.getPrincipal());
 		}
 
+		if (principal instanceof ProviderPrincipal) {
+			return (ProviderPrincipal) principal;
+		}
+
 		return null;
 	}
 
@@ -40,7 +44,7 @@ public class ProviderPrincipalConverter {
 		} else if ("github".equals(client)) {
 			id = user.getAttribute("login");
 		}
-		return new ProviderPrincipal(user.getAttribute("name"), id + "@" + client, client);
+		return new ProviderPrincipal(id + "@" + client, user.getAttribute("name"), client);
 
 	}
 

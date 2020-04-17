@@ -27,13 +27,9 @@ public class GameConfiguration {
 		this.createdAt = createdAt;
 	}
 
-	public GameConfiguration at(Instant createdAt) {
-		return new GameConfiguration(dictionaries, empires, createdAt);
-	}
-
 	public PlayerGameDescription asDescription(String user, boolean terminated) {
-		String id = empires.stream().filter(e -> e.getUser().getUid().equals(user)).map(EmpireConfiguration::getExternalId)
-				.findFirst().orElse(null);
+		String id = empires.stream().filter(e -> e.getUser().getName().equals(user))
+				.map(EmpireConfiguration::getExternalId).findFirst().orElse(null);
 		return new PlayerGameDescription(id, terminated, dictionaries, usersList(), createdAt);
 
 	}
@@ -62,11 +58,6 @@ public class GameConfiguration {
 
 	private List<UserPrincipal> usersList() {
 		return empires.stream().map(EmpireConfiguration::getUser).collect(Collectors.toList());
-	}
-
-	public GameConfiguration withRandomUUID() {
-		return new GameConfiguration(dictionaries,
-				empires.stream().map(EmpireConfiguration::withRandomUUID).collect(Collectors.toList()), createdAt);
 	}
 
 	public Instant getCreatedAt() {

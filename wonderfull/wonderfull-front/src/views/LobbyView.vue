@@ -1,7 +1,16 @@
 <template>
 <v-container>
-  <v-dialog v-model="doOpen">
-
+  <v-dialog v-model="doOpen" persistent>
+    <v-card>
+      <v-card-title>Create a new game</v-card-title>
+      <v-card-text>
+        <v-autocomplete v-model="selected" :items="possiblesUsers" filled chips label="Users" item-text="label" item-value="name" multiple />
+      </v-card-text>
+      <v-card-actions>
+        <v-btn @click="doCreate">Create</v-btn>
+        <v-btn @click="doOpen=false" outlined>Cancel</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 
   <v-card>
@@ -20,7 +29,7 @@
         <v-list-item v-for="(g,i) in myGames" :key="i" link :to="'/game/'+g.externalId">
           <v-list-item-content>
             <v-list-item-title>{{formatDict(g)}}</v-list-item-title>
-            <v-list-item-subtitle>Created at {{formatDate(g)}} with {{formatUsers(g)}}</v-list-item-subtitle>
+            <v-list-item-subtitle>Created by {{g.creator}} at {{formatDate(g)}} with {{formatUsers(g)}}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-avatar>
             <v-icon v-if="g.terminated">mdi-check</v-icon>
@@ -34,24 +43,55 @@
 </template>
 
 <script>
-import StompService from '@/services/StompService';
 import moment from 'moment';
 
 export default {
   data() {
     return {
       myGames: [],
-      users:[],
+      users: [],
+      selected: [],
       subs: [],
       doOpen: false
     };
+  },
+  computed: {
+    uid() {
+      return this.$store.getters['user/uid'];
+    },
+    possiblesUsers() {
+      return this.users.flatMap(u => {
+        if (u.name === this.uid)
+          return [];
+        else
+          return [u];
+      });
+    }
   },
   methods: {
     openDialog() {
       this.doOpen = true;
     },
+    doCreate() {
+      const users = this.selected.map(s => {
+        return {
+          uid: s
+        };
+      });
+
+      const uid = this.uid;
+      if (!users.find(u => u.uid === uid)) {
+        users.push({
+          uid
+        });
+      }
+
+      this.$axios.post("game/bootstrap", {
+        users
+      });
+    },
     formatUsers(g) {
-      return g.users.join(', ');
+      return g.users.map(u => u.label).join(', ');
     },
     formatDict(g) {
       return g.dictionaries.join(' + ');
@@ -63,8 +103,8 @@ export default {
       this.myGames.splice(0, this.myGames.length);
       Array.prototype.push.apply(this.myGames, games);
     },
-    refreshUsers(){
-      this.$axios.get("auth/users").then(r=>{
+    refreshUsers() {
+      this.$axios.get("auth/users").then(r => {
         this.users.splice(0, this.users.length);
         Array.prototype.push.apply(this.users, r.data);
       });
@@ -72,7 +112,7 @@ export default {
   },
   mounted() {
     [`/app/my-games`, `/user/my-games`].forEach(item => {
-      this.subs.push(StompService.subscribe(item, this.receive));
+      this.subs.push(this.$stomp.subscribe(item, this.receive));
     });
     this.refreshUsers();
   },

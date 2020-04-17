@@ -47,7 +47,7 @@ public class ActiveGame {
 	}
 
 	public boolean contains(String user) {
-		return players.stream().anyMatch(p -> p.getUser().equals(user));
+		return players.stream().anyMatch(p -> p.getUser().getName().equals(user));
 	}
 
 	public List<InGameId> getPlayers() {

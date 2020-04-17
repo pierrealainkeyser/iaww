@@ -4,13 +4,13 @@ export default {
   namespaced: true,
   state: {
     name: null,
-    uid: null
+    label: null
   },
   mutations: {
     set: (state, user) => {
       const v = user || {}
+      state.label = v.label;
       state.name = v.name;
-      state.uid = v.uid;
     }
   },
   actions: {
@@ -32,6 +32,9 @@ export default {
   },
   getters: {
     get: state => {
+      return state.label;
+    },
+    uid: state => {
       return state.name;
     }
   }

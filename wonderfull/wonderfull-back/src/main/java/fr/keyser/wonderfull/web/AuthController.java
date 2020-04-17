@@ -60,7 +60,7 @@ public class AuthController {
 	public ResponseEntity<Map<String, String>> clients() {
 		Map<String, String> out = new LinkedHashMap<>();
 		clientRegistrations.forEach(c -> out.put(c.getClientName(), "oauth2/authorization/" + c.getRegistrationId()));
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(out);
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(out);
 
 	}
 

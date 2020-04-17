@@ -1,7 +1,5 @@
 package fr.keyser.wonderfull.world;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,7 +14,7 @@ public class EmpireConfiguration {
 	private final String empire;
 
 	public static EmpireConfiguration empire(UserPrincipal player, String empire) {
-		return new EmpireConfiguration(player, null, empire);
+		return new EmpireConfiguration(player, player.getName(), empire);
 	}
 
 	@JsonCreator
@@ -25,10 +23,6 @@ public class EmpireConfiguration {
 		this.user = user;
 		this.externalId = externalId;
 		this.empire = empire;
-	}
-
-	public EmpireConfiguration withRandomUUID() {
-		return new EmpireConfiguration(user, UUID.randomUUID().toString(), empire);
 	}
 
 	public UserPrincipal getUser() {
