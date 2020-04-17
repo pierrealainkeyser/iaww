@@ -2,7 +2,7 @@
 <v-container>
   <v-card>
     <v-card-title>Please identify yourself</v-card-title>
-    <v-card-text>Choose a provider bellow</v-card-text>
+    <v-card-text>Choose an OpenID Connect provider bellow</v-card-text>
     <v-card-actions>
       <v-btn v-for="(l,i) in links" :key="i" :href="l.uri">
         {{l.name}}

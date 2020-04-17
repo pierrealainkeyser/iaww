@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import fr.keyser.wonderfull.security.UserPrincipal;
 import fr.keyser.wonderfull.world.GameConfiguration;
@@ -49,7 +50,7 @@ public class TestGame {
 		MetaCardDictionnary dictionnary = loader.load(conf.getDictionaries());
 
 		SimpleModule module = new WonderfullModuleBuilder(dictionnary).createModule();
-		ObjectMapper om = new ObjectMapper().setSerializationInclusion(Include.NON_NULL).registerModule(module);
+		ObjectMapper om = new ObjectMapper().setSerializationInclusion(Include.NON_NULL).registerModule(module).registerModule(new JavaTimeModule())	;
 		ObjectWriter printer = om.writerWithDefaultPrettyPrinter();
 
 		Game g = Game.bootstrap(loader, conf);
