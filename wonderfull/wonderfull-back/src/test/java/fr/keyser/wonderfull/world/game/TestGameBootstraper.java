@@ -34,9 +34,9 @@ public class TestGameBootstraper {
 	void bootstrap() {
 
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
-						empire(new UserPrincipal(null, "p1"), "krystalium"),
-						empire(new UserPrincipal(null, "p2"), "basic")),
+				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
+						empire(new UserPrincipal("p1", "p1"), "krystalium"),
+						empire(new UserPrincipal("p2", "p2"), "basic")),
 				Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
@@ -65,9 +65,9 @@ public class TestGameBootstraper {
 	@Test
 	void backup() throws JsonProcessingException {
 		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
-						empire(new UserPrincipal(null, "p1"), "krystalium"),
-						empire(new UserPrincipal(null, "p2"), "basic")),
+				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
+						empire(new UserPrincipal("p1", "p1"), "krystalium"),
+						empire(new UserPrincipal("p2", "p2"), "basic")),
 				Instant.now());
 
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
