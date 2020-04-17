@@ -4,15 +4,13 @@ export default {
   namespaced: true,
   state: {
     name: null,
-    uid: null,
-    xcsrf: null
+    uid: null
   },
   mutations: {
     set: (state, user) => {
       const v = user || {}
       state.name = v.name;
       state.uid = v.uid;
-      state.xcsrf = v.xcsrf;
     }
   },
   actions: {

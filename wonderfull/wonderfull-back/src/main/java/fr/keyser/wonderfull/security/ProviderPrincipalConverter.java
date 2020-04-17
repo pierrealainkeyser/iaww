@@ -11,11 +11,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class ProviderPrincipalConverter {
 
-	@EventListener
-	public void eventListener(AuthenticationSuccessEvent event) {
-		Authentication authentication = event.getAuthentication();
-		ProviderPrincipal pp = convert(authentication);
-		System.out.println(pp);
+	private final UserPrincipalRepository repository;
+
+	public ProviderPrincipalConverter(UserPrincipalRepository repository) {
+		this.repository = repository;
 	}
 
 	public ProviderPrincipal convert(Principal principal) {
@@ -43,5 +42,13 @@ public class ProviderPrincipalConverter {
 		}
 		return new ProviderPrincipal(user.getAttribute("name"), id + "@" + client, client);
 
+	}
+
+	@EventListener
+	public void eventListener(AuthenticationSuccessEvent event) {
+		Authentication authentication = event.getAuthentication();
+		ProviderPrincipal pp = convert(authentication);
+		if (pp != null)
+			repository.add(pp);
 	}
 }

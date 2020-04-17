@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fr.keyser.wonderfull.security.UserPrincipalRepository;
 import fr.keyser.wonderfull.world.game.ActiveGameMapRepository;
 import fr.keyser.wonderfull.world.game.GameLoader;
 import fr.keyser.wonderfull.world.game.jdbc.JdbcBackedActiveGameRepository;
@@ -13,6 +14,11 @@ import fr.keyser.wonderfull.world.game.jdbc.JdbcGameRepository;
 
 @Configuration
 public class JdbcConfiguration {
+
+	@Bean
+	public UserPrincipalRepository userPrincipalRepository(JdbcOperations jdbc) {
+		return new UserPrincipalRepository(jdbc);
+	}
 
 	@Bean
 	public JdbcGameRepository jdbcGameRepository(GameLoader loader, ObjectMapper objectMapper, JdbcOperations jdbc) {

@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       myGames: [],
+      users:[],
       subs: [],
       doOpen: false
     };
@@ -61,12 +62,19 @@ export default {
     receive(games) {
       this.myGames.splice(0, this.myGames.length);
       Array.prototype.push.apply(this.myGames, games);
+    },
+    refreshUsers(){
+      this.$axios.get("auth/users").then(r=>{
+        this.users.splice(0, this.users.length);
+        Array.prototype.push.apply(this.users, r.data);
+      });
     }
   },
   mounted() {
     [`/app/my-games`, `/user/my-games`].forEach(item => {
       this.subs.push(StompService.subscribe(item, this.receive));
     });
+    this.refreshUsers();
   },
   unmounted() {
     this.subs.forEach(s => s.unsubscribe());

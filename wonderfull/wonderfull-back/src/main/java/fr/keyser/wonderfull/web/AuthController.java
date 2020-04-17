@@ -2,6 +2,7 @@ package fr.keyser.wonderfull.web;
 
 import java.security.Principal;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.keyser.wonderfull.security.ProviderPrincipal;
 import fr.keyser.wonderfull.security.ProviderPrincipalConverter;
+import fr.keyser.wonderfull.security.UserPrincipal;
+import fr.keyser.wonderfull.security.UserPrincipalRepository;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,19 +31,27 @@ public class AuthController {
 
 	private final CsrfTokenRepository csrfTokenRepository;
 
+	private final UserPrincipalRepository users;
+
 	public AuthController(ProviderPrincipalConverter converter, Iterable<ClientRegistration> clientRegistrations,
-			CsrfTokenRepository csrfTokenRepository) {
+			CsrfTokenRepository csrfTokenRepository, UserPrincipalRepository users) {
 		this.converter = converter;
 		this.clientRegistrations = clientRegistrations;
 		this.csrfTokenRepository = csrfTokenRepository;
+		this.users = users;
+	}
+
+	@GetMapping("/users")
+	public List<UserPrincipal> users() {
+		return users.listAll();
 	}
 
 	@GetMapping("/principal")
 	public ResponseEntity<ProviderPrincipal> principal(HttpServletRequest request, Principal principal) {
 		BodyBuilder status = ResponseEntity.status(HttpStatus.OK);
 		status.headers(h -> {
-			h.add("Access-Control-Expose-Headers", "X-CSRF");
-			h.add("X-CSRF", csrfTokenRepository.loadToken(request).getToken());
+			h.add("Access-Control-Expose-Headers", "X-CSRF-TOKEN");
+			h.add("X-CSRF-TOKEN", csrfTokenRepository.loadToken(request).getToken());
 		});
 		return status.body(converter.convert(principal));
 	}
@@ -49,7 +60,7 @@ public class AuthController {
 	public ResponseEntity<Map<String, String>> clients() {
 		Map<String, String> out = new LinkedHashMap<>();
 		clientRegistrations.forEach(c -> out.put(c.getClientName(), "oauth2/authorization/" + c.getRegistrationId()));
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(out);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(out);
 
 	}
 

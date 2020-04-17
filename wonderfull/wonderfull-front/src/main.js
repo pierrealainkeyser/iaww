@@ -8,7 +8,26 @@ import '@/plugins/vuex'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 
+import stomp from '@/services/StompService';
+import axios from 'axios';
+
 Vue.config.productionTip = false
+
+const url = process.env.VUE_APP_BACKEND;
+const axiosConfig = {
+  withCredentials: true
+}
+if (url) {
+  axiosConfig.baseURL = url;
+  axiosConfig.headers = {
+    commons: {
+      "X-CSRF-TOKEN": null
+    }
+  }
+}
+
+Vue.prototype.$axios = axios.create(axiosConfig);
+Vue.prototype.$stomp = stomp;
 
 new Vue({
   router,

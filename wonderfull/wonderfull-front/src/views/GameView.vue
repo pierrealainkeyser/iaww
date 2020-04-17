@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import StompService from '@/services/StompService';
+//import StompService from '@/services/StompService';
 
 const PLAYERS_COLOR = ["blue", "red", "green", "pink", "amber"];
 
@@ -271,7 +271,7 @@ export default {
 
   methods: {
     sendAction(name, action) {
-      StompService.publish(`/app/game/${this.game}/${name}`, action);
+      this.$stomp.publish(`/app/game/${this.game}/${name}`, action);
     },
 
     clearInteraction() {
@@ -459,7 +459,7 @@ export default {
 
   mounted() {
     [`/app/game/${this.game}`, `/user/game/${this.game}`].forEach(item => {
-      this.subs.push(StompService.subscribe(item, this.receive));
+      this.subs.push(this.$stomp.subscribe(item, this.receive));
     });
   },
 

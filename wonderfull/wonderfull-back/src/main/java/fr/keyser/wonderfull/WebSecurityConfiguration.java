@@ -14,13 +14,14 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import fr.keyser.wonderfull.security.ProviderPrincipalConverter;
+import fr.keyser.wonderfull.security.UserPrincipalRepository;
 
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
-	public ProviderPrincipalConverter delegatedPrincipalConverter() {
-		return new ProviderPrincipalConverter();
+	public ProviderPrincipalConverter delegatedPrincipalConverter(UserPrincipalRepository repository) {
+		return new ProviderPrincipalConverter(repository);
 	}
 
 	@Bean
