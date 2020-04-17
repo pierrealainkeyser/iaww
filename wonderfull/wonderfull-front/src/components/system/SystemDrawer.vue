@@ -68,8 +68,13 @@ export default {
 
   methods: {
     logout() {
-      this.$store.dispatch('user/logout');
-      this.$router.push('/login');
+
+      var url = process.env.VUE_APP_BACKEND;
+      if (!url) {
+        var hostport = location.hostname + ":" + location.port;
+        url = "http://" + hostport + "/";
+      }
+      window.location = url + "logout";
     }
   },
 

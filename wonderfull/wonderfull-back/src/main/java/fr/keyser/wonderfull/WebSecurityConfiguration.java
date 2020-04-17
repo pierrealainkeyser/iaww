@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,16 +32,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().csrfTokenRepository(csrfTokenRepository());
 		http.authorizeRequests() //
-				.antMatchers(HttpMethod.GET, "/auth/clients") //
-				.permitAll().anyRequest().authenticated();
+				.antMatchers(HttpMethod.GET, "/auth/clients").permitAll() //
+				.antMatchers("/logout").permitAll() //
+				.anyRequest().authenticated();
 		http.oauth2Login().loginPage("/auth/clients");
-		http.logout();
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/");
 		http.cors().configurationSource(permitAllCors());
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**", "/js/**", "/fonts/**", "favicon.ico");
+		web.ignoring().antMatchers("/css/**", "/js/**", "/fonts/**", "favicon.ico", "/");
 	}
 
 	@Bean
