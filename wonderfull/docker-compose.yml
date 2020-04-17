@@ -1,0 +1,25 @@
+version: '3'
+services:
+  iaww:
+    restart: always
+    image: iaww/main
+    container_name: iaww
+    depends_on:
+    - iaww-letsencrypt
+    ports:
+      - 8080:8080
+  iaww-letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: iaww-letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "/vagrant/nginx/default:/config/nginx/site-confs/default"
+    environment:
+      - URL=pakeyser.ddns.net
+      - VALIDATION=http
+      - TZ=Europe/Paris
+      - PUID=0
+      - PGID=0
+    

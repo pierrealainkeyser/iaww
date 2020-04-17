@@ -31,7 +31,7 @@ class StompService {
     var brokerURL = process.env.VUE_APP_BACKEND_WS;
     if (!brokerURL) {
       var hostport = location.hostname + ":" + location.port;
-      brokerURL = "ws://" + hostport + "/ws";
+      brokerURL = "wss://" + hostport + "/ws";
     }
 
     this[BROKER_URL] = brokerURL;

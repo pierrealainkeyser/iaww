@@ -2,6 +2,7 @@ spring:
   resources: 
     static-locations: classpath:/dist
 server: 
+  forward-headers-strategy: NATIVE
   compression: 
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json

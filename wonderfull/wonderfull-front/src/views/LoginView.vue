@@ -26,7 +26,7 @@ export default {
     var url = process.env.VUE_APP_BACKEND;
     if (!url) {
       var hostport = location.hostname + ":" + location.port;
-      url = "http://" + hostport + "/";
+      url = "https://" + hostport + "/";
     }
     axios.get(url + "auth/principal", {
       withCredentials: true
