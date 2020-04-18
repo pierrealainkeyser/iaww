@@ -28,6 +28,7 @@ public class GameBootstrapController {
 
 	@PostMapping("/bootstrap")
 	public InstanceId bootstrap(@RequestBody GameBootstrapConfiguration bootstrap) {
+
 		ActiveGame started = bootstraper.starts(users.createConfiguration(bootstrap));
 		return started.getId();
 	}

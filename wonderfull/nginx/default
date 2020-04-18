@@ -14,27 +14,25 @@ server {
 	listen [::]:443 ssl http2 default_server;
 
 	root /config/www;
-	index index.html index.htm index.php;
+	index index.html ;
 
 	server_name _;
 
 	# enable subfolder method reverse proxy confs
-	include /config/nginx/proxy-confs/*.subfolder.conf;
+	# include /config/nginx/proxy-confs/*.subfolder.conf;
 
 	# all ssl related config moved to ssl.conf
 	include /config/nginx/ssl.conf;
-
-	# enable for ldap auth
-	#include /config/nginx/ldap.conf;
-
+	
 	client_max_body_size 0;
-
+ 
 	location / {
-	  proxy_pass http://iaww:8080/;
+	  proxy_pass http://iaww:8080;
+	  proxy_set_header Host $http_host;
+	  proxy_set_header X-Forwarded-Host $http_host;
 	  proxy_set_header X-Real-IP $remote_addr;
 	  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 	  proxy_set_header X-Forwarded-Proto https;
-	  proxy_set_header X-Forwarded-Host pakeyser.ddns.net;
 	}
 	
 	location /ws {

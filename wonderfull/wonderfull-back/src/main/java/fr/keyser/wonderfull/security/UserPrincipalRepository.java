@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,8 @@ import fr.keyser.wonderfull.world.GameBootstrapConfiguration.UserConfiguration;
 import fr.keyser.wonderfull.world.GameConfiguration;
 
 public class UserPrincipalRepository {
+
+	private static final Logger logger = LoggerFactory.getLogger(UserPrincipalRepository.class);
 
 	private final JdbcOperations jdbc;
 
@@ -28,16 +32,21 @@ public class UserPrincipalRepository {
 	public void add(UserPrincipal user) {
 		jdbc.update("insert into user(uid, name) select ?,? where not exists (select * from user where uid=?)",
 				user.getName(), user.getLabel(), user.getName());
+
+		logger.info("Adding user : {}", user);
 	}
 
 	public GameConfiguration createConfiguration(GameBootstrapConfiguration conf) {
+
+		logger.info("Creating game configuration : {}", conf);
+
 		Instant createdAt = Instant.now();
+		List<UserConfiguration> users = conf.getUsers();
+		List<UserPrincipal> byIds = getByIds(
+				users.stream().map(UserConfiguration::getUid).collect(Collectors.toList()));
 
-		List<UserPrincipal> users = getByIds(
-				conf.getUsers().stream().map(UserConfiguration::getUid).collect(Collectors.toList()));
-
-		List<EmpireConfiguration> empires = conf.getUsers().stream().map(u -> {
-			Optional<UserPrincipal> first = users.stream().filter(us -> u.getUid().equals(us.getName())).findFirst();
+		List<EmpireConfiguration> empires = users.stream().map(u -> {
+			Optional<UserPrincipal> first = byIds.stream().filter(us -> u.getUid().equals(us.getName())).findFirst();
 			UserPrincipal user = first.get();
 			String empire = Optional.ofNullable(u.getEmpire()).orElse("basic");
 
