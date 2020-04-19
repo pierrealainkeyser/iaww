@@ -8,6 +8,8 @@ services:
     - iaww-letsencrypt
     ports:
       - 8080:8080
+    volumes:
+      - "/etc/iaww/db:/app/db"
   iaww-letsencrypt:
     image: linuxserver/letsencrypt
     container_name: iaww-letsencrypt
@@ -16,7 +18,9 @@ services:
       - 443:443
     volumes:
       - "/vagrant/nginx/default:/config/nginx/site-confs/default"
+      - "/etc/letsencrypt:/config"
     environment:
+      - EMAIL=pierrealain.keyser@gmail.com
       - URL=pakeyser.ddns.net
       - VALIDATION=http
       - TZ=Europe/Paris

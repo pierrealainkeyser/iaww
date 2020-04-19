@@ -1,15 +1,9 @@
 <template>
-<div class="d-flex">
+<v-row dense class="ma-1">
   <AffectationDialog @action="onAction" :available="myEmpire?myEmpire.available:{}" />
   <SupremacyDialog @action="onAction" />
-  <div class="ma-1" style="width:350px;min-width:350px;">
-    <v-card>
-      <v-card-text>
-        <EventList :events="events" />
-      </v-card-text>
-    </v-card>
-  </div>
-  <div class="flex-grow-1 ma-1">
+
+  <v-col lg="7" cols="12">
     <v-card>
       <v-card-title class="subtitle-1 pa-2" :class="current===myself?'grey darken-3':null">
         <v-btn icon @click="viewNext(-1)">
@@ -41,13 +35,13 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col cols="4">
+          <v-col lg="4" cols="12">
             <div>
               <BuildedCards :builded="currentEmpire.empire.builded" />
             </div>
           </v-col>
 
-          <v-col>
+          <v-col lg="8" cols="12">
             <ActiveCardsFlex title="Production" :cards="currentEmpire.empire.inProduction" @action="onAction" />
 
             <v-expand-transition>
@@ -69,16 +63,24 @@
         <v-btn v-if="action.pass" @click="pass">Pass</v-btn>
       </v-card-actions>
     </v-card>
-  </div>
+  </v-col>
 
-  <div class="ma-1">
+  <v-col lg="2" cols="12">
     <v-card>
       <v-card-text>
-        <EmpireTableStats :empires="empires" style="max-width:min-content;" />
+        <EmpireTableStats :empires="empires" />
       </v-card-text>
     </v-card>
-  </div>
-</div>
+  </v-col>
+
+  <v-col lg="3" cols="12">
+    <v-card>
+      <v-card-text>
+        <EventList :events="events" />
+      </v-card-text>
+    </v-card>
+  </v-col>
+</v-row>
 </template>
 
 <script>

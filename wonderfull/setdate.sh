@@ -1,0 +1,1 @@
+sudo date -s "$(curl -I google.com 2>&1 | grep Date: | cut -d' ' -f3-6)Z"

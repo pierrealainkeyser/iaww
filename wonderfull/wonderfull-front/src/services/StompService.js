@@ -4,7 +4,6 @@ import {
 
 import StompSubscription from './StompSubscription'
 
-const CSRF = Symbol();
 const SUBSCRIPTIONS = Symbol();
 const CLIENT = Symbol();
 const STATUS = Symbol();
@@ -23,15 +22,15 @@ function wrap(callback) {
 class StompService {
 
   constructor() {
-    this[CSRF] = null;
     this[STATUS] = false;
     this[SUBSCRIPTIONS] = [];
     this[LISTENERS] = [];
 
     var brokerURL = process.env.VUE_APP_BACKEND_WS;
     if (!brokerURL) {
-      var hostport = location.hostname + ":" + location.port;
-      brokerURL = "wss://" + hostport + "/ws";
+      const hostport = location.hostname + ":" + location.port;
+      const protocol = location.protocol.replace(/^http/, 'ws')
+      brokerURL = protocol + "//" + hostport + "/ws";
     }
 
     this[BROKER_URL] = brokerURL;
@@ -39,9 +38,6 @@ class StompService {
     const client = new Client({
       brokerURL
     });
-    client.beforeConnect = () => {
-      this[CLIENT].connectHeaders["X-CSRF"] = this[CSRF];
-    }
     client.onConnect = () => {
       this[SUBSCRIPTIONS] = this[SUBSCRIPTIONS].map(s => {
         var sub = s.sub;
@@ -115,12 +111,6 @@ class StompService {
 
   get status() {
     return this[STATUS];
-  }
-
-
-
-  set csrf(csrf) {
-    this[CSRF] = csrf;
   }
 
   deactivate() {

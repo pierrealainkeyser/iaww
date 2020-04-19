@@ -19,7 +19,6 @@ export default {
       },
       user
     ) => {
-      StompService.csrf = user.xcsrf;
       StompService.connect();
       commit('set', user);
     },
