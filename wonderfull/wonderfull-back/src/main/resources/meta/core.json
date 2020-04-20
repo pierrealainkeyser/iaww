@@ -744,7 +744,6 @@
 		"type": "GOLD",
 		"recycle": "GOLD",
 		"cost": "GOLD*3, BUSINESSMAN*2",
-		"bonus": "BUSINESSMAN",
 		"scoring": {
 			"empire": "SCIENCE*3"
 		},
