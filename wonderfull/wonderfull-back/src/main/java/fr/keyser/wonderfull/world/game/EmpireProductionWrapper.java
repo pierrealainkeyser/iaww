@@ -138,4 +138,17 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 		return production.getStep();
 	}
 
+	public EmpireProductionWrapper convert(Consumer<EmpireEvent> consumer) {
+
+		Tokens available = production.getAvailable();
+		Token step = production.getStep();
+		int amount = available.get(step);
+
+		RecycleEvent evt = empire.recycle(amount);
+		consumer.accept(evt);
+
+		return new EmpireProductionWrapper(empire.apply(evt),
+				new CurrentProduction(step, available.subtract(step.token(amount))));
+	}
+
 }

@@ -50,6 +50,11 @@ public class GamingController {
 	public void pass(@DestinationVariable String externalId) {
 		service.pass(externalId);
 	}
+	
+	@MessageMapping("/game/{externalId}/convert")
+	public void convert(@DestinationVariable String externalId) {
+		service.pass(externalId);
+	}
 
 	@MessageMapping("/game/{externalId}/draft")
 	public void draft(@DestinationVariable String externalId, @Payload ActionDraft action) {

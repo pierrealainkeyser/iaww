@@ -34,12 +34,11 @@ public class TestGameAutomatsBuilder {
 	@Test
 	void nominal() throws JsonProcessingException {
 
-		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
-				asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
+		GameConfiguration conf = new GameConfiguration(null, asList("core", "empire"),
+				null, asList(empire(new UserPrincipal(null, "p0"), "krystalium"),
 						empire(new UserPrincipal(null, "p1"), "krystalium"),
 						empire(new UserPrincipal(null, "p2"), "basic")),
 				Instant.now());
-
 		GameAutomatsBuilder builder = new GameAutomatsBuilder();
 
 		Automats<GameInfo> automats = builder.build(InstanceId.uuid(), conf.getPlayerCount());

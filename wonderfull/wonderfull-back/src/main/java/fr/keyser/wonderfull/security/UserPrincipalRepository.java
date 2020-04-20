@@ -36,9 +36,9 @@ public class UserPrincipalRepository {
 		logger.info("Adding user : {}", user);
 	}
 
-	public GameConfiguration createConfiguration(GameBootstrapConfiguration conf) {
+	public GameConfiguration createConfiguration(GameBootstrapConfiguration conf, ProviderPrincipal convert) {
 
-		logger.info("Creating game configuration : {}", conf);
+		logger.info("Creating game configuration : {} for {}", conf, convert);
 
 		Instant createdAt = Instant.now();
 		List<UserConfiguration> users = conf.getUsers();
@@ -56,7 +56,7 @@ public class UserPrincipalRepository {
 		List<String> dictionaries = conf.getDictionaries();
 		if (dictionaries == null)
 			dictionaries = Arrays.asList("core", "empire");
-		return new GameConfiguration(dictionaries, empires, createdAt);
+		return new GameConfiguration(convert.getName(), dictionaries, conf.getStartingEmpire(), empires, createdAt);
 
 	}
 

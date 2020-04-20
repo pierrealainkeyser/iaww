@@ -10,8 +10,9 @@ public class ActiveGameDescription extends AbstractGameDescription {
 
 	private final InstanceId id;
 
-	public ActiveGameDescription(InstanceId id, List<String> dictionaries, List<UserPrincipal> users, Instant createdAt) {
-		super(dictionaries, users, createdAt);
+	public ActiveGameDescription(InstanceId id, String creator, List<String> dictionaries, String startingEmpire,
+			List<UserPrincipal> users, Instant createdAt) {
+		super(creator, dictionaries, startingEmpire, users, createdAt);
 		this.id = id;
 	}
 

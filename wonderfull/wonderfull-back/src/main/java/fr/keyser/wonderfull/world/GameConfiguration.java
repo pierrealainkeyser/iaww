@@ -19,23 +19,39 @@ public class GameConfiguration {
 
 	private final Instant createdAt;
 
+	private final String creator;
+
+	private final String startingEmpire;
+
 	@JsonCreator
-	public GameConfiguration(@JsonProperty("dictionaries") List<String> dictionaries,
+	public GameConfiguration(@JsonProperty("creator") String creator,
+			@JsonProperty("dictionaries") List<String> dictionaries,
+			@JsonProperty("startingEmpire") String startingEmpire,
 			@JsonProperty("empires") List<EmpireConfiguration> empires, @JsonProperty("createdAt") Instant createdAt) {
+		this.creator = creator;
+		this.startingEmpire = startingEmpire;
 		this.dictionaries = dictionaries;
 		this.empires = empires;
 		this.createdAt = createdAt;
 	}
 
+	public String getCreator() {
+		return creator;
+	}
+
+	public String getStartingEmpire() {
+		return startingEmpire;
+	}
+
 	public PlayerGameDescription asDescription(String user, boolean terminated) {
 		String id = empires.stream().filter(e -> e.getUser().getName().equals(user))
 				.map(EmpireConfiguration::getExternalId).findFirst().orElse(null);
-		return new PlayerGameDescription(id, terminated, dictionaries, usersList(), createdAt);
+		return new PlayerGameDescription(id, terminated, creator, dictionaries, startingEmpire, usersList(), createdAt);
 
 	}
 
 	public ActiveGameDescription asGameDescription(InstanceId id) {
-		return new ActiveGameDescription(id, dictionaries, usersList(), createdAt);
+		return new ActiveGameDescription(id, creator, dictionaries, startingEmpire, usersList(), createdAt);
 	}
 
 	public List<String> getDictionaries() {

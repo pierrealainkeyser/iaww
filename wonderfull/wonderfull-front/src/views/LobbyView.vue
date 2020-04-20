@@ -4,10 +4,17 @@
     <v-card>
       <v-card-title>Create a new game</v-card-title>
       <v-card-text>
-        <v-autocomplete v-model="selected" :items="possiblesUsers" filled chips label="Users" item-text="label" item-value="name" multiple />
+        <v-row>
+          <v-col cols="12">
+            <v-autocomplete v-model="selected" :items="possiblesUsers" chips label="Users" item-text="label" item-value="name" multiple />
+          </v-col>
+          <v-col cols="12">
+            <v-select v-model="startingEmpire" :items="startingEmpires" label="Starting empire" />
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="doCreate">Create</v-btn>
+        <v-btn @click="doCreate" :disabled="!startingIsPossible">Create</v-btn>
         <v-btn @click="doOpen=false" outlined>Cancel</v-btn>
       </v-card-actions>
     </v-card>
@@ -24,16 +31,21 @@
     </v-toolbar>
 
     <v-card-text>
-      <v-list>
+      <v-list subheader three-line>
         <v-subheader>My games</v-subheader>
-        <v-list-item v-for="(g,i) in myGames" :key="i" link :to="'/game/'+g.externalId">
+        <v-list-item v-for="(g,i) in myGames" :key="i">
           <v-list-item-content>
-            <v-list-item-title>{{formatDict(g)}}</v-list-item-title>
-            <v-list-item-subtitle>Created by {{g.creator}} at {{formatDate(g)}} with {{formatUsers(g)}}</v-list-item-subtitle>
+            <v-list-item-title>
+              <router-link :to="formatLink(g)">{{formatDict(g)}}</router-link>
+            </v-list-item-title>
+            <v-list-item-subtitle class="text--primary">{{formatUsers(g)}}</v-list-item-subtitle>
+            <v-list-item-subtitle class="font-weight-light">created at {{formatDate(g)}}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-avatar>
             <v-icon v-if="g.terminated">mdi-check</v-icon>
-            <v-icon v-else>mdi-arrow-expand</v-icon>
+            <v-btn v-else icon :to="formatLink(g)">
+              <v-icon>mdi-arrow-expand</v-icon>
+            </v-btn>
           </v-list-item-avatar>
         </v-list-item>
       </v-list>
@@ -52,10 +64,21 @@ export default {
       users: [],
       selected: [],
       subs: [],
-      doOpen: false
+      doOpen: false,
+      startingEmpire: "basic",
+      startingEmpires: [{
+        value: "basic",
+        text: "Basic"
+      }, {
+        value: "krystalium",
+        text: "Krystalium"
+      }]
     };
   },
   computed: {
+    startingIsPossible() {
+      return this.selected.length > 0;
+    },
     uid() {
       return this.$store.getters['user/uid'];
     },
@@ -72,29 +95,40 @@ export default {
     openDialog() {
       this.doOpen = true;
     },
+
+    createUser(uid) {
+      return {
+        uid,
+        empire: this.startingEmpire
+      };
+    },
+
     doCreate() {
-      const users = this.selected.map(s => {
-        return {
-          uid: s
-        };
-      });
-
-      const uid = this.uid;
-      if (!users.find(u => u.uid === uid)) {
-        users.push({
-          uid
-        });
-      }
-
+      const users = [this.createUser(this.uid)];
+      this.selected.forEach(uid => users.push(this.createUser(uid)));
       this.$axios.post("game/bootstrap", {
-        users
-      });
+          users,
+          startingEmpire: this.startingEmpire
+        })
+        .then(r => {
+          const id = r.data.externalId;
+          this.$router.push(`/game/${id}`);
+        })
+        .finally(() => {
+          this.doOpen = false;
+        });
+    },
+    formatLink(g) {
+      return `/game/${g.externalId}`;
     },
     formatUsers(g) {
       return g.users.map(u => u.label).join(', ');
     },
     formatDict(g) {
-      return g.dictionaries.join(' + ');
+      const conf = this.startingEmpires.find(s => s.value === g.startingEmpire) || {
+        text: g.startingEmpire
+      };
+      return "Empire card : " + conf.text;
     },
     formatDate(g) {
       return moment(g.createdAt).format('YYYY/MM/DD HH:mm:ss');

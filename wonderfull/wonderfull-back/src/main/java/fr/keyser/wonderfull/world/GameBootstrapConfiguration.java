@@ -36,11 +36,19 @@ public class GameBootstrapConfiguration {
 
 	private final List<UserConfiguration> users;
 
+	private final String startingEmpire;
+
 	@JsonCreator
 	public GameBootstrapConfiguration(@JsonProperty("dictionaries") List<String> dictionaries,
-			@JsonProperty("users") List<UserConfiguration> users) {
+			@JsonProperty("users") List<UserConfiguration> users,
+			@JsonProperty("startingEmpire") String startingEmpire) {
 		this.dictionaries = dictionaries;
 		this.users = users;
+		this.startingEmpire = startingEmpire;
+	}
+
+	public String getStartingEmpire() {
+		return startingEmpire;
 	}
 
 	public List<String> getDictionaries() {
@@ -53,6 +61,7 @@ public class GameBootstrapConfiguration {
 
 	@Override
 	public String toString() {
-		return String.format("GameBootstrapConfiguration [dictionaries=%s, users=%s]", dictionaries, users);
+		return String.format("GameBootstrapConfiguration [dictionaries=%s, users=%s, startingEmpire=%s]", dictionaries,
+				users, startingEmpire);
 	}
 }

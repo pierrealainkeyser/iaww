@@ -33,7 +33,7 @@ public class TestGameBootstraper {
 	@Test
 	void bootstrap() {
 
-		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
+		GameConfiguration conf = new GameConfiguration(null, asList("core", "empire"), null,
 				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
 						empire(new UserPrincipal("p1", "p1"), "krystalium"),
 						empire(new UserPrincipal("p2", "p2"), "basic")),
@@ -64,7 +64,7 @@ public class TestGameBootstraper {
 
 	@Test
 	void backup() throws JsonProcessingException {
-		GameConfiguration conf = new GameConfiguration(asList("core", "empire"),
+		GameConfiguration conf = new GameConfiguration(null, asList("core", "empire"), null,
 				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
 						empire(new UserPrincipal("p1", "p1"), "krystalium"),
 						empire(new UserPrincipal("p2", "p2"), "basic")),

@@ -34,6 +34,10 @@ public class InGameService {
 		process(externalId, ResolvedGame::pass);
 	}
 
+	public void convert(String externalId) {
+		process(externalId, ResolvedGame::convert);
+	}
+
 	public void play(String externalId, EmpirePlayAction action) {
 		process(externalId, resolved -> resolved.play(action));
 	}

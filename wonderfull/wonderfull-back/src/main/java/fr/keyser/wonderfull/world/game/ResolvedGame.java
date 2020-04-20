@@ -6,6 +6,7 @@ import fr.keyser.fsm.EventMsg;
 import fr.keyser.fsm.Instance;
 import fr.keyser.fsm.InstanceId;
 import fr.keyser.fsm.impl.Automats;
+import fr.keyser.wonderfull.world.action.ActionConvert;
 import fr.keyser.wonderfull.world.action.ActionPass;
 import fr.keyser.wonderfull.world.action.EmpirePlayAction;
 
@@ -36,6 +37,12 @@ public class ResolvedGame {
 
 	public Instance<GameInfo> instance() {
 		return getAutomats().instances().get(0);
+	}
+	
+	public Instance<GameInfo> convert() {
+		Automats<GameInfo> automats = getAutomats();
+		automats.submit(EventMsg.broadcast(GameAutomatsBuilder.PLAY_EVENT, ActionConvert.CONVERT.dispatch(myself)));
+		return automats.instances().get(0);
 	}
 
 	public Instance<GameInfo> pass() {

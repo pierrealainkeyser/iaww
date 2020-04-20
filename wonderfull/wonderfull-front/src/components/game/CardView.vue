@@ -22,7 +22,7 @@
           <div>
             <v-divider :class="headerColor"/>
             <v-card-actions>
-              <v-btn v-for="(act,i) in actions" :key="i+'action'" small outlined @click="doAct(act)">{{act.action}}</v-btn>
+              <v-btn v-for="(act,i) in actions" :key="i+'action'" small outlined @click="doAct(act)">{{formatAction(act)}}</v-btn>
             </v-card-actions>
           </div>
         </template>
@@ -86,6 +86,22 @@ export default {
     }
   },
   methods: {
+    formatAction(act) {
+      const action = act.action;
+      if ('recycleToProduction' === action) {
+        return 'recycle to production'
+      }
+
+      if ('moveToProduction' === action) {
+        return 'build'
+      }
+
+      if ('recycleDraft' === action || 'recycleProduction' === action) {
+        return 'recycle'
+      }
+
+      return action;
+    },
     doAct(action) {
       this.$emit('action', {
         action: {

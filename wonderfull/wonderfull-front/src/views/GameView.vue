@@ -35,13 +35,13 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col lg="4" cols="12">
+          <v-col lg="4" md="5" cols="12">
             <div>
               <BuildedCards :builded="currentEmpire.empire.builded" />
             </div>
           </v-col>
 
-          <v-col lg="8" cols="12">
+          <v-col lg="8" md="7" cols="12">
             <ActiveCardsFlex title="Production" :cards="currentEmpire.empire.inProduction" @action="onAction" />
 
             <v-expand-transition>
@@ -61,11 +61,12 @@
       </v-card-text>
       <v-card-actions>
         <v-btn v-if="action.pass" @click="pass">Pass</v-btn>
+        <v-btn v-if="action.convert" @click="convert">Convert</v-btn>
       </v-card-actions>
     </v-card>
   </v-col>
 
-  <v-col lg="2" cols="12">
+  <v-col lg="2" md="6" cols="12">
     <v-card>
       <v-card-text>
         <EmpireTableStats :empires="empires" />
@@ -73,7 +74,7 @@
     </v-card>
   </v-col>
 
-  <v-col lg="3" cols="12">
+  <v-col lg="3" md="6" cols="12">
     <v-card>
       <v-card-text>
         <EventList :events="events" />
@@ -294,6 +295,14 @@ export default {
       });
     },
 
+    convert() {
+      this.onAction({
+        parent: {
+          action: 'convert'
+        }
+      });
+    },
+
     onAction(event) {
       const name = event.parent.action;
       const action = event.action;
@@ -369,6 +378,7 @@ export default {
         const actions = (data.actions || {});
         this.action.pass = actions.pass || false;
         this.action.supremacy = actions.supremacy || false;
+        this.action.convert = actions.convert || false;
         const cardsActions = actions.cards;
         for (var i = 0; i < length; ++i) {
           mapEmpire(empires[i], this.empires[i], this.dictionnary, myself === i ? cardsActions : null);
@@ -402,6 +412,7 @@ export default {
       action: {
         ready: true,
         pass: false,
+        convert: false,
         supremacy: false,
         recycleToProduction: {
           active: false,

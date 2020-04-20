@@ -11,9 +11,9 @@ public class PlayerGameDescription extends AbstractGameDescription {
 
 	private final boolean terminated;
 
-	public PlayerGameDescription(String externalId, boolean terminated, List<String> dictionaries, List<UserPrincipal> users,
+	public PlayerGameDescription(String externalId, boolean terminated,String creator, List<String> dictionaries, String startingEmpire, List<UserPrincipal> users,
 			Instant createdAt) {
-		super(dictionaries, users, createdAt);
+		super(creator,dictionaries, startingEmpire, users, createdAt);
 		this.externalId = externalId;
 		this.terminated = terminated;
 

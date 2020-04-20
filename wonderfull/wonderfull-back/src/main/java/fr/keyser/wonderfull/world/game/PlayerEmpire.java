@@ -20,6 +20,7 @@ import fr.keyser.wonderfull.world.Empire;
 import fr.keyser.wonderfull.world.Token;
 import fr.keyser.wonderfull.world.Tokens;
 import fr.keyser.wonderfull.world.action.ActionAffectToProduction;
+import fr.keyser.wonderfull.world.action.ActionConvert;
 import fr.keyser.wonderfull.world.action.ActionDraft;
 import fr.keyser.wonderfull.world.action.ActionMoveDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionPass;
@@ -82,7 +83,9 @@ public class PlayerEmpire {
 			return recycleProduction((ActionRecycleProduction) action, consumer);
 		else if (action instanceof ActionAffectToProduction)
 			return affectToProduction((ActionAffectToProduction) action, consumer);
-		else if (action instanceof ActionPass) {
+		else if (action instanceof ActionConvert) {
+			return convert(consumer);
+		} else if (action instanceof ActionPass) {
 			// no op
 			consumer.accept(PassedEvent.PASS);
 			return this;
@@ -175,6 +178,14 @@ public class PlayerEmpire {
 		throw new IllegalActionException("affectToProduction");
 	}
 
+	public PlayerEmpire convert(Consumer<EmpireEvent> consumer) {
+
+		if (production != null)
+			return new PlayerEmpire(null, null, production.convert(consumer));
+
+		throw new IllegalActionException("convert");
+	}
+
 	public PlayerActionsDTO asPlayerAction() {
 		PlayerActionsDTO action = null;
 
@@ -212,6 +223,7 @@ public class PlayerEmpire {
 			Empire emp = production.getEmpire();
 			Tokens available = production.getAvailable();
 
+			action.setConvert(available.has(production.getStep()));
 			action.setCards(getInProductionActions(emp, available));
 
 		}
