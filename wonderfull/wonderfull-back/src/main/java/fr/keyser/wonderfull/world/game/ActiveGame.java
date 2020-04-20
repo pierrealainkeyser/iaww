@@ -67,7 +67,7 @@ public class ActiveGame {
 	}
 
 	public PlayerGameDescription asDescription(String user) {
-		return configuration().asDescription(user, isTerminated());
+		return configuration().asDescription(automats.getId(), user, isTerminated());
 	}
 
 	public ActiveGameDescription asDescription() {

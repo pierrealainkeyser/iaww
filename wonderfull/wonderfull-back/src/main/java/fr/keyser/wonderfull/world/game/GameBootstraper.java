@@ -37,12 +37,14 @@ public class GameBootstraper {
 		return activeGame;
 	}
 
-	public void stop(InstanceId gameId) {
+	public void stop(InstanceId gameId, String user) {
 
 		ActiveGame game = repository.findById(gameId);
-		logger.info("Stoping game {} for {}", gameId, game.getPlayers());
-		game.kill();
+		if (game.configuration().getCreator().equals(user)) {
+			logger.info("Stoping game {} for {}", gameId, game.getPlayers());
+			game.kill();
 
-		repository.unregister(game);
+			repository.unregister(game);
+		}
 	}
 }

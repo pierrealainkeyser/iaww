@@ -43,10 +43,11 @@ public class GameConfiguration {
 		return startingEmpire;
 	}
 
-	public PlayerGameDescription asDescription(String user, boolean terminated) {
-		String id = empires.stream().filter(e -> e.getUser().getName().equals(user))
+	public PlayerGameDescription asDescription(InstanceId id, String user, boolean terminated) {
+		String externalId = empires.stream().filter(e -> e.getUser().getName().equals(user))
 				.map(EmpireConfiguration::getExternalId).findFirst().orElse(null);
-		return new PlayerGameDescription(id, terminated, creator, dictionaries, startingEmpire, usersList(), createdAt);
+		return new PlayerGameDescription(id, externalId, terminated, creator, dictionaries, startingEmpire, usersList(),
+				createdAt);
 
 	}
 

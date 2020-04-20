@@ -33,7 +33,7 @@ public class TestGameBootstraper {
 	@Test
 	void bootstrap() {
 
-		GameConfiguration conf = new GameConfiguration(null, asList("core", "empire"), null,
+		GameConfiguration conf = new GameConfiguration("p0", asList("core", "empire"), null,
 				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
 						empire(new UserPrincipal("p1", "p1"), "krystalium"),
 						empire(new UserPrincipal("p2", "p2"), "basic")),
@@ -52,7 +52,7 @@ public class TestGameBootstraper {
 		ResolvedGame byExternal = repository.findByExternal(external);
 		Assertions.assertThat(byExternal).isNotNull();
 
-		bootstraper.stop(started.getId());
+		bootstraper.stop(started.getId(), conf.getCreator());
 
 		try {
 			repository.findByExternal(external);
@@ -64,7 +64,7 @@ public class TestGameBootstraper {
 
 	@Test
 	void backup() throws JsonProcessingException {
-		GameConfiguration conf = new GameConfiguration(null, asList("core", "empire"), null,
+		GameConfiguration conf = new GameConfiguration("p0", asList("core", "empire"), null,
 				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
 						empire(new UserPrincipal("p1", "p1"), "krystalium"),
 						empire(new UserPrincipal("p2", "p2"), "basic")),
@@ -98,7 +98,7 @@ public class TestGameBootstraper {
 			return null;
 		});
 
-		bootstraper.stop(id);
+		bootstraper.stop(id, conf.getCreator());
 		Assertions.assertThat(repository.findById(id)).isNull();
 
 		ActiveGame reloaded = gameLoader.reload(read);

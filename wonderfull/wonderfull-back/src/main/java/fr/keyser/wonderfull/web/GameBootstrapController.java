@@ -45,8 +45,11 @@ public class GameBootstrapController {
 	}
 
 	@DeleteMapping("/{gameId}")
-	public void stop(@PathVariable String gameId) {
-		bootstraper.stop(new InstanceId(gameId));
+	public void stop(@PathVariable String gameId, Principal principal) {
+
+		ProviderPrincipal convert = converter.convert(principal);
+
+		bootstraper.stop(new InstanceId(gameId), convert.getName());
 	}
 
 }
