@@ -189,7 +189,7 @@ function mapEvent(evt, empires, dictionnary) {
 
   if ("draft" === out.type || "move" === out.type) {
     out.card = wrapCard(evt.event.card, dictionnary).def;
-  } else if ("recycle" === out.type) {
+  } else if ("recycle" === out.type || "recycle_prod" === out.type) {
     out.krystaliumDelta = evt.event.krystaliumDelta;
     out.quantity = evt.event.quantity;
     if (evt.event.recycled) {
