@@ -53,7 +53,7 @@ public class GamingController {
 	
 	@MessageMapping("/game/{externalId}/convert")
 	public void convert(@DestinationVariable String externalId) {
-		service.pass(externalId);
+		service.convert(externalId);
 	}
 
 	@MessageMapping("/game/{externalId}/draft")
