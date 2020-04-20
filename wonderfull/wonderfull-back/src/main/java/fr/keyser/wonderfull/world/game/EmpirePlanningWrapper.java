@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.keyser.wonderfull.world.CurrentPlanning;
-import fr.keyser.wonderfull.world.CurrentPlanning.DraftedAndPlanning;
 import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.Empire;
 import fr.keyser.wonderfull.world.Tokens;
@@ -51,7 +50,7 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 
 		consumer.accept(event);
 
-		return new EmpirePlanningWrapper(empire.apply(event), planning);
+		return recyleProduction(event);
 	}
 
 	/**
@@ -63,19 +62,18 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 	 */
 	public EmpirePlanningWrapper affectToProduction(ActionAffectToProduction action, Consumer<EmpireEvent> consumer) {
 
-		Tokens consumed = action.getConsumed();
+		AffectProductionEvent event = empire.affectToProduction(action.getTargetId(), action.getSlots());
+
+		Tokens consumed = event.getConsumed();
 		Tokens available = empire.getOnEmpire();
 		// check affectation
 		Tokens remaining = available.subtract(consumed);
 		if (remaining.entrySet().stream().anyMatch(e -> e.getValue() < 0))
 			throw new IllegalAffectationException();
 
-		AffectProductionEvent event = empire.affectToProduction(action.getTargetId(), action.getSlots());
-
 		consumer.accept(event);
 
-		Empire newEmpire = empire.apply(event);
-		return new EmpirePlanningWrapper(newEmpire, planning);
+		return affectToProduction(event);
 	}
 
 	/**
@@ -87,13 +85,12 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 	 */
 	public EmpirePlanningWrapper moveToProduction(ActionMoveDraftedToProduction action,
 			Consumer<EmpireEvent> consumer) {
-		DraftedAndPlanning dab = planning.draft(action.getTargetId());
-		MoveToProductionEvent event = empire.moveToProduction(dab.getDrafted());
+		DraftedCard dab = planning.draft(action.getTargetId());
+		MoveToProductionEvent event = empire.moveToProduction(dab);
 
 		consumer.accept(event);
 
-		Empire newEmpire = empire.apply(event);
-		return wrapper(newEmpire, dab);
+		return moveToProduction(event);
 	}
 
 	/**
@@ -115,13 +112,12 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 	 */
 	public EmpirePlanningWrapper recycleToProduction(ActionRecycleDraftedToProduction action,
 			Consumer<EmpireEvent> consumer) {
-		DraftedAndPlanning dab = planning.draft(action.getTargetId());
-		AffectProductionEvent event = empire.recycleToProduction(action.getProductionId(), dab.getDrafted());
+		DraftedCard drafted = planning.draft(action.getTargetId());
+		AffectProductionEvent event = empire.recycleToProduction(action.getProductionId(), drafted);
 
 		consumer.accept(event);
 
-		Empire newEmpire = empire.apply(event);
-		return wrapper(newEmpire, dab);
+		return affectToProduction(event);
 	}
 
 	/**
@@ -132,21 +128,36 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 	 * @return
 	 */
 	public EmpirePlanningWrapper recycleDrafted(ActionRecycleDrafted action, Consumer<EmpireEvent> consumer) {
-		DraftedAndPlanning dab = planning.draft(action.getTargetId());
-		RecycleEvent event = empire.recycle(dab.getDrafted());
+		DraftedCard drafted = planning.draft(action.getTargetId());
+		RecycleEvent event = empire.recycle(drafted);
 
 		consumer.accept(event);
 
-		Empire newEmpire = empire.apply(event);
-		return wrapper(newEmpire, dab);
-	}
-
-	private EmpirePlanningWrapper wrapper(Empire newEmpire, DraftedAndPlanning dab) {
-		return new EmpirePlanningWrapper(newEmpire, dab.getPlanning());
+		return recycleDrafted(event);
 	}
 
 	public List<DraftedCard> getDrafteds() {
 		return planning.getDrafteds();
 	}
 
+	private EmpirePlanningWrapper affectToProduction(AffectProductionEvent event) {
+		CurrentPlanning newPlanning = planning;
+		DraftedCard recycled = event.getRecycled();
+		if (recycled != null)
+			newPlanning = planning.draft(recycled);
+
+		return new EmpirePlanningWrapper(empire.apply(event), newPlanning);
+	}
+
+	private EmpirePlanningWrapper moveToProduction(MoveToProductionEvent event) {
+		return new EmpirePlanningWrapper(empire.apply(event), planning.draft(event.getCard()));
+	}
+
+	private EmpirePlanningWrapper recycleDrafted(RecycleEvent event) {
+		return new EmpirePlanningWrapper(empire.apply(event), planning.draft(event.getRecycled()));
+	}
+
+	private EmpirePlanningWrapper recyleProduction(RecycleInProductionEvent event) {
+		return new EmpirePlanningWrapper(empire.apply(event), planning);
+	}
 }

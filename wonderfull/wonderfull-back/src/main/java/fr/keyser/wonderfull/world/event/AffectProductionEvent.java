@@ -3,6 +3,7 @@ package fr.keyser.wonderfull.world.event;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -10,6 +11,7 @@ import fr.keyser.wonderfull.world.BuildedCard;
 import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.InProductionCard;
 import fr.keyser.wonderfull.world.Token;
+import fr.keyser.wonderfull.world.Tokens;
 
 @JsonTypeName(AffectProductionEvent.TYPE)
 public class AffectProductionEvent implements EmpireEvent {
@@ -35,6 +37,14 @@ public class AffectProductionEvent implements EmpireEvent {
 		this.builded = builded;
 		this.affected = affected;
 		this.recycled = recycled;
+	}
+	
+	@JsonIgnore
+	public Tokens getConsumed() {
+		Tokens tokens = Tokens.ZERO;
+		for (Token token : affected.values())
+			tokens = tokens.add(token.token(1));
+		return tokens;
 	}
 
 	public int getIndex() {

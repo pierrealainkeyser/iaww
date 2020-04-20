@@ -83,9 +83,10 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 	public EmpireProductionWrapper supremacy(ActionSupremacy action, Consumer<EmpireEvent> consumer) {
 		Tokens tokens = production.computeSupremacy(action.isGeneral());
 
-		consumer.accept(new SupremacyEvent(tokens));
+		SupremacyEvent event = new SupremacyEvent(tokens);
+		consumer.accept(event);
 
-		return new EmpireProductionWrapper(empire.addTokens(tokens), production);
+		return supremacy(event);
 	}
 
 	/**
@@ -101,7 +102,7 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 
 		consumer.accept(event);
 
-		return new EmpireProductionWrapper(empire.apply(event), production);
+		return recyleProduction(event);
 	}
 
 	/**
@@ -113,21 +114,19 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 	 */
 	public EmpireProductionWrapper affectToProduction(ActionAffectToProduction action, Consumer<EmpireEvent> consumer) {
 
-		Tokens consumed = action.getConsumed();
+		AffectProductionEvent event = empire.affectToProduction(action.getTargetId(), action.getSlots());
 		Tokens available = production.getAvailable();
 		// check affectation
-		Tokens remaining = available.subtract(consumed);
+		Tokens remaining = available.subtract(event.getConsumed());
 		if (remaining.entrySet().stream().anyMatch(e -> e.getValue() < 0))
 			throw new IllegalAffectationException();
 
-		CurrentProduction newProduction = production.affect(consumed);
-
-		AffectProductionEvent event = empire.affectToProduction(action.getTargetId(), action.getSlots());
-
 		consumer.accept(event);
+		return affectToProduction(event);
+	}
 
-		Empire newEmpire = empire.apply(event);
-		return new EmpireProductionWrapper(newEmpire, newProduction);
+	private EmpireProductionWrapper affectToProduction(AffectProductionEvent event) {
+		return new EmpireProductionWrapper(empire.apply(event), production.affect(event.getConsumed()));
 	}
 
 	public Tokens getAvailable() {
@@ -140,15 +139,25 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 
 	public EmpireProductionWrapper convert(Consumer<EmpireEvent> consumer) {
 
-		Tokens available = production.getAvailable();
-		Token step = production.getStep();
-		int amount = available.get(step);
+		int amount = production.getAvailable().get(production.getStep());
 
 		RecycleEvent evt = empire.recycle(amount);
 		consumer.accept(evt);
 
-		return new EmpireProductionWrapper(empire.apply(evt),
-				new CurrentProduction(step, available.subtract(step.token(amount))));
+		return convert(evt);
+	}
+
+	private EmpireProductionWrapper supremacy(SupremacyEvent event) {
+		return new EmpireProductionWrapper(empire.addTokens(event.getGain()), production);
+	}
+
+	private EmpireProductionWrapper recyleProduction(RecycleInProductionEvent event) {
+		return new EmpireProductionWrapper(empire.apply(event), production);
+	}
+
+	private EmpireProductionWrapper convert(RecycleEvent evt) {
+		return new EmpireProductionWrapper(empire.apply(evt), new CurrentProduction(production.getStep(),
+				production.getAvailable().subtract(production.getStep().token(evt.getQuantity()))));
 	}
 
 }

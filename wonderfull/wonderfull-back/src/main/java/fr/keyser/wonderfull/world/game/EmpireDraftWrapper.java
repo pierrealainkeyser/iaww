@@ -38,6 +38,10 @@ public class EmpireDraftWrapper extends EmpireWrapper {
 	public EmpireDraftWrapper draft(ActionDraft action, Consumer<EmpireEvent> consumer) {
 		DraftEvent event = draft.draft(action.getTargetId());
 		consumer.accept(event);
+		return draft(event);
+	}
+
+	public EmpireDraftWrapper draft(DraftEvent event) {
 		return new EmpireDraftWrapper(empire, draft.draft(event));
 	}
 
