@@ -40,7 +40,7 @@ public class GameBootstraper {
 	public void stop(InstanceId gameId, String user) {
 
 		ActiveGame game = repository.findById(gameId);
-		if (game.configuration().getCreator().equals(user)) {
+		if (game != null && game.configuration().getCreator().equals(user)) {
 			logger.info("Stoping game {} for {}", gameId, game.getPlayers());
 			game.kill();
 

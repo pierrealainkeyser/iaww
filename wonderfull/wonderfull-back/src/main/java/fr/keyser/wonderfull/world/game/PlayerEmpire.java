@@ -53,19 +53,22 @@ public class PlayerEmpire {
 		this(empire, null, null, null);
 	}
 
-	@JsonCreator
-	public PlayerEmpire(@JsonProperty("draft") EmpireDraftWrapper draft,
-			@JsonProperty("planning") EmpirePlanningWrapper planning,
-			@JsonProperty("production") EmpireProductionWrapper production) {
+	public PlayerEmpire(EmpireDraftWrapper draft, EmpirePlanningWrapper planning, EmpireProductionWrapper production) {
 		this(null, draft, planning, production);
 	}
 
-	PlayerEmpire(Empire empire, EmpireDraftWrapper draft, EmpirePlanningWrapper planning,
-			EmpireProductionWrapper production) {
+	@JsonCreator
+	public PlayerEmpire(@JsonProperty("empire") Empire empire, @JsonProperty("draft") EmpireDraftWrapper draft,
+			@JsonProperty("planning") EmpirePlanningWrapper planning,
+			@JsonProperty("production") EmpireProductionWrapper production) {
 		this.empire = empire;
 		this.draft = draft;
 		this.planning = planning;
 		this.production = production;
+	}
+
+	public Empire getEmpire() {
+		return empire;
 	}
 
 	public PlayerEmpire dispatch(EmpireAction action, Consumer<EmpireEvent> consumer) {

@@ -43,7 +43,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**", "/js/**", "/fonts/**", "favicon.ico", "/");
+		web.ignoring().antMatchers("/css/**", "/js/**", "/fonts/**", "favicon.ico", "/","/h2-console/**");
 	}
 
 	@Bean

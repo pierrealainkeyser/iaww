@@ -6,7 +6,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12">
-            <v-autocomplete v-model="selected" :items="possiblesUsers" chips label="Users" item-text="label" item-value="name" multiple />
+            <v-autocomplete v-model="selected" :items="possiblesUsers" chips label="Users" item-text="label" item-value="name" multiple append-outer-icon="mdi-refresh" @click:append-outer="refreshUsers" />
           </v-col>
           <v-col cols="12">
             <v-select v-model="startingEmpire" :items="startingEmpires" label="Starting empire" />
@@ -31,9 +31,18 @@
     </v-toolbar>
 
     <v-card-text>
-      <v-list subheader three-line>
+      <v-list subheader three-line avatar>
         <v-subheader>My games</v-subheader>
         <v-list-item v-for="(g,i) in myGames" :key="i">
+
+          <v-list-item-avatar>
+            <v-icon v-if="g.terminated">mdi-check</v-icon>
+            <v-btn v-else icon :to="formatLink(g)">
+              <v-icon>mdi-arrow-expand</v-icon>
+            </v-btn>
+          </v-list-item-avatar>
+
+
           <v-list-item-content>
             <v-list-item-title>
               <router-link :to="formatLink(g)">{{formatDict(g)}}</router-link>
@@ -41,12 +50,12 @@
             <v-list-item-subtitle class="text--primary">{{formatUsers(g)}}</v-list-item-subtitle>
             <v-list-item-subtitle class="font-weight-light">created at {{formatDate(g)}}</v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-avatar>
-            <v-icon v-if="g.terminated">mdi-check</v-icon>
-            <v-btn v-else icon :to="formatLink(g)">
-              <v-icon>mdi-arrow-expand</v-icon>
+
+          <v-list-item-action>
+            <v-btn v-if="isCreator(g)" icon @click="doDelete(g)" :loading="g.deleting">
+              <v-icon>mdi-delete</v-icon>
             </v-btn>
-          </v-list-item-avatar>
+          </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-card-text>
@@ -118,6 +127,17 @@ export default {
           this.doOpen = false;
         });
     },
+    doDelete(g) {
+      g.deleting = true;
+      this.$axios.delete(`game/${g.id}`).then(() => {
+        const index = this.myGames.findIndex(gi => gi.id === g.id);
+        if (index >= 0)
+          this.myGames.splice(index, 1);
+      });
+    },
+    isCreator(g) {
+      return g.creator === this.uid;
+    },
     formatLink(g) {
       return `/game/${g.externalId}`;
     },
@@ -135,7 +155,12 @@ export default {
     },
     receive(games) {
       this.myGames.splice(0, this.myGames.length);
-      Array.prototype.push.apply(this.myGames, games);
+      Array.prototype.push.apply(this.myGames, games.map(g => {
+        return {
+          ...g,
+          deleting: false
+        }
+      }));
     },
     refreshUsers() {
       this.$axios.get("auth/users").then(r => {
