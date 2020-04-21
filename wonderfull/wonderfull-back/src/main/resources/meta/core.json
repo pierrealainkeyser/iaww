@@ -753,7 +753,7 @@
 		"name": "world_congress",
 		"type": "GOLD",
 		"recycle": "GOLD",
-		"cost": "GOLD*5, BUSINESSMAN*3",
+		"cost": "GOLD*5, BUSINESSMAN*2",
 		"scoring": {
 			"empire": "GOLD*3"
 		},
