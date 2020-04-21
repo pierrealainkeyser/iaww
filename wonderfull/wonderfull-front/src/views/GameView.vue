@@ -85,7 +85,7 @@
 </template>
 
 <script>
-const PLAYERS_COLOR = ["blue", "red", "green", "pink", "amber"];
+const PLAYERS_COLOR = ["cyan", "light-green", "pink", "amber", "lime"];
 
 function createEmptyEmpire(index) {
   return {

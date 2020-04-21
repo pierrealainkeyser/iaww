@@ -76,6 +76,10 @@ export default {
   text-align: center;
 }
 
+.v-data-table td, .v-data-table th{
+  padding: 0px;
+}
+
 .rotate div {
   -ms-writing-mode: tb-rl;
   writing-mode: vertical-rl;

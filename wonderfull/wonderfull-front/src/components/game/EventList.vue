@@ -28,7 +28,9 @@
       has
     <template v-if="event.recycled"> recycled    <SimpleCardView :card="event.recycled" /> and </template>
     affected
-    <Token v-for="(token,n) in event.tokens" :type="token" :key="n" /> to
+    <span class="tokens">
+      <Token v-for="(token,n) in event.tokens" :type="token" :key="n" />
+    </span> to  
     <SimpleCardView :card="event.card" />
     <template v-if="event.builded">
           thus build it
