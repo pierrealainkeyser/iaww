@@ -1,5 +1,6 @@
 <template>
 <v-list>
+
   <v-menu v-for="(item,i) in definitions" :key="i" transition="slide-x-transition">
     <template v-slot:activator="{ on }">
   <v-list-item v-on="on">
@@ -27,7 +28,7 @@
   </v-card-text>
 </v-card>
 </v-menu>
-
+  <v-subheader class="justify-center font-weight-light caption">{{cardsCount}} in empire</v-subheader>
 </v-list>
 </template>
 
@@ -52,6 +53,15 @@ export default {
   },
 
   computed: {
+    cardsCount() {
+      const count = this.definitions.length - 1;
+      if (count === 0)
+        return 'no card';
+      else if (count > 1)
+        return `${count} cards`;
+      else
+        return `${count} card`;
+    },
     definitions() {
       return this.builded.map(b => b.def).reverse();
     }
