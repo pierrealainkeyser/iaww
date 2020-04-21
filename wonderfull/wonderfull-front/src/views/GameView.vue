@@ -479,3 +479,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.tokens>.v-sheet:not(:first-child) {
+  margin-left: 1px;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-<div class="produce">
+<div class="produce tokens">
   <template v-for="(p,i) in tokens">
       <v-icon v-if="p.mult" :key="i+'text'" class="x-cross" size="9">mdi-close</v-icon>
       <Token v-else :key="i+'token'" :type="p.type" :alt="p.alt" :size="size" />
@@ -61,9 +61,5 @@ export default {
 .produce>.x-cross {
   margin-left: 0px !important;
   margin-right: 0px;
-}
-
-.produce>*:not(:first-child) {
-  margin-left: 1px;
 }
 </style>

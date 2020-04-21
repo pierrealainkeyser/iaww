@@ -13,7 +13,12 @@
   <tbody>
     <tr>
       <td>
-        <v-icon :size="25">mdi-timer-sand</v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" :size="25">mdi-timer-sand</v-icon>
+          </template>
+          <span>Waiting status</span>
+        </v-tooltip>
       </td>
       <td v-for="(empire,i) in empires" :key="i+'/done'" class="text-center font-weight-bold">
 
@@ -32,7 +37,14 @@
     </tr>
     <tr>
       <td>
-        <v-icon color="yellow" :size="25">mdi-star</v-icon>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on"  color="yellow" :size="25">mdi-star</v-icon>
+          </template>
+          <span>Score</span>
+        </v-tooltip>
+
       </td>
       <td v-for="(empire,i) in empires" :key="i+'/score'" class="text-center">
         <fade-text class="font-weight-bold" :text="empire.score" />

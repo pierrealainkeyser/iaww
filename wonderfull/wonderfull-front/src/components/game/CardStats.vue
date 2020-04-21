@@ -57,9 +57,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.tokens>*:not(:first-child) {
-  margin-left: 1px;
-}
-</style>
