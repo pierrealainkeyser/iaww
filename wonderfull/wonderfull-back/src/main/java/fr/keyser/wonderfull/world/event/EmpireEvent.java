@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 		@JsonSubTypes.Type(value = PassedEvent.class, name = PassedEvent.TYPE),
 		@JsonSubTypes.Type(value = RecycleEvent.class, name = RecycleEvent.TYPE),
 		@JsonSubTypes.Type(value = RecycleInProductionEvent.class, name = RecycleInProductionEvent.TYPE),
-		@JsonSubTypes.Type(value = SupremacyEvent.class, name = SupremacyEvent.TYPE) })
+		@JsonSubTypes.Type(value = SupremacyEvent.class, name = SupremacyEvent.TYPE),
+		@JsonSubTypes.Type(value = UndoEvent.class, name = UndoEvent.TYPE) })
 public interface EmpireEvent {
 }

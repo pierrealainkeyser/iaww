@@ -4,13 +4,15 @@ export default {
   namespaced: true,
   state: {
     name: null,
-    label: null
+    label: null,
+    xcsrf: null
   },
   mutations: {
     set: (state, user) => {
       const v = user || {}
       state.label = v.label;
       state.name = v.name;
+      state.xcsrf = v.xcsrf;
     }
   },
   actions: {
@@ -19,7 +21,7 @@ export default {
       },
       user
     ) => {
-      StompService.connect();
+      StompService.connect(user.xcsrf);
       commit('set', user);
     },
     logout: ({

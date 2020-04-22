@@ -30,7 +30,8 @@ export default {
       this.$axios.defaults.headers["X-CSRF-TOKEN"] = xcsrf;
       this.$store.dispatch('user/login', {
         name: r.data.name,
-        label: r.data.label
+        label: r.data.label,
+        xcsrf: xcsrf
       });
       this.$router.push('/lobby');
     }).catch(e => {

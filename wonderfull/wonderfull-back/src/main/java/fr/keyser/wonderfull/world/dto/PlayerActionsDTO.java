@@ -8,6 +8,8 @@ public class PlayerActionsDTO {
 
 	private boolean pass;
 
+	private boolean undo;
+
 	private boolean convert;
 
 	private List<CardPossibleActions> cards;
@@ -28,6 +30,10 @@ public class PlayerActionsDTO {
 		return convert;
 	}
 
+	public boolean isUndo() {
+		return undo;
+	}
+
 	public void setCards(List<CardPossibleActions> cards) {
 		this.cards = cards;
 	}
@@ -42,6 +48,10 @@ public class PlayerActionsDTO {
 
 	public void setSupremacy(boolean supremacy) {
 		this.supremacy = supremacy;
+	}
+
+	public void setUndo(boolean undo) {
+		this.undo = undo;
 	}
 
 }

@@ -8,6 +8,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 import fr.keyser.fsm.Instance;
 import fr.keyser.wonderfull.world.PlayerGameDescription;
+import fr.keyser.wonderfull.world.action.ActionConvert;
+import fr.keyser.wonderfull.world.action.ActionUndo;
 import fr.keyser.wonderfull.world.action.EmpirePlayAction;
 import fr.keyser.wonderfull.world.dto.GameDTO;
 
@@ -35,7 +37,11 @@ public class InGameService {
 	}
 
 	public void convert(String externalId) {
-		process(externalId, ResolvedGame::convert);
+		play(externalId, ActionConvert.CONVERT);
+	}
+
+	public void undo(String externalId) {
+		play(externalId, ActionUndo.UNDO);
 	}
 
 	public void play(String externalId, EmpirePlayAction action) {

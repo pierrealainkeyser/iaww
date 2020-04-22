@@ -9,6 +9,7 @@ const CLIENT = Symbol();
 const STATUS = Symbol();
 const LISTENERS = Symbol();
 const BROKER_URL = Symbol();
+const XCSRF = Symbol();
 
 const SET_STATUS = Symbol();
 
@@ -25,6 +26,7 @@ class StompService {
     this[STATUS] = false;
     this[SUBSCRIPTIONS] = [];
     this[LISTENERS] = [];
+    this[XCSRF] = null;
 
     var brokerURL = process.env.VUE_APP_BACKEND_WS;
     if (!brokerURL) {
@@ -38,6 +40,9 @@ class StompService {
     const client = new Client({
       brokerURL
     });
+    client.beforeConnect = () => {
+       this[CLIENT].connectHeaders["X-CSRF-TOKEN"] = this[XCSRF];
+     }
     client.onConnect = () => {
       this[SUBSCRIPTIONS] = this[SUBSCRIPTIONS].map(s => {
         var sub = s.sub;
@@ -121,8 +126,10 @@ class StompService {
     }
   }
 
-  connect() {
+  connect(xcsrf) {
+
     this.deactivate();
+    this[XCSRF] = xcsrf;
     this[CLIENT].activate();
   }
 }

@@ -50,7 +50,12 @@ public class GamingController {
 	public void pass(@DestinationVariable String externalId) {
 		service.pass(externalId);
 	}
-	
+
+	@MessageMapping("/game/{externalId}/undo")
+	public void undo(@DestinationVariable String externalId) {
+		service.undo(externalId);
+	}
+
 	@MessageMapping("/game/{externalId}/convert")
 	public void convert(@DestinationVariable String externalId) {
 		service.convert(externalId);

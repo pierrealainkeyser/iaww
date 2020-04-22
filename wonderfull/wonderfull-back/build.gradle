@@ -41,6 +41,7 @@ dependencies {
 			'org.springframework.boot:spring-boot-starter-actuator',
 			'org.springframework.security:spring-security-oauth2-client',
 			'org.springframework.security:spring-security-oauth2-jose',
+			'org.springframework.security:spring-security-messaging',
 			'org.flywaydb:flyway-core',
 			'com.h2database:h2'
 			)

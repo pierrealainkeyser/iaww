@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.keyser.wonderfull.world.CurrentDraft;
@@ -28,6 +29,7 @@ import fr.keyser.wonderfull.world.action.ActionRecycleDrafted;
 import fr.keyser.wonderfull.world.action.ActionRecycleDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionRecycleProduction;
 import fr.keyser.wonderfull.world.action.ActionSupremacy;
+import fr.keyser.wonderfull.world.action.ActionUndo;
 import fr.keyser.wonderfull.world.action.EmpireAction;
 import fr.keyser.wonderfull.world.dto.ArgumentLessAction;
 import fr.keyser.wonderfull.world.dto.CardPossibleActions;
@@ -38,6 +40,7 @@ import fr.keyser.wonderfull.world.dto.PossibleAffectations;
 import fr.keyser.wonderfull.world.dto.PossibleRecycleToProduction;
 import fr.keyser.wonderfull.world.event.EmpireEvent;
 import fr.keyser.wonderfull.world.event.PassedEvent;
+import fr.keyser.wonderfull.world.event.UndoEvent;
 
 public class PlayerEmpire {
 
@@ -49,22 +52,37 @@ public class PlayerEmpire {
 
 	private final EmpireProductionWrapper production;
 
+	private final PlayerEmpire undo;
+
 	public PlayerEmpire(Empire empire) {
 		this(empire, null, null, null);
 	}
 
-	public PlayerEmpire(EmpireDraftWrapper draft, EmpirePlanningWrapper planning, EmpireProductionWrapper production) {
-		this(null, draft, planning, production);
+	public PlayerEmpire(EmpireDraftWrapper draft, EmpirePlanningWrapper planning, EmpireProductionWrapper production,
+			PlayerEmpire undo) {
+		this(null, draft, planning, production, undo);
 	}
 
 	@JsonCreator
 	public PlayerEmpire(@JsonProperty("empire") Empire empire, @JsonProperty("draft") EmpireDraftWrapper draft,
 			@JsonProperty("planning") EmpirePlanningWrapper planning,
 			@JsonProperty("production") EmpireProductionWrapper production) {
+		this(empire, draft, planning, production, null);
+	}
+
+	private PlayerEmpire(Empire empire, EmpireDraftWrapper draft, EmpirePlanningWrapper planning,
+			EmpireProductionWrapper production, PlayerEmpire undo) {
+
 		this.empire = empire;
 		this.draft = draft;
 		this.planning = planning;
 		this.production = production;
+		this.undo = undo;
+	}
+
+	@JsonIgnore
+	public PlayerEmpire getUndo() {
+		return undo;
 	}
 
 	public Empire getEmpire() {
@@ -92,9 +110,19 @@ public class PlayerEmpire {
 			// no op
 			consumer.accept(PassedEvent.PASS);
 			return this;
+		} else if (action instanceof ActionUndo) {
+			return undo(consumer);
 		}
 
 		throw new IllegalActionException("unknownAction");
+	}
+
+	public PlayerEmpire undo(Consumer<EmpireEvent> consumer) {
+		if (undo == null)
+			throw new IllegalActionException("undo");
+
+		consumer.accept(UndoEvent.UNDO);
+		return undo;
 	}
 
 	public PlayerEmpire draft(List<DraftableCard> inHand) {
@@ -103,7 +131,7 @@ public class PlayerEmpire {
 		if (draft != null)
 			drafteds = draft.getDrafteds();
 
-		return new PlayerEmpire(new EmpireDraftWrapper(resolveEmpire(), new CurrentDraft(drafteds, inHand)), null,
+		return new PlayerEmpire(new EmpireDraftWrapper(resolveEmpire(), new CurrentDraft(drafteds, inHand)), null, null,
 				null);
 	}
 
@@ -111,11 +139,16 @@ public class PlayerEmpire {
 		if (draft == null)
 			throw new IllegalActionException("draftToPlanning");
 
-		return new PlayerEmpire(null, new EmpirePlanningWrapper(resolveEmpire(), draft.getDrafteds()), null);
+		return new PlayerEmpire(null, new EmpirePlanningWrapper(resolveEmpire(), draft.getDrafteds()), null,
+				withoutUndo());
+	}
+
+	private PlayerEmpire withoutUndo() {
+		return new PlayerEmpire(empire, draft, planning, production);
 	}
 
 	public PlayerEmpire startProductionStep(Token step) {
-		return new PlayerEmpire(null, null, new EmpireProductionWrapper(resolveEmpire(), step));
+		return new PlayerEmpire(null, null, new EmpireProductionWrapper(resolveEmpire(), step), withoutUndo());
 	}
 
 	public Empire resolveEmpire() {
@@ -132,40 +165,40 @@ public class PlayerEmpire {
 	public PlayerEmpire draft(ActionDraft action, Consumer<EmpireEvent> consumer) {
 		if (draft == null)
 			throw new IllegalActionException("draft");
-		return new PlayerEmpire(draft.draft(action, consumer), null, null);
+		return new PlayerEmpire(draft.draft(action, consumer), null, null, null);
 	}
 
 	public PlayerEmpire moveToProduction(ActionMoveDraftedToProduction action, Consumer<EmpireEvent> consumer) {
 		if (planning == null)
 			throw new IllegalActionException("moveToProduction");
 
-		return new PlayerEmpire(null, planning.moveToProduction(action, consumer), null);
+		return new PlayerEmpire(null, planning.moveToProduction(action, consumer), null, undo);
 	}
 
 	public PlayerEmpire recycleToProduction(ActionRecycleDraftedToProduction action, Consumer<EmpireEvent> consumer) {
 		if (planning == null)
 			throw new IllegalActionException("recycleToProduction");
-		return new PlayerEmpire(null, planning.recycleToProduction(action, consumer), null);
+		return new PlayerEmpire(null, planning.recycleToProduction(action, consumer), null, undo);
 	}
 
 	public PlayerEmpire recycleDrafted(ActionRecycleDrafted action, Consumer<EmpireEvent> consumer) {
 		if (planning == null)
 			throw new IllegalActionException("recycleDrafted");
-		return new PlayerEmpire(null, planning.recycleDrafted(action, consumer), null);
+		return new PlayerEmpire(null, planning.recycleDrafted(action, consumer), null, undo);
 	}
 
 	public PlayerEmpire supremacy(ActionSupremacy action, Consumer<EmpireEvent> consumer) {
 		if (production == null)
 			throw new IllegalActionException("supremacy");
-		return new PlayerEmpire(null, null, production.supremacy(action, consumer));
+		return new PlayerEmpire(null, null, production.supremacy(action, consumer), undo);
 	}
 
 	public PlayerEmpire recycleProduction(ActionRecycleProduction action, Consumer<EmpireEvent> consumer) {
 		if (production != null)
-			return new PlayerEmpire(null, null, production.recycleProduction(action, consumer));
+			return new PlayerEmpire(null, null, production.recycleProduction(action, consumer), undo);
 
 		if (planning != null)
-			return new PlayerEmpire(null, planning.recycleProduction(action, consumer), null);
+			return new PlayerEmpire(null, planning.recycleProduction(action, consumer), null, undo);
 
 		throw new IllegalActionException("recycleProduction");
 	}
@@ -173,10 +206,10 @@ public class PlayerEmpire {
 	public PlayerEmpire affectToProduction(ActionAffectToProduction action, Consumer<EmpireEvent> consumer) {
 
 		if (production != null)
-			return new PlayerEmpire(null, null, production.affectToProduction(action, consumer));
+			return new PlayerEmpire(null, null, production.affectToProduction(action, consumer), undo);
 
 		if (planning != null)
-			return new PlayerEmpire(null, planning.affectToProduction(action, consumer), null);
+			return new PlayerEmpire(null, planning.affectToProduction(action, consumer), null, undo);
 
 		throw new IllegalActionException("affectToProduction");
 	}
@@ -184,7 +217,7 @@ public class PlayerEmpire {
 	public PlayerEmpire convert(Consumer<EmpireEvent> consumer) {
 
 		if (production != null)
-			return new PlayerEmpire(null, null, production.convert(consumer));
+			return new PlayerEmpire(null, null, production.convert(consumer), undo);
 
 		throw new IllegalActionException("convert");
 	}
@@ -217,12 +250,14 @@ public class PlayerEmpire {
 			all.addAll(draftedsActions);
 			all.addAll(inProductionActions);
 
+			action.setUndo(undo != null);
 			action.setCards(all);
 			action.setPass(draftedsActions.isEmpty());
 
 		} else if (production != null) {
 			action = new PlayerActionsDTO();
 			action.setPass(true);
+			action.setUndo(undo != null);
 			Empire emp = production.getEmpire();
 			Tokens available = production.getAvailable();
 
