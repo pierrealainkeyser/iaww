@@ -7,6 +7,9 @@
     <span v-if="'pass'===event.type">
       has passed
     </span>
+    <span v-if="'undo'===event.type">
+      has undone all it's previous plays
+    </span>
     <span v-if="'recycle'===event.type">
       has recycled {{event.quantity}} raw material
     </span>
@@ -30,7 +33,7 @@
     affected
     <span class="tokens">
       <Token v-for="(token,n) in event.tokens" :type="token" :key="n" />
-    </span> to  
+    </span> to
     <SimpleCardView :card="event.card" />
     <template v-if="event.builded">
           thus build it

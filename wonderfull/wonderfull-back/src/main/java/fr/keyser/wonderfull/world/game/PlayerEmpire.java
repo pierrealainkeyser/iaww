@@ -122,7 +122,7 @@ public class PlayerEmpire {
 			throw new IllegalActionException("undo");
 
 		consumer.accept(UndoEvent.UNDO);
-		return undo;
+		return new PlayerEmpire(undo.empire, undo.draft, undo.planning, undo.production, undo);
 	}
 
 	public PlayerEmpire draft(List<DraftableCard> inHand) {
@@ -139,16 +139,15 @@ public class PlayerEmpire {
 		if (draft == null)
 			throw new IllegalActionException("draftToPlanning");
 
-		return new PlayerEmpire(null, new EmpirePlanningWrapper(resolveEmpire(), draft.getDrafteds()), null,
-				withoutUndo());
-	}
-
-	private PlayerEmpire withoutUndo() {
-		return new PlayerEmpire(empire, draft, planning, production);
+		EmpirePlanningWrapper planning = new EmpirePlanningWrapper(resolveEmpire(), draft.getDrafteds());
+		PlayerEmpire undo = new PlayerEmpire(null, planning, null, null);
+		return new PlayerEmpire(null, planning, null, undo);
 	}
 
 	public PlayerEmpire startProductionStep(Token step) {
-		return new PlayerEmpire(null, null, new EmpireProductionWrapper(resolveEmpire(), step), withoutUndo());
+		EmpireProductionWrapper production = new EmpireProductionWrapper(resolveEmpire(), step);
+		PlayerEmpire undo = new PlayerEmpire(null, null, production, null);
+		return new PlayerEmpire(null, null, production, undo);
 	}
 
 	public Empire resolveEmpire() {

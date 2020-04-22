@@ -60,8 +60,26 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="action.pass" @click="pass">Pass</v-btn>
-        <v-btn v-if="action.convert" @click="convert">Convert</v-btn>
+        <v-tooltip v-if="action.pass" bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" @click="pass">Pass</v-btn>
+          </template>
+          <span>End this step</span>
+        </v-tooltip>
+
+        <v-tooltip v-if="action.convert" bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn class="ml-1" v-on="on" @click="convert">Convert</v-btn>
+          </template>
+          <span>Put all the remaining to your empire card</span>
+        </v-tooltip>
+
+        <v-tooltip v-if="action.undo" bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn class="ml-1" v-on="on" @click="undo">Undo</v-btn>
+          </template>
+          <span>Undo all the actions done in this step, reset to the situation add the begining of the current step</span>
+        </v-tooltip>
       </v-card-actions>
     </v-card>
   </v-col>
@@ -295,6 +313,14 @@ export default {
       });
     },
 
+    undo() {
+      this.onAction({
+        parent: {
+          action: 'undo'
+        }
+      });
+    },
+
     convert() {
       this.onAction({
         parent: {
@@ -379,6 +405,7 @@ export default {
         this.action.pass = actions.pass || false;
         this.action.supremacy = actions.supremacy || false;
         this.action.convert = actions.convert || false;
+        this.action.undo = actions.undo || false;
         const cardsActions = actions.cards;
         for (var i = 0; i < length; ++i) {
           mapEmpire(empires[i], this.empires[i], this.dictionnary, myself === i ? cardsActions : null);
@@ -412,6 +439,7 @@ export default {
       action: {
         ready: true,
         pass: false,
+        undo: false,
         convert: false,
         supremacy: false,
         recycleToProduction: {
