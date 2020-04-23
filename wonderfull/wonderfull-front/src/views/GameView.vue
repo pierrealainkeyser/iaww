@@ -105,7 +105,37 @@
 <script>
 const PLAYERS_COLOR = ["cyan", "light-green", "pink", "amber", "lime"];
 
-function createEmptyEmpire(index) {
+function createEmptyEmpire(index, wop) {
+
+  var stats = {
+    material: 0,
+    energy: 0,
+    science: 0,
+    gold: 0,
+    discovery: 0,
+    krystalium: 0,
+    raw: 0,
+    businessman: 0,
+    general: 0
+  };
+
+  if (wop) {
+    stats = {
+      material: 0,
+      energy: 0,
+      science: 0,
+      gold: 0,
+      discovery: 0,
+      deltakrystalium: 0,
+      deltabusinessman: 0,
+      deltageneral: 0,
+      krystalium: 0,
+      raw: 0,
+      businessman: 0,
+      general: 0
+    }
+  }
+
   return {
     score: 0,
     empire: {
@@ -115,17 +145,7 @@ function createEmptyEmpire(index) {
     player: null,
     playerColor: PLAYERS_COLOR[index % PLAYERS_COLOR.length],
     inHand: [],
-    stats: {
-      material: 0,
-      energy: 0,
-      science: 0,
-      gold: 0,
-      discovery: 0,
-      krystalium: 0,
-      raw: 0,
-      businessman: 0,
-      general: 0
-    },
+    stats,
     drafteds: [],
     available: {
       material: 0,
@@ -377,9 +397,12 @@ export default {
 
     receive(data) {
       if (this.clock < data.clock) {
+
         if (data.dictionnary != null) {
           this.dictionnary.splice(0, this.dictionnary.length);
           Array.prototype.push.apply(this.dictionnary, data.dictionnary.map(mapDictionnary));
+          this.wop = data.wop;
+          this.empires.splice(0, this.empires.length);
         }
 
         this.action.ready = true;
@@ -399,7 +422,7 @@ export default {
         const empires = data.empires;
         const length = empires.length;
         while (this.empires.length < empires.length) {
-          this.empires.push(createEmptyEmpire(this.empires.length));
+          this.empires.push(createEmptyEmpire(this.empires.length, this.wop));
         }
 
         const actions = (data.actions || {});
@@ -435,6 +458,7 @@ export default {
       myself: -1,
       current: 0,
       done: false,
+      wop: false,
       action: {
         ready: true,
         pass: false,

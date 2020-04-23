@@ -43,9 +43,10 @@
     </tr>
     <tr v-for="(s,index) in stats" :key="index">
       <td>
-        <Token :type="s.toUpperCase()" :size="20" />
+        <template v-if="isDelta(s)">+ </template>
+        <Token :type="tokenType(s)" :size="20" />
       </td>
-      <td v-for="(empire,i) in empires" :key="i+'/stat'" class="text-center">
+      <td v-for="(empire,i) in empires" :key="i" class="text-center">
         <fade-text :text="empire.stats[s]" />
       </td>
     </tr>
@@ -82,6 +83,16 @@ export default {
     }
   },
   methods: {
+    tokenType(s) {
+      const match = s.match(/delta(.*)/);
+      if (match) {
+        s = match[1];
+      }
+      return s.toUpperCase();
+    },
+    isDelta(s) {
+      return !!s.match(/delta(.*)/);
+    },
     isConnected(empire) {
       const id = empire.playerId;
       const index = this.$store.getters["users/all"].findIndex(u => u.name === id);

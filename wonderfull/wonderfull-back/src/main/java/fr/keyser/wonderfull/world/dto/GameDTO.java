@@ -25,7 +25,17 @@ public class GameDTO {
 
 	private MetaCardDictionnary dictionnary;
 
+	private Boolean wop;
+
 	private boolean terminated;
+
+	public Boolean isWop() {
+		return wop;
+	}
+
+	public void setWop(Boolean wop) {
+		this.wop = wop;
+	}
 
 	public PlayerActionsDTO getActions() {
 		return actions;

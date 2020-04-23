@@ -64,7 +64,7 @@ public class TestGameBootstraper {
 
 	@Test
 	void backup() throws JsonProcessingException {
-		GameConfiguration conf = new GameConfiguration("p0", asList("core", "empire"), null,
+		GameConfiguration conf = new GameConfiguration("p0", asList("core", "empire", "wop"), null,
 				asList(empire(new UserPrincipal("p0", "p0"), "krystalium"),
 						empire(new UserPrincipal("p1", "p1"), "krystalium"),
 						empire(new UserPrincipal("p2", "p2"), "basic")),

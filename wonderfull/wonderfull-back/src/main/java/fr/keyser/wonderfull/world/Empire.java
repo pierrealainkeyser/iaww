@@ -68,16 +68,26 @@ public class Empire {
 	}
 
 	public Tokens producedAt(Token step) {
-		Tokens thisEmpire = cardsInEmpire();
-		int produced = builded.stream().mapToInt(b -> b.getProduce().resolve(step, thisEmpire)).sum();
+		int produced = producedCount(step);
 		if (produced == 0)
 			return Tokens.ZERO;
 		return step.token(produced);
 	}
 
+	private int producedCount(Token step) {
+		Tokens thisEmpire = cardsInEmpire();
+		return builded.stream().mapToInt(b -> b.getProduce().resolve(step, thisEmpire)).sum();
+	}
+
 	public Tokens computeStats() {
-		return Arrays.asList(Token.MATERIAL, Token.ENERGY, Token.SCIENCE, Token.GOLD, Token.DISCOVERY).stream()
+		Tokens stats = Arrays.asList(Token.MATERIAL, Token.ENERGY, Token.SCIENCE, Token.GOLD, Token.DISCOVERY).stream()
 				.map(this::producedAt).reduce(onEmpire, Tokens::add);
+
+		Tokens b = Token.DELTABUSINESSMAN.token(producedCount(Token.BUSINESSMAN));
+		Tokens g = Token.DELTAGENERAL.token(producedCount(Token.GENERAL));
+		Tokens k = Token.DELTAKRYSTALIUM.token(producedCount(Token.KRYSTALIUM));
+
+		return stats.add(b).add(g).add(k);
 	}
 
 	private Tokens cardsInEmpire() {

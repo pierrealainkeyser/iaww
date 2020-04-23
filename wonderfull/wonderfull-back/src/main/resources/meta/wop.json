@@ -1,0 +1,120 @@
+[
+	{
+		"name": "secret_forces",
+		"type": "MATERIAL",
+		"recycle": "DISCOVERY",
+		"cost": "MATERIAL*2, GENERAL",
+		"occurence": 4,
+		"produce": {
+			"SCIENCE": {
+				"constant": 1
+			},
+			"DISCOVERY": {
+				"constant": 1
+			}
+		}
+	},
+	{
+		"name": "analysis_center",
+		"type": "MATERIAL",
+		"recycle": "SCIENCE",
+		"cost": "MATERIAL*2, SCIENCE",
+		"occurence": 3,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		}
+	},
+	{
+		"name": "cargo_fleet",
+		"type": "ENERGY",
+		"recycle": "GOLD",
+		"cost": "MATERIAL*2, ENERGY*2",
+		"occurence": 2,
+		"produce": {
+			"GOLD": {
+				"constant": 1
+			},
+			"BUSINESSMAN": {
+				"constant": 1
+			}
+		}
+	},
+	{
+		"name": "security_ships",
+		"type": "ENERGY",
+		"recycle": "DISCOVERY",
+		"cost": "MATERIAL, ENERGY*2, GOLD",
+		"occurence": 2,
+		"produce": {
+			"DISCOVERY": {
+				"constant": 1
+			},
+			"GENERAL": {
+				"constant": 1
+			}
+		}
+	},
+	{
+		"name": "gaussin_weapons",
+		"type": "SCIENCE",
+		"recycle": "ENERGY",
+		"cost": "ENERGY, SCIENCE*3",
+		"occurence": 1,
+		"bonus": "GENERAL",
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 1
+		}
+	},
+	{
+		"name": "headquarters",
+		"type": "GOLD",
+		"recycle": "DISCOVERY",
+		"cost": "GOLD*3, DISCOVERY",
+		"occurence": 1,
+		"produce": {
+			"GENERAL": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 1
+		}
+	},
+	{
+		"name": "pax_10",
+		"type": "GOLD",
+		"recycle": "ENERGY",
+		"cost": "GOLD*4",
+		"occurence": 1,
+		"produce": {
+			"GENERAL": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 1
+		}
+	},
+	{
+		"name": "tower_of_babel",
+		"type": "DISCOVERY",
+		"recycle": "DISCOVERY",
+		"cost": "DISCOVERY*5",
+		"occurence": 1,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 2
+		}
+	}
+]

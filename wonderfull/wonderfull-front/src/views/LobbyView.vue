@@ -11,7 +11,7 @@
           <v-col cols="12">
             <div class="d-flex">
               <v-checkbox v-model="additionalDict" label="Kickstarter exclusive cards" value="ks0" />
-              <!--<v-checkbox v-model="additionalDict" label="War Or Peace" value="wop" class="ml-1" />-->
+              <v-checkbox v-model="additionalDict" label="War or Peace" value="wop" class="ml-1" />
             </div>
           </v-col>
           <v-col cols="12">
@@ -47,7 +47,6 @@
               <v-icon>mdi-arrow-expand</v-icon>
             </v-btn>
           </v-list-item-avatar>
-
 
           <v-list-item-content>
             <v-list-item-title>
@@ -162,6 +161,9 @@ export default {
       var text = conf.text;
       if (g.dictionaries.indexOf("ks0") >= 0)
         text += " + Kickstarter exclusive cards";
+
+        if (g.dictionaries.indexOf("wop") >= 0)
+          text += " + War or Peace";
 
       return `Empire card : ${text}`;
     },

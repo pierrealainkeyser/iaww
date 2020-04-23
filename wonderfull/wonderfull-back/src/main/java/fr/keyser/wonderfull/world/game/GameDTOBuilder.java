@@ -25,8 +25,10 @@ public class GameDTOBuilder {
 		GameDTO dto = game.asDTO(index, status);
 		commons(instance, dto);
 
-		MetaCardDictionnary dictionnary = loader.load(game.getConfiguration().getDictionaries());
+		List<String> dictionaries = game.getConfiguration().getDictionaries();
+		MetaCardDictionnary dictionnary = loader.load(dictionaries);
 		dto.setDictionnary(dictionnary);
+		dto.setWop(Extension.containsWarOrPeace(dictionaries));
 
 		return dto;
 	}

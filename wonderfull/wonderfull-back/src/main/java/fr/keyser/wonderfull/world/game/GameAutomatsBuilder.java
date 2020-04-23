@@ -37,7 +37,7 @@ public class GameAutomatsBuilder {
 
 	public static final String PLAY_EVENT = "play";
 
-	public Automats<GameInfo> build(InstanceId id, int nbPlayers) {
+	public Automats<GameInfo> build(InstanceId id, int nbPlayers, boolean krystaliumStep) {
 
 		AutomatsBuilder<GameInfo> builder = new AutomatsBuilder<>();
 
@@ -57,7 +57,7 @@ public class GameAutomatsBuilder {
 
 		draft(draft, nbPlayers, planning);
 		planning(planning, nbPlayers, production);
-		production(production, nbPlayers, eog);
+		production(production, nbPlayers, krystaliumStep, eog);
 
 		initial.to(nextTurn);
 		nextTurn.to(draft);
@@ -99,18 +99,28 @@ public class GameAutomatsBuilder {
 		playableRegion(players, production);
 	}
 
-	private void production(Node<GameInfo> production, int nbPlayers, Edge next) {
+	private void production(Node<GameInfo> production, int nbPlayers, boolean krystaliumStep, Edge next) {
 		Node<GameInfo> material = production.node(Token.MATERIAL.name());
 		Node<GameInfo> energy = production.node(Token.ENERGY.name());
 		Node<GameInfo> science = production.node(Token.SCIENCE.name());
 		Node<GameInfo> gold = production.node(Token.GOLD.name());
 		Node<GameInfo> discovery = production.node(Token.DISCOVERY.name());
 
+		Node<GameInfo> krystalium = null;
+		if (krystaliumStep)
+			krystalium = production.node(Token.KRYSTALIUM.name());
+
 		productionStep(material, Token.MATERIAL, nbPlayers, energy);
 		productionStep(energy, Token.ENERGY, nbPlayers, science);
 		scienceProductionStep(science, Token.SCIENCE, nbPlayers, gold);
 		productionStep(gold, Token.GOLD, nbPlayers, discovery);
-		productionStep(discovery, Token.DISCOVERY, nbPlayers, next);
+
+		if (krystalium == null)
+			productionStep(discovery, Token.DISCOVERY, nbPlayers, next);
+		else {
+			productionStep(discovery, Token.DISCOVERY, nbPlayers, krystalium);
+			productionStep(krystalium, Token.KRYSTALIUM, nbPlayers, next);
+		}
 	}
 
 	private GameInfo privateDispatch(GameInfo container, Object payload) {

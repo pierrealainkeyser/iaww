@@ -16,7 +16,7 @@ public class JacksonConfiguration {
 
 	@Bean
 	public SimpleModule wonderfullModel(MetaCardDictionnaryLoader loader) {
-		MetaCardDictionnary dictionnary = loader.load(Arrays.asList("core", "empire"));
+		MetaCardDictionnary dictionnary = loader.load(Arrays.asList("core", "empire", "ks0", "wop"));
 		return new WonderfullModuleBuilder(dictionnary).createModule();
 	}
 

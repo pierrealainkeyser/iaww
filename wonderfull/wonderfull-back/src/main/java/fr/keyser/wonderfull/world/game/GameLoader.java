@@ -1,7 +1,10 @@
 package fr.keyser.wonderfull.world.game;
 
+import java.util.List;
+
 import fr.keyser.fsm.impl.Automats;
 import fr.keyser.fsm.impl.AutomatsMemento;
+import fr.keyser.fsm.impl.InstanceMemento;
 import fr.keyser.wonderfull.world.MetaCardDictionnaryLoader;
 
 public class GameLoader {
@@ -17,7 +20,11 @@ public class GameLoader {
 
 	public ActiveGame reload(AutomatsMemento memento) {
 
-		Automats<GameInfo> automats = builder.build(memento.getId(), memento.getMementos().size() - 1);
+		List<InstanceMemento> mementos = memento.getMementos();
+		GameInfo gi = (GameInfo) mementos.get(0).getPayload();
+
+		boolean wop = Extension.containsWarOrPeace(gi.getGame().getConfiguration().getDictionaries());
+		Automats<GameInfo> automats = builder.build(memento.getId(), mementos.size() - 1, wop);
 
 		automats.reload(memento.map(payload -> {
 			if (payload instanceof GameInfo) {

@@ -114,6 +114,9 @@ public class Game {
 	}
 
 	public OptionalInt supremacyIndex(Token productionStep) {
+		if (Token.KRYSTALIUM == productionStep)
+			return OptionalInt.empty();
+
 		int[] production = empires.stream().mapToInt(pe -> pe.getProduction().getAvailable().get(productionStep))
 				.toArray();
 		int max = IntStream.of(production).reduce(0, Math::max);

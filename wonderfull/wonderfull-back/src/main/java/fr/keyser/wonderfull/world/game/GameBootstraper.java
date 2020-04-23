@@ -27,7 +27,9 @@ public class GameBootstraper {
 	}
 
 	public ActiveGame starts(GameConfiguration conf) {
-		Automats<GameInfo> automats = builder.build(InstanceId.uuid(), conf.getPlayerCount());
+		boolean wop = Extension.containsWarOrPeace(conf.getDictionaries());
+
+		Automats<GameInfo> automats = builder.build(InstanceId.uuid(), conf.getPlayerCount(), wop);
 		logger.trace("Automats {}", automats);
 
 		logger.info("Starting game {} with : {}", automats.getId(), conf);

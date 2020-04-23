@@ -39,5 +39,14 @@ public class TestMetaCardDictionnaryLoader {
 		MetaCard terraformation = dictionnary.resolve("terraformation");
 		assertThat(terraformation.getBonus()).isNull();
 	}
+	
+	@Test
+	void loadWop() {
+		MetaCardDictionnaryLoader loader = new MetaCardDictionnaryLoader();
+		MetaCardDictionnary dictionnary = loader.load("wop");
+		
+		MetaCard terraformation = dictionnary.resolve("secret_forces");
+		assertThat(terraformation.getBonus()).isNull();
+	}
 
 }
