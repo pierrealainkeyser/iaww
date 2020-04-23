@@ -1,6 +1,6 @@
 <template>
 <v-slide-y-transition group tag="div">
-  <p v-for="(event,i) in viewedEvents" :key="i" class="mb-1">
+  <p v-for="event in viewedEvents" :key="event.at" class="mb-1">
     <span class="font-weight-bold" :class="event.player.color+'--text'">
       {{event.player.name}}
     </span>
@@ -62,6 +62,7 @@ export default {
   computed: {
     viewedEvents() {
       const events = [...this.events];
+      events.reverse();
       while (events.length > this.viewed)
         events.pop();
       return events;

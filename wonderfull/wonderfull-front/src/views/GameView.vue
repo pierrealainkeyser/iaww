@@ -412,8 +412,6 @@ export default {
         }
 
         const newEvents = data.events.map(event => mapEvent(event, this.empires, this.dictionnary));
-        newEvents.reverse();
-
         this.events.splice(0, this.events.length);
         Array.prototype.push.apply(this.events, newEvents);
       }
