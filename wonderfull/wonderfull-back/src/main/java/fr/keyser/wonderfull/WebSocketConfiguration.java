@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -29,6 +30,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 		config.setApplicationDestinationPrefixes("/app");
 		config.setUserDestinationPrefix("/user");
+
+		config.enableSimpleBroker().setTaskScheduler(new ConcurrentTaskScheduler());
 	}
 
 	@Override

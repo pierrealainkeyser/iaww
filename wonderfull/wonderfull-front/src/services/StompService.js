@@ -39,8 +39,8 @@ class StompService {
 
     const client = new Client({
       brokerURL,
-      heartbeatIncoming: 0,
-      heartbeatOutgoing: 0
+      heartbeatIncoming: 10000,
+      heartbeatOutgoing: 10000
     });
     client.beforeConnect = () => {
       this[CLIENT].connectHeaders["X-CSRF-TOKEN"] = this[XCSRF];
