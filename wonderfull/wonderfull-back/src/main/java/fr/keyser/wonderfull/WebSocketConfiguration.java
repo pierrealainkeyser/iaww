@@ -26,13 +26,9 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
+
 		config.setApplicationDestinationPrefixes("/app");
 		config.setUserDestinationPrefix("/user");
-		
-		// workarround for
-		// https://github.com/spring-projects/spring-framework/issues/23104
-		config.setPreservePublishOrder(true);
-		config.setCacheLimit(0);
 	}
 
 	@Override

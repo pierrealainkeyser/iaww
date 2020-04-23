@@ -26,7 +26,7 @@ export default {
   },
 
   mounted() {
-    ['/app/users','/topic/users'].forEach(item => {
+    ['/topic/users','/app/users'].forEach(item => {
       this.subs.push(this.$stomp.subscribe(item, this.receive));
     });
   },

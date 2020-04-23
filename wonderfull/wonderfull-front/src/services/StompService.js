@@ -38,11 +38,12 @@ class StompService {
     this[BROKER_URL] = brokerURL;
 
     const client = new Client({
-      brokerURL
+      brokerURL,
+      heartbeatIncoming: 0
     });
     client.beforeConnect = () => {
-       this[CLIENT].connectHeaders["X-CSRF-TOKEN"] = this[XCSRF];
-     }
+      this[CLIENT].connectHeaders["X-CSRF-TOKEN"] = this[XCSRF];
+    }
     client.onConnect = () => {
       this[SUBSCRIPTIONS] = this[SUBSCRIPTIONS].map(s => {
         var sub = s.sub;
