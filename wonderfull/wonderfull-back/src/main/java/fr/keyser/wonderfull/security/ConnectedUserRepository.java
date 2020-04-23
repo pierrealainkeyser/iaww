@@ -36,11 +36,14 @@ public class ConnectedUserRepository {
 		Principal user = event.getUser();
 		if (user != null) {
 			connected.compute(user.getName(), (k, old) -> {
-				if (old == null)
+				if (old == null) {
 					old = 0;
+				}
 
-				Optional<UserPrincipal> found = repository.getById(k);
-				found.ifPresent(up -> publisher.publishEvent(new UserPrincipalConnectedEvent(up)));
+				if (old == 0) {
+					Optional<UserPrincipal> found = repository.getById(k);
+					found.ifPresent(up -> publisher.publishEvent(new UserPrincipalConnectedEvent(up)));
+				}
 
 				// add user
 				return old + 1;

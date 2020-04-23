@@ -21,11 +21,6 @@ public class WebSocketSecurityConfiguration extends AbstractSecurityWebSocketMes
 	}
 
 	@Override
-	protected boolean sameOriginDisabled() {
-		return true;
-	}
-
-	@Override
 	protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
 
 		messages.simpSubscribeDestMatchers("/app/game/{externalId}/**")
