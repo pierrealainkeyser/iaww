@@ -2,6 +2,7 @@ package fr.keyser.wonderfull.security;
 
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,8 @@ public class UserPrincipalRepository {
 			return new EmpireConfiguration(user, UUID.randomUUID().toString(), empire);
 		}).collect(Collectors.toList());
 
+		Collections.shuffle(empires);
+
 		List<String> dictionaries = conf.getDictionaries();
 		if (dictionaries == null)
 			dictionaries = Arrays.asList("core", "empire");
@@ -60,16 +63,14 @@ public class UserPrincipalRepository {
 
 	}
 
-	public List<UserPrincipal> getByIds(List<String> ids) {
+	public Optional<UserPrincipal> getById(String ids) {
+		return getByIds(Arrays.asList(ids)).stream().findFirst();
+	}
+
+	public List<UserPrincipal> getByIds(Collection<String> ids) {
 		String params = String.join(", ", Collections.nCopies(ids.size(), "?"));
 		String sql = "select uid,name from user where uid in (" + params + ")";
 		return jdbc.query(sql, ids.toArray(), (rs, index) -> {
-			return new UserPrincipal(rs.getString("uid"), rs.getString("name"));
-		});
-	}
-
-	public List<UserPrincipal> listAll() {
-		return jdbc.query("select uid,name from user", (rs, index) -> {
 			return new UserPrincipal(rs.getString("uid"), rs.getString("name"));
 		});
 	}

@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th></th>
-      <th v-for="(empire,i) in empires" :key="i+'empire'" class="rotate">
+      <th v-for="(empire,i) in empires" :key="i" class="rotate">
         <div :class="empire.playerColor+'--text'">
           {{empire.player}}
         </div>
@@ -15,19 +15,33 @@
       <td>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
+            <v-icon v-on="on" :size="25">mdi-access-point-network</v-icon>
+          </template>
+          <span>Connected status</span>
+        </v-tooltip>
+      </td>
+      <td v-for="(empire,i) in empires" :key="i" class="text-center font-weight-bold">
+        <v-fade-transition mode="out-in">
+          <v-icon key="on" class="pa-0" v-if="isConnected(empire)" :size="20">mdi-access-point-network</v-icon>
+          <v-icon key="of" class="pa-0" v-else :size="20">mdi-access-point-network-off</v-icon>
+        </v-fade-transition>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
             <v-icon v-on="on" :size="25">mdi-timer-sand</v-icon>
           </template>
           <span>Waiting status</span>
         </v-tooltip>
       </td>
-      <td v-for="(empire,i) in empires" :key="i+'/done'" class="text-center font-weight-bold">
-
+      <td v-for="(empire,i) in empires" :key="i" class="text-center font-weight-bold">
         <v-progress-circular class="pa-0" :size="20" v-if="!empire.done" indeterminate color="primary" />
         <v-icon class="pa-0" v-else :size="20">mdi-checkbox-marked-circle-outline</v-icon>
-
       </td>
     </tr>
-    <tr v-for="(s,index) in stats" :key="index+'/tr'">
+    <tr v-for="(s,index) in stats" :key="index">
       <td>
         <Token :type="s.toUpperCase()" :size="20" />
       </td>
@@ -46,7 +60,7 @@
         </v-tooltip>
 
       </td>
-      <td v-for="(empire,i) in empires" :key="i+'/score'" class="text-center">
+      <td v-for="(empire,i) in empires" :key="i" class="text-center">
         <fade-text class="font-weight-bold" :text="empire.score" />
       </td>
     </tr>
@@ -66,6 +80,13 @@ export default {
     stats() {
       return Object.keys(this.empires[0].stats);
     }
+  },
+  methods: {
+    isConnected(empire) {
+      const id = empire.playerId;
+      const index = this.$store.getters["users/all"].findIndex(u => u.name === id);
+      return index >= 0;
+    }
   }
 }
 </script>
@@ -76,7 +97,8 @@ export default {
   text-align: center;
 }
 
-.v-data-table td, .v-data-table th{
+.v-data-table td,
+.v-data-table th {
   padding: 0px;
 }
 

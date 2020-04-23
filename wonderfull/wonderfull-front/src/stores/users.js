@@ -1,42 +1,42 @@
-import StompService from '@/services/StompService';
-
 export default {
   namespaced: true,
   state: {
-    name: null,
-    label: null,
-    xcsrf: null
+    users: [],
   },
   mutations: {
-    set: (state, user) => {
-      const v = user || {}
-      state.label = v.label;
-      state.name = v.name;
-      state.xcsrf = v.xcsrf;
+    add: (state, user) => {
+      if (!state.users.find(u => u.name === user.name)) {
+        state.users.push(user);
+      }
+    },
+    remove: (state, user) => {
+      const index = state.users.findIndex(u => u.name === user.name);
+      if (index >= 0)
+        state.users.splice(index, 1);
+    },
+    set: (state, users) => {
+      state.users.splice(0, state.users.length);
+      Array.prototype.push.apply(state.users, users);
     }
   },
+
   actions: {
-    login: ({
-        commit
-      },
-      user
-    ) => {
-      StompService.connect(user.xcsrf);
-      commit('set', user);
-    },
-    logout: ({
+    event: ({
       commit
-    }) => {
-      StompService.deactivate();
-      commit('set', null);
+    }, event) => {
+      if ('connected' === event.type) {
+        commit('add', event.user);
+      } else if ('disconnected' === event.type) {
+        commit('remove', event.user);
+      } else if ('all' === event.type) {
+        commit('set', event.users);
+      }
     }
   },
+
   getters: {
-    get: state => {
-      return state.label;
-    },
-    uid: state => {
-      return state.name;
+    all: state => {
+      return state.users;
     }
   }
 }

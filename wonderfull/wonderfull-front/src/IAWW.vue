@@ -13,6 +13,27 @@
 export default {
   name: 'IAWW',
 
+  data() {
+    return {
+      subs: []
+    }
+  },
+
+  methods: {
+    receive(event) {
+      this.$store.dispatch('users/event', event);
+    }
+  },
+
+  mounted() {
+    ['/app/users','/topic/users'].forEach(item => {
+      this.subs.push(this.$stomp.subscribe(item, this.receive));
+    });
+  },
+  unmounted() {
+    this.subs.forEach(s => s.unsubscribe());
+  },
+
   created() {
     this.$vuetify.theme.dark = true
   }

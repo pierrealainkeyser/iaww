@@ -183,6 +183,7 @@ function mapEmpire(src, target, dictionnary, actions) {
   target.score = src.score;
   target.done = src.done;
   target.player = src.player.label;
+  target.playerId = src.player.name;
 
   Object.keys(target.stats).forEach(key => {
     target.stats[key] = src.stats[key.toUpperCase()] || 0

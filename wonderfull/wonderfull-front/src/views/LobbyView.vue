@@ -6,7 +6,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12">
-            <v-autocomplete v-model="selected" :items="possiblesUsers" chips label="Users" item-text="label" item-value="name" multiple append-outer-icon="mdi-refresh" @click:append-outer="refreshUsers" />
+            <v-autocomplete v-model="selected" :items="possiblesUsers" chips label="Users" item-text="label" item-value="name" multiple />
           </v-col>
           <v-col cols="12">
             <v-select v-model="startingEmpire" :items="startingEmpires" label="Starting empire" />
@@ -92,7 +92,7 @@ export default {
       return this.$store.getters['user/uid'];
     },
     possiblesUsers() {
-      return this.users.flatMap(u => {
+      return this.$store.getters["users/all"].flatMap(u => {
         if (u.name === this.uid)
           return [];
         else
@@ -161,19 +161,12 @@ export default {
           deleting: false
         }
       }));
-    },
-    refreshUsers() {
-      this.$axios.get("auth/users").then(r => {
-        this.users.splice(0, this.users.length);
-        Array.prototype.push.apply(this.users, r.data);
-      });
     }
   },
   mounted() {
     [`/app/my-games`, `/user/my-games`].forEach(item => {
       this.subs.push(this.$stomp.subscribe(item, this.receive));
     });
-    this.refreshUsers();
   },
   unmounted() {
     this.subs.forEach(s => s.unsubscribe());
