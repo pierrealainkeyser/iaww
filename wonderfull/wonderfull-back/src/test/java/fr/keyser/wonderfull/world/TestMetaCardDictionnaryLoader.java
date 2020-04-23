@@ -30,5 +30,14 @@ public class TestMetaCardDictionnaryLoader {
 		assertThat(recycling.getOccurence()).isEqualTo(7);
 
 	}
+	
+	@Test
+	void loadKs() {
+		MetaCardDictionnaryLoader loader = new MetaCardDictionnaryLoader();
+		MetaCardDictionnary dictionnary = loader.load("ks0");
+		
+		MetaCard terraformation = dictionnary.resolve("terraformation");
+		assertThat(terraformation.getBonus()).isNull();
+	}
 
 }

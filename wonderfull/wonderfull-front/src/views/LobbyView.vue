@@ -9,6 +9,12 @@
             <v-autocomplete v-model="selected" :items="possiblesUsers" chips label="Users" item-text="label" item-value="name" multiple />
           </v-col>
           <v-col cols="12">
+            <div class="d-flex">
+              <v-checkbox v-model="additionalDict" label="Kickstarter exclusive cards" value="ks0" />
+              <!--<v-checkbox v-model="additionalDict" label="War Or Peace" value="wop" class="ml-1" />-->
+            </div>
+          </v-col>
+          <v-col cols="12">
             <v-select v-model="startingEmpire" :items="startingEmpires" label="Starting empire" />
           </v-col>
         </v-row>
@@ -72,6 +78,7 @@ export default {
       myGames: [],
       users: [],
       selected: [],
+      additionalDict: [],
       subs: [],
       doOpen: false,
       startingEmpire: "basic",
@@ -115,8 +122,11 @@ export default {
     doCreate() {
       const users = [this.createUser(this.uid)];
       this.selected.forEach(uid => users.push(this.createUser(uid)));
+      const dictionaries = ["empire", "core", ...this.additionalDict];
+
       this.$axios.post("game/bootstrap", {
           users,
+          dictionaries,
           startingEmpire: this.startingEmpire
         })
         .then(r => {
@@ -148,7 +158,12 @@ export default {
       const conf = this.startingEmpires.find(s => s.value === g.startingEmpire) || {
         text: g.startingEmpire
       };
-      return "Empire card : " + conf.text;
+
+      var text = conf.text;
+      if (g.dictionaries.indexOf("ks0") >= 0)
+        text += " + Kickstarter exclusive cards";
+
+      return `Empire card : ${text}`;
     },
     formatDate(g) {
       return moment(g.createdAt).format('YYYY/MM/DD HH:mm:ss');

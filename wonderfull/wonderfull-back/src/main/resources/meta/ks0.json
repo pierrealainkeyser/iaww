@@ -1,0 +1,116 @@
+[
+	{
+		"name": "residential_area",
+		"type": "MATERIAL",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*2",
+		"bonus": "BUSINESSMAN*2",
+		"occurence": 2
+	},
+	{
+		"name": "1-seat-barque",
+		"type": "ENERGY",
+		"recycle": "DISCOVERY",
+		"cost": "BUSINESSMAN",
+		"occurence": 1,
+		"scoring": {
+			"constant": 3
+		}
+	},
+	{
+		"name": "2-seat-barque",
+		"type": "ENERGY",
+		"recycle": "DISCOVERY",
+		"cost": "BUSINESSMAN*2",
+		"occurence": 1,
+		"scoring": {
+			"constant": 5
+		}
+	},
+	{
+		"name": "3-seat-barque",
+		"type": "ENERGY",
+		"recycle": "DISCOVERY",
+		"cost": "BUSINESSMAN*3",
+		"occurence": 1,
+		"scoring": {
+			"constant": 7
+		}
+	},
+	{
+		"name": "union-pacific-express",
+		"type": "ENERGY",
+		"recycle": "ENERGY",
+		"cost": "ENERGY*3, KRYSTALIUM",
+		"occurence": 1,
+		"produce": {
+			"DISCOVERY": {
+				"constant": 3
+			}
+		}
+	},
+	{
+		"name": "levitation",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*4, KRYSTALIUM",
+		"occurence": 1,
+		"bonus": "KRYSTALIUM*3",
+		"scoring": {
+			"empire": "ENERGY*2"
+		}
+	},
+	{
+		"name": "analysis-paralysis",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "MATERIAL, ENERGY, SCIENCE*2, GOLD, DISCOVERY",
+		"occurence": 1,
+		"bonus": "KRYSTALIUM*3",
+		"scoring": {
+			"constant": 6
+		}
+	},
+	{
+		"name": "terraformation",
+		"type": "SCIENCE",
+		"recycle": "SCIENCE",
+		"cost": "SCIENCE*4, DISCOVERY*3",
+		"occurence": 1,
+		"produce": {
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 10
+		}
+	},
+	{
+		"name": "shelter-21",
+		"type": "GOLD",
+		"recycle": "ENERGY",
+		"cost": "SCIENCE*4, DISCOVERY*3",
+		"occurence": 1,
+		"bonus": "GENERAL*2",
+		"produce": {
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"scoring": {
+			"constant": 10
+		}
+	},
+	{
+		"name": "de-profundis",
+		"type": "DISCOVERY",
+		"recycle": "GOLD",
+		"cost": "DISCOVERY*4, GENERAL*2",
+		"occurence": 1,
+		"bonus": "KRYSTALIUM*2",
+		"scoring": {
+			"empire": "DISCOVERY*3"
+		}
+	}
+]
