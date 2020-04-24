@@ -57,7 +57,7 @@
 		}
 	},
 	{
-		"name": "gaussin_weapons",
+		"name": "gaussian_weapons",
 		"type": "SCIENCE",
 		"recycle": "ENERGY",
 		"cost": "ENERGY, SCIENCE*3",
@@ -116,5 +116,81 @@
 		"scoring": {
 			"constant": 2
 		}
+	},
+	{
+		"name": "memorial_for_the_dictator",
+		"type": "MEMORIAL",
+		"recycle": "ENERGY",
+		"cost": "MATERIAL, ENERGY*2, SCIENCE",
+		"occurence": 1,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		}
+	},
+	{
+		"name": "memorial_for_the_explorer",
+		"type": "MEMORIAL",
+		"recycle": "DISCOVERY",
+		"cost": "SCIENCE, DISCOVERY*2",
+		"occurence": 1,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		}
+	},
+	{
+		"name": "memorial_for_the_builder",
+		"type": "MEMORIAL",
+		"recycle": "MATERIAL",
+		"cost": "MATERIAL*3, GOLD",
+		"occurence": 1,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		}
+	},
+	{
+		"name": "memorial_for_the_financier",
+		"type": "MEMORIAL",
+		"recycle": "GOLD",
+		"cost": "SCIENCE, GOLD*2",
+		"occurence": 1,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		}
+	},
+	{
+		"name": "memorial_for_the_scientist",
+		"type": "MEMORIAL",
+		"recycle": "SCIENCE",
+		"cost": "ENERGY, SCIENCE*3",
+		"occurence": 1,
+		"produce": {
+			"KRYSTALIUM": {
+				"constant": 1
+			}
+		},
+		"scoring": {
+			"constant": 2
+		}
 	}
+
 ]

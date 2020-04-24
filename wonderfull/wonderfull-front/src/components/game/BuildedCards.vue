@@ -13,7 +13,7 @@
     </v-list-item-content>
     <v-list-item-icon>
       <Token v-if="item.type" :type="item.type" alt :size="20" />
-      <v-icon v-else :size="20">mdi-castle</v-icon>
+      <v-icon v-else :size="20">mdi-flag</v-icon>
     </v-list-item-icon>
   </v-list-item>
 </template>

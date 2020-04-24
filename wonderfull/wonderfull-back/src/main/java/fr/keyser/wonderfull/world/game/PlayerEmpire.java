@@ -146,6 +146,10 @@ public class PlayerEmpire {
 
 	public PlayerEmpire startProductionStep(Token step) {
 		EmpireProductionWrapper production = new EmpireProductionWrapper(resolveEmpire(), step);
+		if (Token.KRYSTALIUM == step) {
+			production = production.transfertKrystaliumStep();
+		}
+
 		PlayerEmpire undo = new PlayerEmpire(null, null, production, null);
 		return new PlayerEmpire(null, null, production, undo);
 	}
@@ -260,7 +264,8 @@ public class PlayerEmpire {
 			Empire emp = production.getEmpire();
 			Tokens available = production.getAvailable();
 
-			action.setConvert(available.has(production.getStep()));
+			Token step = production.getStep();
+			action.setConvert(Token.KRYSTALIUM != step && available.has(step));
 			action.setCards(getInProductionActions(emp, available));
 
 		}

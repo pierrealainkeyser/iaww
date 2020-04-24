@@ -1,6 +1,9 @@
 package fr.keyser.wonderfull.world.game;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -14,13 +17,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import fr.keyser.wonderfull.world.BuildedCard;
 import fr.keyser.wonderfull.world.DraftableCard;
 import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.Empire;
+import fr.keyser.wonderfull.world.MetaCard;
 import fr.keyser.wonderfull.world.MetaCardDictionnary;
 import fr.keyser.wonderfull.world.MetaCardDictionnaryLoader;
 import fr.keyser.wonderfull.world.Token;
-import fr.keyser.wonderfull.world.MetaCard;
 import fr.keyser.wonderfull.world.WonderfullModuleBuilder;
 import fr.keyser.wonderfull.world.action.ActionAffectToProduction;
 import fr.keyser.wonderfull.world.action.ActionDraft;
@@ -32,6 +36,40 @@ import fr.keyser.wonderfull.world.event.EmpireEvent;
 public class TestPlayerEmpire {
 
 	private static final Logger logger = LoggerFactory.getLogger(TestPlayerEmpire.class);
+
+	@Test
+	void wop() {
+
+		MetaCardDictionnaryLoader loader = new MetaCardDictionnaryLoader();
+		MetaCardDictionnary dictionnary = loader.load(Arrays.asList("empire", "wop"));
+
+		MetaCard cargoFleet = dictionnary.resolve("cargo_fleet");
+		MetaCard gaussianWeapons = dictionnary.resolve("gaussian_weapons");
+
+		BuildedCard cf = new DraftableCard(1, cargoFleet).draft().produce()
+				.add(Map.of(0, Token.KRYSTALIUM, 1, Token.KRYSTALIUM, 2, Token.KRYSTALIUM, 3, Token.KRYSTALIUM))
+				.builded().get();
+
+		BuildedCard gw = new DraftableCard(2, gaussianWeapons).draft().produce()
+				.add(Map.of(0, Token.KRYSTALIUM, 1, Token.KRYSTALIUM, 2, Token.KRYSTALIUM, 3, Token.KRYSTALIUM))
+				.builded().get();
+
+		PlayerEmpire pe = new PlayerEmpire(
+				new Empire(Arrays.asList(cf, gw), Collections.emptyList(), Token.BUSINESSMAN.token(1), 0))
+						.startProductionStep(Token.KRYSTALIUM);
+		Empire empire = pe.resolveEmpire();
+
+		assertThat(empire.getOnEmpire()).satisfies(t -> {
+			assertThat(t.get(Token.KRYSTALIUM)).isEqualTo(1);
+			assertThat(t.get(Token.BUSINESSMAN)).isEqualTo(2);
+		});
+
+		assertThat(pe.getProduction().getAvailable()).satisfies(t -> {
+			assertThat(t.get(Token.KRYSTALIUM)).isEqualTo(1);
+			assertThat(t.get(Token.BUSINESSMAN)).isEqualTo(2);
+		});
+
+	}
 
 	@Test
 	void nominal() throws JsonProcessingException {

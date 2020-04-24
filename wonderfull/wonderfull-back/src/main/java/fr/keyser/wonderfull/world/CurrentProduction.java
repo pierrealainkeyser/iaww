@@ -14,6 +14,10 @@ public class CurrentProduction {
 	}
 
 	public CurrentProduction sync(Tokens empire) {
+		if (Token.KRYSTALIUM == step) {
+			return new CurrentProduction(step, empire);
+		}
+
 		return new CurrentProduction(step, step.token(available.get(step)).add(empire));
 	}
 

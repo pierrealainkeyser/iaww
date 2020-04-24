@@ -76,6 +76,8 @@ export default {
         return this.alt ? "mdi-bank" : "mdi-currency-usd";
       } else if ("DISCOVERY" === this.type) {
         return this.alt ? "mdi-treasure-chest" : "mdi-compass";
+      } else if ("MEMORIAL"===this.type){
+        return "mdi-castle";
       }
       return null;
     }

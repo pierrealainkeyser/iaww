@@ -68,6 +68,14 @@ public class Empire {
 	}
 
 	public Tokens producedAt(Token step) {
+
+		if (Token.KRYSTALIUM == step) {
+			Tokens b = Token.BUSINESSMAN.token(producedCount(Token.BUSINESSMAN));
+			Tokens g = Token.GENERAL.token(producedCount(Token.GENERAL));
+			Tokens k = Token.KRYSTALIUM.token(producedCount(Token.KRYSTALIUM));
+			return b.add(g).add(k);
+		}
+
 		int produced = producedCount(step);
 		if (produced == 0)
 			return Tokens.ZERO;

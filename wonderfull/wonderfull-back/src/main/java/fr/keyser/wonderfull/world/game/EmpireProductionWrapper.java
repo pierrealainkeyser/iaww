@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import fr.keyser.wonderfull.world.CurrentProduction;
 import fr.keyser.wonderfull.world.Empire;
@@ -34,7 +33,7 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 		this(empire, new CurrentProduction(step, empire.producedAt(step)));
 	}
 
-	public EmpireProductionWrapper(Empire empire, @JsonUnwrapped CurrentProduction production) {
+	public EmpireProductionWrapper(Empire empire, CurrentProduction production) {
 		super(empire);
 		this.production = production.sync(empire.getOnEmpire());
 	}
@@ -44,6 +43,13 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 			@JsonProperty("available") Tokens available) {
 		super(empire);
 		this.production = new CurrentProduction(step, available);
+	}
+
+	public EmpireProductionWrapper transfertKrystaliumStep() {
+		Token step = production.getStep();
+		Tokens producedAt = empire.producedAt(step);
+		return new EmpireProductionWrapper(empire.addTokens(producedAt), production);
+
 	}
 
 	/**
@@ -65,7 +71,7 @@ public class EmpireProductionWrapper extends EmpireWrapper {
 	 */
 	public Empire done(Consumer<EmpireEvent> consumer) {
 		int remaining = getRemaining();
-		if (remaining > 0) {
+		if (remaining > 0 && Token.KRYSTALIUM != production.getStep()) {
 			RecycleEvent event = empire.recycle(remaining);
 			consumer.accept(event);
 			return empire.apply(event);

@@ -15,6 +15,8 @@ export function typeColor(type) {
     return "amber";
   } else if ("DISCOVERY" === type) {
     return "indigo";
+  } else if ("MEMORIAL" === type) {
+    return "blue-grey";
   }
 
   return null;
