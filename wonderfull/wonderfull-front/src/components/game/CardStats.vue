@@ -33,6 +33,18 @@
   <v-col :cols="token" class="tokens">
     <Token v-for="(token,i) in def.bonus" :key="i" :type="token" :size="size" />
   </v-col>
+
+  <template v-if ="def.occurence">
+    <v-col :cols="title">Quantity</v-col>
+    <v-col :cols="token">
+      {{def.occurence}}
+    </v-col>
+  </template>
+
+  <v-col :cols="title">Set</v-col>
+  <v-col :cols="token">
+    {{gameSet}}
+  </v-col>
 </v-row>
 </template>
 
@@ -53,6 +65,20 @@ export default {
     slots: {
       type: Object,
       required: false
+    }
+  },
+  computed: {
+    gameSet() {
+      const gs = this.def['set'];
+      if ("ks0" === gs) {
+        return "Kickstarter exclusive cards";
+      }
+
+      if ("wop" === gs) {
+        return "War or Peace";
+      }
+
+      return "Core";
     }
   }
 }

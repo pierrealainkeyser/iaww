@@ -33,6 +33,10 @@ public class MetaCardDictionnary {
 		return new MetaCardDictionnary(newCards);
 	}
 
+	public void setSet(String set) {
+		cards.values().forEach(c -> c.setSet(set));
+	}
+
 	public MetaCard resolve(String name) {
 		MetaCard out = cards.get(name);
 		if (out == null)

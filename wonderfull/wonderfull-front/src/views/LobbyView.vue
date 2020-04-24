@@ -162,8 +162,8 @@ export default {
       if (g.dictionaries.indexOf("ks0") >= 0)
         text += " + Kickstarter exclusive cards";
 
-        if (g.dictionaries.indexOf("wop") >= 0)
-          text += " + War or Peace";
+      if (g.dictionaries.indexOf("wop") >= 0)
+        text += " + War or Peace";
 
       return `Empire card : ${text}`;
     },
@@ -178,6 +178,16 @@ export default {
           deleting: false
         }
       }));
+
+      this.myGames.sort((l, r) => {
+        let comparison = 0;
+        if (l.createdAt > r.createdAt) {
+          comparison = -1;
+        } else if (l.createdAt < r.createdAt) {
+          comparison = 1;
+        }
+        return comparison;
+      })
     }
   },
   mounted() {

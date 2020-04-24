@@ -44,6 +44,7 @@ public class MetaCardDictionnaryLoader {
 			URL url = MetaCardDictionnaryLoader.class.getResource("/meta/" + name + ".json");
 			try {
 				MetaCardDictionnary dict = objectMapper.readValue(url, MetaCardDictionnary.class);
+				dict.setSet(name);
 				dictionnaries.put(name, dict);
 				return dict;
 			} catch (IOException ioe) {

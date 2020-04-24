@@ -1,5 +1,5 @@
 <template>
-<v-menu transition="slide-x-transition">
+<v-menu transition="slide-x-transition" max-width="350">
   <template v-slot:activator="{ on }">
     <v-btn v-on="on" small class="ma-1" :color="btnColor">
       <Token :type="card.def.type" alt :size="20" />

@@ -21,6 +21,8 @@ public class MetaCard {
 
 	private final Value scoring;
 
+	private String set;
+
 	@JsonCreator
 	public MetaCard(@JsonProperty("name") String name, @JsonProperty("occurence") int occurence,
 			@JsonProperty("type") Token type, @JsonProperty("cost") Tokens cost, @JsonProperty("recycle") Token recycle,
@@ -34,6 +36,14 @@ public class MetaCard {
 		this.bonus = bonus;
 		this.produce = produce;
 		this.scoring = scoring;
+	}
+
+	public String getSet() {
+		return set;
+	}
+
+	public void setSet(String set) {
+		this.set = set;
 	}
 
 	public Tokens getBonus() {
