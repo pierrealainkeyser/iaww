@@ -8,7 +8,7 @@
 		"occurence": 2
 	},
 	{
-		"name": "1-seat-barque",
+		"name": "1_seat_barque",
 		"type": "ENERGY",
 		"recycle": "DISCOVERY",
 		"cost": "BUSINESSMAN",
@@ -18,7 +18,7 @@
 		}
 	},
 	{
-		"name": "2-seat-barque",
+		"name": "2_seat_barque",
 		"type": "ENERGY",
 		"recycle": "DISCOVERY",
 		"cost": "BUSINESSMAN*2",
@@ -28,7 +28,7 @@
 		}
 	},
 	{
-		"name": "3-seat-barque",
+		"name": "3_seat_barque",
 		"type": "ENERGY",
 		"recycle": "DISCOVERY",
 		"cost": "BUSINESSMAN*3",
@@ -38,7 +38,7 @@
 		}
 	},
 	{
-		"name": "union-pacific-express",
+		"name": "union_pacific_express",
 		"type": "ENERGY",
 		"recycle": "ENERGY",
 		"cost": "ENERGY*3, KRYSTALIUM",
@@ -61,7 +61,7 @@
 		}
 	},
 	{
-		"name": "analysis-paralysis",
+		"name": "analysis_paralysis",
 		"type": "SCIENCE",
 		"recycle": "SCIENCE",
 		"cost": "MATERIAL, ENERGY, SCIENCE*2, GOLD, DISCOVERY",
@@ -87,7 +87,7 @@
 		}
 	},
 	{
-		"name": "shelter-21",
+		"name": "shelter_21",
 		"type": "GOLD",
 		"recycle": "ENERGY",
 		"cost": "SCIENCE*4, DISCOVERY*3",
@@ -103,7 +103,7 @@
 		}
 	},
 	{
-		"name": "de-profundis",
+		"name": "de_profundis",
 		"type": "DISCOVERY",
 		"recycle": "GOLD",
 		"cost": "DISCOVERY*4, GENERAL*2",

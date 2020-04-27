@@ -39,8 +39,11 @@ public class MetaCardDictionnary {
 
 	public MetaCard resolve(String name) {
 		MetaCard out = cards.get(name);
-		if (out == null)
+		if (out == null) {
+			if(name.contains("-"))
+				return resolve(name.replace('-', '_'));
 			throw new NoSuchMetaCardException(name);
+		}
 		return out;
 	}
 
