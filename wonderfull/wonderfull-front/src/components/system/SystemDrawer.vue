@@ -48,8 +48,6 @@
 </template>
 
 <script>
-import StompService from '@/services/StompService';
-
 export default {
   data() {
     return {
@@ -79,7 +77,7 @@ export default {
   },
 
   mounted() {
-    StompService.addListener(s => {
+    this.$stomp.addListener(s => {
       this.connected = s.status;
     });
   }

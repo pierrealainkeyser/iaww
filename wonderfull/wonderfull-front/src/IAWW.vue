@@ -6,6 +6,14 @@
       <router-view />
     </v-fade-transition>
   </v-content>
+
+  <v-snackbar v-model="popDisconnected" color="error">
+    You have been disconnected
+
+    <v-btn text @click="popDisconnected = false">
+      Close
+    </v-btn>
+  </v-snackbar>
 </v-app>
 </template>
 
@@ -15,7 +23,9 @@ export default {
 
   data() {
     return {
-      subs: []
+      subs: [],
+      connected: false,
+      popDisconnected: false
     }
   },
 
@@ -25,9 +35,19 @@ export default {
     }
   },
 
+  watch: {
+    connected(newValue) {
+      this.popDisconnected = !newValue;
+    }
+  },
+
   mounted() {
-    ['/topic/users','/app/users'].forEach(item => {
+    ['/topic/users', '/app/users'].forEach(item => {
       this.subs.push(this.$stomp.subscribe(item, this.receive));
+    });
+
+    this.$stomp.addListener(s => {
+      this.connected = s.status;
     });
   },
   unmounted() {

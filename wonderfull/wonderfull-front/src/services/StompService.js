@@ -71,6 +71,8 @@ class StompService {
 
   addListener(callback) {
     this[LISTENERS].push(callback);
+
+    callback(this);
   }
 
   publish(destination, action) {
