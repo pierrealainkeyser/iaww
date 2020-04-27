@@ -2,7 +2,7 @@ export function typeColor(type) {
   if ("BUSINESSMAN" === type) {
     return "light-blue";
   } else if ("GENERAL" === type) {
-    return "deep-orange";
+    return "pink";
   } else if ("KRYSTALIUM" === type) {
     return "red";
   } else if ("MATERIAL" === type) {
