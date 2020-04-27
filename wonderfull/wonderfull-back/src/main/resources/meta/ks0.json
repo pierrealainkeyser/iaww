@@ -90,16 +90,19 @@
 		"name": "shelter_21",
 		"type": "GOLD",
 		"recycle": "ENERGY",
-		"cost": "SCIENCE*4, DISCOVERY*3",
+		"cost": "MATERIAL*3, GOLD*3",
 		"occurence": 1,
 		"bonus": "GENERAL*2",
 		"produce": {
-			"SCIENCE": {
+			"ENERGY": {
 				"constant": 2
+			},
+			"GOLD": {
+				"constant": 1
 			}
 		},
 		"scoring": {
-			"constant": 10
+			"constant": 2
 		}
 	},
 	{
