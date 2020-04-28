@@ -1,11 +1,11 @@
 <template>
 <v-tooltip bottom>
   <template v-slot:activator="{ on }">
-    <v-sheet v-on="on" :class="disabled?'disabled':null" :color="color">
+    <v-sheet v-on="on" :class="disabled||negated?'disabled':null" :color="color">
       <v-icon v-if="type" :size="size">{{vIcon}}</v-icon>
     </v-sheet>
   </template>
-  <span>{{tooltip}}</span>
+  <span><template v-if="negated">-1 </template>{{tooltip}}</span>
 </v-tooltip>
 </template>
 <script>
@@ -23,6 +23,10 @@ export default {
       default: false
     },
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    negated: {
       type: Boolean,
       default: false
     },
@@ -98,6 +102,6 @@ export default {
 }
 
 .v-sheet.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 </style>

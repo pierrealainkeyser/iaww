@@ -29,13 +29,19 @@ public class Value {
 	}
 
 	public int resolve(Tokens inEmpire) {
-		return constant + empire.entrySet().stream().mapToInt(e -> inEmpire.get(e.getKey()) * e.getValue()).sum();
+		if (constant < 0) {
+			return empire.keySet().stream().mapToInt(inEmpire::get).min().orElse(0) * -constant;
+		} else {
+			return constant + empire.entrySet().stream().mapToInt(e -> inEmpire.get(e.getKey()) * e.getValue()).sum();
+		}
 	}
 
 	@Override
 	public String toString() {
 		if (constant > 0)
 			return constant + "";
+		else if (constant < 0)
+			return (-constant) + "*" + empire;
 		else
 			return empire.toString();
 	}

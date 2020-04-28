@@ -84,7 +84,9 @@ public class Empire {
 
 	private int producedCount(Token step) {
 		Tokens thisEmpire = cardsInEmpire();
-		return builded.stream().mapToInt(b -> b.getProduce().resolve(step, thisEmpire)).sum();
+		int sum = builded.stream().mapToInt(b -> b.getProduce().resolve(step, thisEmpire)).sum();
+		// gestion de la corruption
+		return Math.max(0, sum);
 	}
 
 	public Tokens computeStats() {

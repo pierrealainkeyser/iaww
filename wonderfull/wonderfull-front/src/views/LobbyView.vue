@@ -71,6 +71,16 @@
 <script>
 import moment from 'moment';
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function getRandomEmpire(face) {
+  const possiblesEmpires = ["noram", "panafrican", "north", "oceania", "asia", "astec", "europe"];
+  const rnd = possiblesEmpires[getRandomInt(possiblesEmpires.length)];
+  return `${rnd}_${face}`;
+}
+
 export default {
   data() {
     return {
@@ -87,6 +97,9 @@ export default {
       }, {
         value: "krystalium",
         text: "Krystalium"
+      }, {
+        value: "F",
+        text: "Random F faces (corruption)"
       }]
     };
   },
@@ -122,6 +135,12 @@ export default {
       const users = [this.createUser(this.uid)];
       this.selected.forEach(uid => users.push(this.createUser(uid)));
       const dictionaries = ["empire", "core", ...this.additionalDict];
+
+      if ("F" === this.startingEmpire) {
+        users.forEach(user => {
+          user.empire = getRandomEmpire("F");
+        });
+      }
 
       this.$axios.post("game/bootstrap", {
           users,

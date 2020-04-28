@@ -21,5 +21,113 @@
 			
 		},
 		"occurence": 0
+	},
+	{
+		"name": "empire/noram_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": 3
+			},
+			"ENERGY": {
+				"constant": 2
+			},
+			"GOLD": {
+				"constant": -1
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/panafrican_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": 3
+			},
+			"ENERGY": {
+				"constant": -2
+			},
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/north_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": 3
+			},
+			"ENERGY": {
+				"constant": 2
+			},
+			"SCIENCE": {
+				"constant": -2
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/oceania_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": -2
+			},
+			"GOLD": {
+				"constant": 2
+			},
+			"DISCOVERY": {
+				"constant": 2
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/asia_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": 4
+			},
+			"SCIENCE": {
+				"constant": 1
+			},
+			"DISCOVERY": {
+				"constant": -1
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/astec_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": 2
+			},
+			"SCIENCE": {
+				"constant": -1
+			},
+			"GOLD": {
+				"constant": 1
+			},
+			"DISCOVERY": {
+				"constant": 1
+			}
+		},
+		"occurence": 0
+	},
+	{
+		"name": "empire/europe_F",
+		"produce": {
+			"MATERIAL": {
+				"constant": -1
+			},
+			"ENERGY": {
+				"constant": 2
+			},
+			"SCIENCE": {
+				"constant": 2
+			}
+		},
+		"occurence": 0
 	}
 ]

@@ -35,13 +35,13 @@
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col lg="4" md="5" cols="12">
+          <v-col lg="5" md="5" cols="12">
             <div>
               <BuildedCards :builded="currentEmpire.empire.builded" />
             </div>
           </v-col>
 
-          <v-col lg="8" md="7" cols="12">
+          <v-col lg="7" md="7" cols="12">
             <ActiveCardsFlex title="Production" :cards="currentEmpire.empire.inProduction" @action="onAction" />
 
             <v-expand-transition>
