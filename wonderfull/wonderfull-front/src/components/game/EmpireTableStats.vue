@@ -41,8 +41,8 @@
         <v-icon class="pa-0" v-else :size="20">mdi-checkbox-marked-circle-outline</v-icon>
       </td>
     </tr>
-    <tr v-for="(s,index) in stats" :key="index">
-      <td>
+    <tr v-for="(s,index) in stats" :key="index" :class="rowClass(s)">
+      <td class="pl-1">
         <template v-if="isDelta(s)">+ </template>
         <Token :type="tokenType(s)" :size="20" />
       </td>
@@ -51,8 +51,7 @@
       </td>
     </tr>
     <tr>
-      <td>
-
+      <td class="pl-1">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-icon v-on="on"  color="yellow" :size="25">mdi-star</v-icon>
@@ -75,6 +74,10 @@ export default {
     empires: {
       type: Array,
       required: true
+    },
+    step: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -83,6 +86,17 @@ export default {
     }
   },
   methods: {
+    rowClass(s) {
+      var out = "colored";
+      if (this.step === 'KRYSTALIUM') {
+        if (s.match(/delta(.*)/)) {
+          out += " blue-grey darken-2";
+        }
+      } else if (this.step === s.toUpperCase()) {
+        out += " blue-grey darken-2";
+      }
+      return out;
+    },
     tokenType(s) {
       const match = s.match(/delta(.*)/);
       if (match) {
@@ -120,5 +134,9 @@ export default {
   white-space: nowrap;
   margin-top: 3px;
   margin-bottom: 3px;
+}
+
+.colored {
+  transition: background-color .5s;
 }
 </style>

@@ -87,7 +87,7 @@
   <v-col lg="2" md="6" cols="12">
     <v-card>
       <v-card-text>
-        <EmpireTableStats :empires="empires" />
+        <EmpireTableStats :empires="empires" :step="step"/>
       </v-card-text>
     </v-card>
   </v-col>
