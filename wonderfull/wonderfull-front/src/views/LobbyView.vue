@@ -75,11 +75,6 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-function getRandomEmpire(face) {
-  const possiblesEmpires = ["noram", "panafrican", "north", "oceania", "asia", "astec", "europe"];
-  const rnd = possiblesEmpires[getRandomInt(possiblesEmpires.length)];
-  return `${rnd}_${face}`;
-}
 
 export default {
   data() {
@@ -137,8 +132,13 @@ export default {
       const dictionaries = ["empire", "core", ...this.additionalDict];
 
       if ("F" === this.startingEmpire) {
+        const possiblesEmpires = ["noram", "panafrican", "north", "oceania", "asia", "astec", "europe"];
+
         users.forEach(user => {
-          user.empire = getRandomEmpire("F");
+          const index = getRandomInt(possiblesEmpires.length);
+          const rnd = possiblesEmpires[index];
+          possiblesEmpires.splice(index, 1);
+          user.empire = rnd + "_F";
         });
       }
 
