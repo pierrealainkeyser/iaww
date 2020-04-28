@@ -36,8 +36,6 @@ public class Value {
 	public String toString() {
 		if (constant > 0)
 			return constant + "";
-		else if (constant < 0)
-			return (-constant) + "*" + empire;
 		else
 			return empire.toString();
 	}
