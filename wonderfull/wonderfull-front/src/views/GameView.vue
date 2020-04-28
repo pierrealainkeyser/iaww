@@ -87,7 +87,7 @@
   <v-col lg="2" md="6" cols="12">
     <v-card>
       <v-card-text>
-        <EmpireTableStats :empires="empires" :step="step"/>
+        <EmpireTableStats :empires="empires" :step="step" />
       </v-card-text>
     </v-card>
   </v-col>
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 const PLAYERS_COLOR = ["cyan", "light-green", "pink", "amber", "lime"];
 
 function createEmptyEmpire(index, wop) {
@@ -395,9 +396,19 @@ export default {
       this.current = this.myself;
     },
 
-    receive(data) {
-      if (this.clock < data.clock) {
+    keepSessionAlive() {
+      const now = moment();
+      const deltaSync = now.diff(this.lastSync);
+      if (deltaSync > 60000) {
+        this.$axios.get("auth/principal");
+        this.lastSync = now;
+      }
+    },
 
+    receive(data) {
+      this.keepSessionAlive();
+
+      if (this.clock < data.clock) {
         if (data.dictionnary != null) {
           this.dictionnary.splice(0, this.dictionnary.length);
           Array.prototype.push.apply(this.dictionnary, data.dictionnary.map(mapDictionnary));
@@ -452,6 +463,7 @@ export default {
     return {
       subs: [],
       clock: -1,
+      lastSync: moment(),
       turn: 0,
       step: null,
       phase: null,
