@@ -26,5 +26,5 @@ services:
       - TZ=Europe/Paris
       - PUID=0
       - PGID=0
-      - STAGING=true
+      - STAGING=false
     
