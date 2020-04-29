@@ -87,7 +87,7 @@
   <v-col lg="2" md="6" cols="12">
     <v-card>
       <v-card-text>
-        <EmpireTableStats :empires="empires" :step="step" />
+        <EmpireTableStats :empires="empires" :step="step" @empire="viewEmpire" />
       </v-card-text>
     </v-card>
   </v-col>
@@ -254,9 +254,17 @@ function mapDictionnary(entry) {
   const out = { ...entry,
     bonus: []
   };
-  if (out.name.startsWith('empire/'))
-    out.label = "empire";
-  else
+
+  const matchers = out.name.match(/empire\/(.*)/)
+
+  if (matchers) {
+    const name = matchers[1];
+    const ename = name.match(/(.*)_.*/);
+    if (ename)
+      out.label = ename[1];
+    else
+      out.label = "empire";
+  } else
     out.label = out.name.replace(/_/g, ' ');
 
   if (entry.bonus) {
@@ -351,6 +359,8 @@ export default {
       });
     },
 
+
+
     onAction(event) {
       const name = event.parent.action;
       const action = event.action;
@@ -394,6 +404,10 @@ export default {
 
     viewSelf() {
       this.current = this.myself;
+    },
+
+    viewEmpire(event) {
+      this.current = event.index;
     },
 
     keepSessionAlive() {

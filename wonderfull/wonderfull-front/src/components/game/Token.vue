@@ -1,11 +1,13 @@
 <template>
 <v-tooltip bottom>
   <template v-slot:activator="{ on }">
-    <v-sheet v-on="on" :class="disabled||negated?'disabled':null" :color="color">
+    <v-sheet v-on="on" :class="disabled?'disabled':null" :color="color">
       <v-icon v-if="type" :size="size">{{vIcon}}</v-icon>
+
+      <v-icon v-if="negated" class="overlay" :size="size" color="red darken-2">mdi-cancel</v-icon>
     </v-sheet>
   </template>
-  <span><template v-if="negated">-1 </template>{{tooltip}}</span>
+  <span>{{tooltip}}</span>
 </v-tooltip>
 </template>
 <script>
@@ -40,26 +42,32 @@ export default {
       return typeColor(this.type);
     },
     tooltip() {
+      var tooltip = null;
       if ("BUSINESSMAN" === this.type) {
-        return "Financier";
+        tooltip = "Financier";
       } else if ("GENERAL" === this.type) {
-        return "General";
+        tooltip = "General";
       } else if ("KRYSTALIUM" === this.type) {
-        return "Krystalium";
+        tooltip = "Krystalium";
       } else if ("RAW" === this.type) {
-        return "Raw resource";
+        tooltip = "Raw resource";
       } else if ("MATERIAL" === this.type) {
-        return this.alt ? "Structure" : "Material";
+        tooltip = this.alt ? "Structure" : "Material";
       } else if ("ENERGY" === this.type) {
-        return this.alt ? "Vehicle" : "Energy";
+        tooltip = this.alt ? "Vehicle" : "Energy";
       } else if ("SCIENCE" === this.type) {
-        return this.alt ? "Research" : "Science";
+        tooltip = this.alt ? "Research" : "Science";
       } else if ("GOLD" === this.type) {
-        return this.alt ? "Project" : "Gold";
+        tooltip = this.alt ? "Project" : "Gold";
       } else if ("DISCOVERY" === this.type) {
-        return this.alt ? "Discovery" : "Exploration";
+        tooltip = this.alt ? "Discovery" : "Exploration";
       }
-      return null;
+
+      if (this.negated) {
+        tooltip = "Corrupted " + tooltip.toLowerCase();
+      }
+
+      return tooltip;
     },
     vIcon() {
       if ("BUSINESSMAN" === this.type) {
@@ -80,7 +88,7 @@ export default {
         return this.alt ? "mdi-bank" : "mdi-currency-usd";
       } else if ("DISCOVERY" === this.type) {
         return this.alt ? "mdi-treasure-chest" : "mdi-compass";
-      } else if ("MEMORIAL"===this.type){
+      } else if ("MEMORIAL" === this.type) {
         return "mdi-castle";
       }
       return null;
@@ -95,6 +103,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  position: relative;
 }
 
 .v-sheet:empty {
@@ -103,5 +112,10 @@ export default {
 
 .v-sheet.disabled {
   opacity: 0.4;
+}
+
+.overlay {
+  position: absolute;
+  left: 0px;
 }
 </style>

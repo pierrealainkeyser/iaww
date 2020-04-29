@@ -3,10 +3,10 @@
   <thead>
     <tr>
       <th></th>
-      <th v-for="(empire,i) in empires" :key="i" class="rotate">
-        <div :class="empire.playerColor+'--text'">
+      <th v-for="(empire,i) in empires" :key="i" style="text-align: center;">
+        <span :class="empire.playerColor+'--text rotate' " v-ripple @click="onEmpire(empire, i)">
           {{empire.player}}
-        </div>
+        </span>
       </th>
     </tr>
   </thead>
@@ -86,6 +86,12 @@ export default {
     }
   },
   methods: {
+    onEmpire(empire, index) {
+      this.$emit('empire', {
+        empire,
+        index
+      })
+    },
     rowClass(s) {
       var out = "colored";
       if (this.step === 'KRYSTALIUM') {
@@ -117,23 +123,18 @@ export default {
 </script>
 
 <style scoped>
-.rotate {
-  vertical-align: bottom;
-  text-align: center;
-}
-
 .v-data-table td,
 .v-data-table th {
   padding: 0px;
 }
 
-.rotate div {
+
+.rotate {
   -ms-writing-mode: tb-rl;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   white-space: nowrap;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  cursor: pointer;
 }
 
 .colored {
