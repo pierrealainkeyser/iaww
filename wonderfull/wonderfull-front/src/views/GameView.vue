@@ -33,32 +33,9 @@
           </v-fade-transition>
         </template>
       </v-card-title>
-      <v-card-text>
-        <v-row>
-          <v-col lg="5" md="5" cols="12">
-            <div>
-              <BuildedCards :builded="currentEmpire.empire.builded" />
-            </div>
-          </v-col>
 
-          <v-col lg="7" md="7" cols="12">
-            <ActiveCardsFlex title="Production" :cards="currentEmpire.empire.inProduction" @action="onAction" />
+      <EmpireCards :currentEmpire="currentEmpire" @action="onAction" component="v-card-text"/>
 
-            <v-expand-transition>
-              <ActiveCardsFlex v-if="currentEmpire.drafteds.length" title="Drafted" :cards="currentEmpire.drafteds" @action="onAction" />
-            </v-expand-transition>
-
-            <v-expand-transition>
-              <ActiveCardsFlex v-if="currentEmpire.inHand.length" title="In hand" :cards="currentEmpire.inHand" @action="onAction" />
-            </v-expand-transition>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <AvailableTokens class="justify-center" :tokens="currentEmpire.available" :size="30" />
-          </v-col>
-        </v-row>
-      </v-card-text>
       <v-card-actions>
         <v-tooltip v-if="action.pass" bottom>
           <template v-slot:activator="{ on }">

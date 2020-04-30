@@ -12,6 +12,8 @@
  import EventList from '@/components/game/EventList'
  import AffectationDialog from '@/components/game/AffectationDialog'
  import SupremacyDialog from '@/components/game/SupremacyDialog'
+ import EmpireCards from '@/components/game/EmpireCards'
+
 
  import FadeText from '@/components/system/FadeText'
  import SystemDrawer from '@/components/system/SystemDrawer'
@@ -25,6 +27,7 @@
      Vue.component('CardView', CardView);
      Vue.component('SimpleCardView', SimpleCardView);
      Vue.component('EmpireTableStats', EmpireTableStats);
+     Vue.component('EmpireCards', EmpireCards);
      Vue.component('Produce', Produce);
      Vue.component('Scoring', Scoring);
      Vue.component('SingleToken', SingleToken);
