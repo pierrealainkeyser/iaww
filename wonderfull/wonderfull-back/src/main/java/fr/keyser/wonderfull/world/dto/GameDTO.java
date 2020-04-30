@@ -29,7 +29,17 @@ public class GameDTO {
 
 	private boolean terminated;
 
-	public Boolean isWop() {
+	private Integer winner;
+
+	public Integer getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Integer winner) {
+		this.winner = winner;
+	}
+
+	public Boolean getWop() {
 		return wop;
 	}
 

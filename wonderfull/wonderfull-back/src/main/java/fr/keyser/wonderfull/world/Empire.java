@@ -16,6 +16,7 @@ import fr.keyser.wonderfull.world.event.AffectProductionEvent;
 import fr.keyser.wonderfull.world.event.MoveToProductionEvent;
 import fr.keyser.wonderfull.world.event.RecycleEvent;
 import fr.keyser.wonderfull.world.event.RecycleInProductionEvent;
+import fr.keyser.wonderfull.world.game.ScoreAnalysis;
 
 public class Empire {
 
@@ -54,6 +55,11 @@ public class Empire {
 		this.inProduction = Collections.unmodifiableList(inProduction);
 		this.onEmpire = onEmpire;
 		this.storedRaw = storedRaw;
+	}
+
+	public ScoreAnalysis scoreAnalysis() {
+		return new ScoreAnalysis(score(), builded.size(),
+				onEmpire.get(Token.BUSINESSMAN) + onEmpire.get(Token.GENERAL));
 	}
 
 	public Empire addTokens(Tokens tokens) {

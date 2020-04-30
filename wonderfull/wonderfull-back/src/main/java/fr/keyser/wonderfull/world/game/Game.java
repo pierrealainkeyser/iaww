@@ -2,7 +2,10 @@ package fr.keyser.wonderfull.world.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.OptionalInt;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -180,5 +183,30 @@ public class Game {
 
 	public GameConfiguration getConfiguration() {
 		return configuration;
+	}
+
+	public Integer winner() {
+
+		Map<Integer, ScoreAnalysis> scores = new TreeMap<>();
+		for (int i = 0; i < empires.size(); ++i) {
+			ScoreAnalysis scoreAnalysis = empires.get(i).resolveEmpire().scoreAnalysis();
+			scores.put(i, scoreAnalysis);
+		}
+
+		ScoreAnalysis max = scores.values().stream().max(ScoreAnalysis.COMPARATOR).get();
+
+		Integer winner = null;
+		for (Entry<Integer, ScoreAnalysis> e : scores.entrySet()) {
+			ScoreAnalysis s = e.getValue();
+			if (max.equals(s)) {
+				// all ready a winner
+				if (winner != null)
+					return null;
+				else
+					winner = e.getKey();
+			}
+		}
+
+		return winner;
 	}
 }

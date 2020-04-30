@@ -60,6 +60,8 @@ public class GameDTOBuilder {
 			dto.setStep(state.get(1));
 		} else if (GameAutomatsBuilder.END_STATE.equals(first)) {
 			dto.setTerminated(true);
+			dto.setWinner(instance.get(GameInfo::winner));
+			
 		}
 
 	}

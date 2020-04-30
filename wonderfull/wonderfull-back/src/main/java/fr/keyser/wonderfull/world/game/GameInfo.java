@@ -75,6 +75,10 @@ public class GameInfo {
 		return turn >= 4;
 	}
 
+	public Integer winner() {
+		return game.winner();
+	}
+
 	public GameInfo nextDraft() {
 		return new GameInfo(game.nextDraftStep(turn), turn, drafteds + 1, clock, events, privateEvents).publishEvents();
 	}

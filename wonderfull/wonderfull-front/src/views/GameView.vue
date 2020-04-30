@@ -34,7 +34,7 @@
         </template>
       </v-card-title>
 
-      <EmpireCards :currentEmpire="currentEmpire" @action="onAction" component="v-card-text"/>
+      <EmpireCards :currentEmpire="currentEmpire" @action="onAction" component="v-card-text" />
 
       <v-card-actions>
         <v-tooltip v-if="action.pass" bottom>
@@ -413,6 +413,7 @@ export default {
         this.turn = data.turn;
         this.phase = data.phase;
         this.step = data.step;
+        this.winner = data.winner;
 
         const myself = data.myself;
 
@@ -462,6 +463,7 @@ export default {
       current: 0,
       done: false,
       wop: false,
+      winner: -1,
       action: {
         ready: true,
         pass: false,
@@ -498,8 +500,15 @@ export default {
       return this.empires[this.myself];
     },
     currentStatus() {
+
       if (this.done) {
-        return "Game is terminated";
+        var result = "Game is terminated without winnner";
+        if (this.winner >= 0) {
+          const player = this.empires[this.winner].player;
+          result = ` ${player} has won !`;
+        }
+
+        return result;
       }
 
       if (this.myEmpire) {
