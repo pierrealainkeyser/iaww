@@ -18,8 +18,18 @@
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex'
+
+
 export default {
-  inject: ['action'],
+
+  computed: {
+    ...mapGetters({
+      action: 'game/action'
+    })
+  },
 
   methods: {
     doAct(token) {

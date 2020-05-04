@@ -36,8 +36,11 @@ import {
   typeColor
 } from './colors'
 
+import {
+  mapGetters
+} from 'vuex'
+
 export default {
-  inject: ['action'],
   props: {
     card: {
       type: Object,
@@ -45,6 +48,11 @@ export default {
     }
   },
   computed: {
+
+    ...mapGetters({
+      action: 'game/action'
+    }),
+
     actions() {
 
       if (this.srcInteraction) {

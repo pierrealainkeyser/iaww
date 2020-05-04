@@ -42,8 +42,11 @@
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex'
+
 export default {
-  inject: ['action'],
   props: {
     available: {
       type: Object,
@@ -64,8 +67,13 @@ export default {
     }
   },
   computed: {
+
+    ...mapGetters({
+      action: 'game/action'
+    }),
+
     proceedDisabled() {
-      return this.selection.filter(selected => selected > 0).length===0;
+      return this.selection.filter(selected => selected > 0).length === 0;
     },
     consumed() {
       const consumed = {};
