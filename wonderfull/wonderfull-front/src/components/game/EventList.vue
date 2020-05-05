@@ -47,19 +47,23 @@
 </template>
 
 <script>
+
+import {
+  mapGetters
+} from 'vuex'
+
+
 export default {
-  props: {
-    events: {
-      type: Array,
-      required: true
-    }
-  },
   data() {
     return {
       viewed: 15
     };
   },
   computed: {
+    ...mapGetters({
+      events: 'game/events',
+    }),
+
     viewedEvents() {
       const events = [...this.events];
       events.reverse();

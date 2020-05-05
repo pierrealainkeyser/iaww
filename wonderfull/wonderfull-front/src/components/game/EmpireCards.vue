@@ -19,17 +19,22 @@
   </v-row>
   <v-row>
     <v-col>
-      <AvailableTokens class="justify-center" :tokens="currentEmpire.available" :size="30" />
+      <AvailableTokens class="justify-center" :tokens="available" :size="30" />
     </v-col>
   </v-row>
 </component>
 </template>
 
 <script>
+import {
+  mapActions
+} from 'vuex'
+
 export default {
   props: {
     currentEmpire: {
-      type: Object
+      type: Object,
+      required: false
     },
     component: {
       type: String,
@@ -42,6 +47,12 @@ export default {
         return this.currentEmpire.drafteds;
       }
       return []
+    },
+    available() {
+      if (this.currentEmpire) {
+        return this.currentEmpire.available;
+      }
+      return {}
     },
     inHand() {
       if (this.currentEmpire) {
@@ -60,9 +71,9 @@ export default {
     }
   },
   methods: {
-    onAction(event) {
-      this.$emit('action', event);
-    }
+    ...mapActions({
+      onAction: 'game/action'
+    })
   }
 }
 </script>

@@ -69,18 +69,17 @@
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex'
+
+
 export default {
-  props: {
-    empires: {
-      type: Array,
-      required: true
-    },
-    step: {
-      type: String,
-      required: false
-    }
-  },
   computed: {
+    ...mapGetters({      
+      empires: 'game/empires',
+      turnStatus: 'game/turnStatus'
+    }),
     stats() {
       return Object.keys(this.empires[0].stats);
     }

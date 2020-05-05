@@ -300,6 +300,7 @@ export default {
       state.done = false;
       state.wop = false;
       state.winner = 1;
+      state.myself = -1;
       state.action.ready = true;
       state.action.pass = false;
       state.action.undo = false;
