@@ -3,6 +3,12 @@
   <AffectationDialog @action="onAction" :available="available" />
   <SupremacyDialog @action="onAction" />
 
+  <v-fab-transition>
+    <v-btn v-if="this.scroll>0" fixed fab bottom left small color="accent" @click="scrollToTop">
+      <v-icon>mdi-chevron-up</v-icon>
+    </v-btn>
+  </v-fab-transition>
+
   <v-col :lg="monoLayout?7:10" cols="12">
     <v-row dense>
       <v-col cols="12" class="mt-0 pt-0">
@@ -63,7 +69,7 @@
   <v-col v-else lg="2" cols="12">
     <v-card>
       <v-card-text>
-        <EmpireTableStats />
+        <EmpireTableStats @empire="viewEmpire" />
       </v-card-text>
     </v-card>
 
@@ -78,6 +84,10 @@
 
 <script>
 import moment from 'moment';
+
+import {
+  easeInOutCubic
+} from 'vuetify/es5/services/goto/easing-patterns'
 
 import {
   mapActions,
@@ -96,6 +106,7 @@ export default {
   data() {
     return {
       subs: [],
+      scroll: 0,
       lastSync: moment(),
       empire: -1,
       layout: undefined
@@ -108,7 +119,7 @@ export default {
     },
 
     monoLayout() {
-      return this.layout===undefined;
+      return this.layout === undefined;
     },
 
     loaded() {
@@ -163,8 +174,29 @@ export default {
       onAction: 'game/action'
     }),
 
+    handleScroll() {
+      this.scroll = window.scrollY || window.scrollTop;
+    },
+
     viewEmpire(event) {
       this.empire = event.index;
+
+      if (!this.monoLayout) {
+        const dest = "#empire_" + this.empire;
+        this.$vuetify.goTo(dest, {
+          duration: 300,
+          offset: 0,
+          easing: easeInOutCubic
+        })
+      }
+    },
+
+    scrollToTop() {
+      this.$vuetify.goTo(0, {
+        duration: 300,
+        offset: 0,
+        easing: easeInOutCubic
+      })
     },
 
     next(delta) {
@@ -198,12 +230,15 @@ export default {
     [`/app/game/${this.game}`, `/user/game/${this.game}`].forEach(item => {
       this.subs.push(this.$stomp.subscribe(item, this.receive));
     });
+    window.addEventListener('scroll', this.handleScroll);
+
 
   },
 
   unmounted() {
     this.$store.dispatch('game/reset');
     this.subs.forEach(s => s.unsubscribe());
+    window.removeEventListener('scroll', this.handleScroll);
   }
 };
 </script>

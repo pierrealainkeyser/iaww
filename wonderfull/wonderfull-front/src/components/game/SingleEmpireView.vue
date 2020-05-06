@@ -5,7 +5,7 @@
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
     <v-btn icon @click="viewSelf" :disabled="self">
-      <v-icon class="mr-2">mdi-castle</v-icon>
+      <v-icon class="mr-2">mdi-flag</v-icon>
     </v-btn>
     <EmpireName :empire="currentEmpire" />
     <v-btn icon @click="viewNext(1)">
