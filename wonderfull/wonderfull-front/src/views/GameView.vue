@@ -60,7 +60,7 @@
     <v-col lg="3" md="6" cols="12">
       <v-card>
         <v-card-text>
-          <EventList />
+          <EventList @empire="viewEmpire" />
         </v-card-text>
       </v-card>
     </v-col>
@@ -75,7 +75,7 @@
 
     <v-card class="mt-2">
       <v-card-text>
-        <EventList />
+        <EventList @empire="viewEmpire" />
       </v-card-text>
     </v-card>
   </v-col>

@@ -4,7 +4,7 @@
     <tr>
       <th></th>
       <th v-for="(empire,i) in empires" :key="i" style="text-align: center;">
-        <span :class="empire.playerColor+'--text rotate' " v-ripple @click="onEmpire(empire, i)">
+        <span :class="empire.playerColor+'--text rotate'" v-ripple @click="onEmpire(empire, i)">
           {{empire.player}}
         </span>
       </th>
@@ -76,7 +76,7 @@ import {
 
 export default {
   computed: {
-    ...mapGetters({      
+    ...mapGetters({
       empires: 'game/empires',
       turnStatus: 'game/turnStatus'
     }),

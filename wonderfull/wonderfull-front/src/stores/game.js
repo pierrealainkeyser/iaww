@@ -119,7 +119,8 @@ function mapEvent(evt, empires, dictionnary) {
     at: evt.at,
     player: {
       name: empires[evt.player].player,
-      color: empires[evt.player].playerColor
+      color: empires[evt.player].playerColor,
+      index: evt.player
     },
     type: evt.event.type
   }
