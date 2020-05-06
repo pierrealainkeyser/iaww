@@ -20,7 +20,7 @@
 <v-card width="300">
   <v-card-title :class="headerColor(item.type)+ ' subtitle-1 pt-1 pb-1'">
     <Token v-if="item.type" :type="item.type" alt :size="25" />
-    <v-icon v-else :size="25">mdi-castle</v-icon>
+    <v-icon v-else :size="25">mdi-flag</v-icon>
     <span class="text-capitalize ml-1 subtitle-2">{{item.label}}</span>
   </v-card-title>
   <v-card-text>

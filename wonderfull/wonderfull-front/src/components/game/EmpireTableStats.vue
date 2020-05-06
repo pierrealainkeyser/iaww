@@ -82,6 +82,9 @@ export default {
     }),
     stats() {
       return Object.keys(this.empires[0].stats);
+    },
+    step() {
+      return this.turnStatus ? this.turnStatus.step : null;
     }
   },
   methods: {
