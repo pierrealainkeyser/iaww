@@ -61,6 +61,8 @@ export default {
         tooltip = this.alt ? "Project" : "Gold";
       } else if ("DISCOVERY" === this.type) {
         tooltip = this.alt ? "Discovery" : "Exploration";
+      } else if ("MEMORIAL" === this.type) {
+        tooltip = "Memorial";
       }
 
       if (this.negated) {
