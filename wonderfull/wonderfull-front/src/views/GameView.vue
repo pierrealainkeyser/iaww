@@ -104,12 +104,15 @@ export default {
   },
 
   data() {
+
+    const layout = localStorage.getItem('game_layout');
+
     return {
       subs: [],
       scroll: 0,
       lastSync: moment(),
       empire: -1,
-      layout: undefined
+      layout: (layout === '' || layout === null) ? undefined : Number(layout)
     }
   },
 
@@ -119,7 +122,7 @@ export default {
     },
 
     monoLayout() {
-      return this.layout === undefined;
+      return this.layout === undefined || this.layout === null;
     },
 
     loaded() {
@@ -222,6 +225,9 @@ export default {
   watch: {
     myself(newValue) {
       this.empire = newValue;
+    },
+    layout(newValue) {
+      localStorage.setItem('game_layout', newValue === undefined ? '' : newValue);
     }
   },
 
@@ -231,6 +237,7 @@ export default {
       this.subs.push(this.$stomp.subscribe(item, this.receive));
     });
     window.addEventListener('scroll', this.handleScroll);
+    this.scrollToTop();
 
 
   },
