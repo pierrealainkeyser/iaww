@@ -13,6 +13,8 @@
  import EventList from '@/components/game/EventList'
  import AffectationDialog from '@/components/game/AffectationDialog'
  import SupremacyDialog from '@/components/game/SupremacyDialog'
+ import DigDiscardDialog from '@/components/game/DigDiscardDialog'
+
  import EmpireCards from '@/components/game/EmpireCards'
  import EmpireActions from '@/components/game/EmpireActions'
  import EmpireName from '@/components/game/EmpireName'
@@ -45,6 +47,7 @@
      Vue.component('EventList', EventList);
      Vue.component('AffectationDialog', AffectationDialog);
      Vue.component('SupremacyDialog', SupremacyDialog);
+     Vue.component('DigDiscardDialog', DigDiscardDialog);     
      Vue.component('GameStatusHeader', GameStatusHeader);
      Vue.component('EmpireCardView', EmpireCardView);
      Vue.component('fade-text', FadeText);

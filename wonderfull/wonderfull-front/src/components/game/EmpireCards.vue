@@ -15,6 +15,10 @@
       <v-expand-transition>
         <ActiveCardsFlex v-if="inHand.length" title="In hand" :cards="inHand" @action="onAction" />
       </v-expand-transition>
+
+      <v-expand-transition>
+        <ActiveCardsFlex v-if="choosable.length" title="Choosable" :cards="choosable" @action="onAction" />
+      </v-expand-transition>
     </v-col>
   </v-row>
   <v-row>
@@ -57,6 +61,12 @@ export default {
     inHand() {
       if (this.currentEmpire) {
         return this.currentEmpire.inHand;
+      }
+      return []
+    },
+    choosable() {
+      if (this.currentEmpire) {
+        return this.currentEmpire.choice;
       }
       return []
     },

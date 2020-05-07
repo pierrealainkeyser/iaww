@@ -295,6 +295,7 @@ public class PlayerEmpire {
 							.map(d -> new CardPossibleActions(d.getId(), asList(ArgumentLessAction.DIG)))
 							.collect(toList());
 				}
+				action.setPass(draftedsActions.isEmpty());
 			} else {
 				action.setPass(draftedsActions.isEmpty());
 				action.setUndo(undo != null);

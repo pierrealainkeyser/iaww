@@ -100,7 +100,7 @@ export default {
   },
   computed: {
     startingIsPossible() {
-      return this.selected.length > 0 && this.selected.length < 5;
+      return this.selected.length < 5;
     },
     uid() {
       return this.$store.getters['user/uid'];

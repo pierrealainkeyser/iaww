@@ -2,6 +2,7 @@
 <v-row dense class="ma-1">
   <AffectationDialog @action="onAction" :available="available" />
   <SupremacyDialog @action="onAction" />
+  <DigDiscardDialog @action="onAction" />
 
   <v-fab-transition>
     <v-btn v-if="this.scroll>0" fixed fab bottom left small color="accent" @click="scrollToTop">

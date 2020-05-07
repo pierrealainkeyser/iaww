@@ -45,6 +45,7 @@ function createEmptyEmpire(index, wop) {
     inHand: [],
     stats,
     drafteds: [],
+    choice: [],
     available: {
       material: 0,
       energy: 0,
@@ -96,6 +97,7 @@ function mapCards(srcs, targets, dictionnary, cardActions) {
 function mapEmpire(src, target, dictionnary, actions) {
   mapCards(src.inHand, target.inHand, dictionnary, actions);
   mapCards(src.drafteds, target.drafteds, dictionnary, actions);
+  mapCards(src.choice, target.choice, dictionnary, actions);
   mapCards(src.empire.builded, target.empire.builded, dictionnary, actions);
   mapCards(src.empire.inProduction, target.empire.inProduction, dictionnary, actions);
   target.score = src.score;
@@ -232,6 +234,7 @@ export default {
       ready: true,
       pass: false,
       undo: false,
+      dig: false,
       convert: false,
       supremacy: false,
       recycleToProduction: {
@@ -243,6 +246,10 @@ export default {
         active: false,
         src: null,
         slots: {}
+      },
+      discard: {
+        active: false,
+        src: []
       }
     },
     events: [],
@@ -277,6 +284,7 @@ export default {
       state.action.supremacy = actions.supremacy || false;
       state.action.convert = actions.convert || false;
       state.action.undo = actions.undo || false;
+      state.action.dig = actions.dig || false;
 
       const empires = data.empires;
       const length = empires.length;
@@ -307,9 +315,12 @@ export default {
       state.action.undo = false;
       state.action.convert = false;
       state.action.supremacy = false;
+      state.action.dig = false;
       state.action.recycleToProduction.active = false;
       state.action.recycleToProduction.src = null;
       truncateArray(state.action.recycleToProduction.targets);
+      state.action.discard.active = false;
+      truncateArray(state.action.discard.src);
 
       state.action.affectation.active = false;
       state.action.affectation.src = null;
@@ -331,6 +342,12 @@ export default {
       affectation.active = false;
       affectation.src = null;
       affectation.slots = {};
+
+      const discard = state.action.discard;
+      discard.active = false;
+      truncateArray(discard.src);
+
+
     },
     recycleToProduction: (state, {
       id,
@@ -340,6 +357,14 @@ export default {
       recycleToProduction.active = true;
       recycleToProduction.src = id;
       Array.prototype.push.apply(recycleToProduction.targets, targets);
+    },
+    startDig: (state) => {
+      const discard = state.action.discard;
+      discard.active = true;
+
+      const my = state.empires[state.myself];
+      Array.prototype.push.apply(discard.src, my.drafteds);
+
     },
     affectation: (state, {
       src,
@@ -383,7 +408,9 @@ export default {
       const name = event.parent.action;
       const action = event.action;
 
-      if ('recycleToProduction' === name) {
+      if ('startDig' === name) {
+        commit('startDig');
+      } else if ('recycleToProduction' === name) {
         commit('recycleToProduction', {
           id: action.targetId,
           targets: event.parent.targets

@@ -20,6 +20,13 @@
       </template>
     <span>Undo all the actions done in this step, reset to the situation add the begining of the current step</span>
   </v-tooltip>
+
+  <v-tooltip v-if="action.dig" bottom>
+    <template v-slot:activator="{ on }">
+        <v-btn class="ml-1" v-on="on" @click="startDig">Dig</v-btn>
+      </template>
+    <span>Discard two cards, then draw one out of five new cards</span>
+  </v-tooltip>
 </component>
 </template>
 
@@ -50,6 +57,14 @@ export default {
       this.onAction({
         parent: {
           action: 'pass'
+        }
+      });
+    },
+
+    startDig() {
+      this.onAction({
+        parent: {
+          action: 'startDig'
         }
       });
     },
