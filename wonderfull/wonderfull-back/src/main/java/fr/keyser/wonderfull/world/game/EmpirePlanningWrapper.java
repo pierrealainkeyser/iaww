@@ -12,11 +12,15 @@ import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.Empire;
 import fr.keyser.wonderfull.world.Tokens;
 import fr.keyser.wonderfull.world.action.ActionAffectToProduction;
+import fr.keyser.wonderfull.world.action.ActionDig;
+import fr.keyser.wonderfull.world.action.ActionDiscardToDig;
 import fr.keyser.wonderfull.world.action.ActionMoveDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionRecycleDrafted;
 import fr.keyser.wonderfull.world.action.ActionRecycleDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionRecycleProduction;
 import fr.keyser.wonderfull.world.event.AffectProductionEvent;
+import fr.keyser.wonderfull.world.event.DigEvent;
+import fr.keyser.wonderfull.world.event.DiscardToDigEvent;
 import fr.keyser.wonderfull.world.event.EmpireEvent;
 import fr.keyser.wonderfull.world.event.MoveToProductionEvent;
 import fr.keyser.wonderfull.world.event.RecycleEvent;
@@ -28,8 +32,8 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 
 	@JsonCreator
 	public EmpirePlanningWrapper(@JsonProperty("empire") Empire empire,
-			@JsonProperty("drafteds") List<DraftedCard> drafteds) {
-		this(empire, new CurrentPlanning(drafteds));
+			@JsonProperty("drafteds") List<DraftedCard> drafteds, @JsonProperty("choice") List<DraftedCard> choice) {
+		this(empire, new CurrentPlanning(drafteds, choice));
 	}
 
 	private EmpirePlanningWrapper(Empire empire, CurrentPlanning planning) {
@@ -51,6 +55,19 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 		consumer.accept(event);
 
 		return recyleProduction(event);
+	}
+
+	public EmpirePlanningWrapper dig(ActionDig dig, Consumer<EmpireEvent> consumer) {
+		DigEvent event = planning.dig(dig.getTargetId());
+		consumer.accept(event);
+		return new EmpirePlanningWrapper(empire, planning.dig(event));
+	}
+
+	public EmpirePlanningWrapper discardToDig(ActionDiscardToDig action, List<DraftedCard> cards,
+			Consumer<EmpireEvent> consumer) {
+		DiscardToDigEvent event = planning.discardToDig(action, cards);
+		consumer.accept(event);
+		return new EmpirePlanningWrapper(empire, planning.discard(event, cards));
 	}
 
 	/**
@@ -138,6 +155,10 @@ public class EmpirePlanningWrapper extends EmpireWrapper {
 
 	public List<DraftedCard> getDrafteds() {
 		return planning.getDrafteds();
+	}
+
+	public List<DraftedCard> getChoice() {
+		return planning.getChoice();
 	}
 
 	private EmpirePlanningWrapper affectToProduction(AffectProductionEvent event) {

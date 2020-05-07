@@ -4,15 +4,17 @@ import java.util.List;
 
 public class PlayerActionsDTO {
 
-	private boolean supremacy;
-
-	private boolean pass;
-
-	private boolean undo;
+	private List<CardPossibleActions> cards;
 
 	private boolean convert;
 
-	private List<CardPossibleActions> cards;
+	private Boolean dig;
+
+	private boolean pass;
+
+	private boolean supremacy;
+
+	private boolean undo;
 
 	public List<CardPossibleActions> getCards() {
 		return cards;
@@ -30,6 +32,10 @@ public class PlayerActionsDTO {
 		return convert;
 	}
 
+	public Boolean isDig() {
+		return dig;
+	}
+
 	public boolean isUndo() {
 		return undo;
 	}
@@ -40,6 +46,10 @@ public class PlayerActionsDTO {
 
 	public void setConvert(boolean convert) {
 		this.convert = convert;
+	}
+
+	public void setDig(Boolean dig) {
+		this.dig = dig;
 	}
 
 	public void setPass(boolean pass) {

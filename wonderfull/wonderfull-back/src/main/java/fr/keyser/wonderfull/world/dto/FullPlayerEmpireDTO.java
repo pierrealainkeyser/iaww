@@ -18,6 +18,8 @@ public class FullPlayerEmpireDTO {
 	private List<DraftedCard> drafteds;
 
 	private List<DraftableCard> inHand;
+	
+	private List<DraftedCard> choice;	
 
 	private boolean done;
 
@@ -31,6 +33,14 @@ public class FullPlayerEmpireDTO {
 
 	public List<DraftedCard> getDrafteds() {
 		return drafteds;
+	}
+	
+	public List<DraftedCard> getChoice() {
+		return choice;
+	}
+
+	public void setChoice(List<DraftedCard> choice) {
+		this.choice = choice;
 	}
 
 	public Empire getEmpire() {

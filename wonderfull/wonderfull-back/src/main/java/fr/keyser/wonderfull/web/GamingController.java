@@ -13,6 +13,8 @@ import fr.keyser.wonderfull.security.ProviderPrincipal;
 import fr.keyser.wonderfull.security.ProviderPrincipalConverter;
 import fr.keyser.wonderfull.world.PlayerGameDescription;
 import fr.keyser.wonderfull.world.action.ActionAffectToProduction;
+import fr.keyser.wonderfull.world.action.ActionDig;
+import fr.keyser.wonderfull.world.action.ActionDiscardToDig;
 import fr.keyser.wonderfull.world.action.ActionDraft;
 import fr.keyser.wonderfull.world.action.ActionMoveDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionRecycleDrafted;
@@ -63,6 +65,16 @@ public class GamingController {
 
 	@MessageMapping("/game/{externalId}/draft")
 	public void draft(@DestinationVariable String externalId, @Payload ActionDraft action) {
+		service.play(externalId, action);
+	}
+	
+	@MessageMapping("/game/{externalId}/discard")
+	public void discard(@DestinationVariable String externalId, @Payload ActionDiscardToDig action) {
+		service.play(externalId, action);
+	}
+
+	@MessageMapping("/game/{externalId}/dig")
+	public void dig(@DestinationVariable String externalId, @Payload ActionDig action) {
 		service.play(externalId, action);
 	}
 

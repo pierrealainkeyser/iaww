@@ -22,6 +22,8 @@ import fr.keyser.wonderfull.world.Token;
 import fr.keyser.wonderfull.world.Tokens;
 import fr.keyser.wonderfull.world.action.ActionAffectToProduction;
 import fr.keyser.wonderfull.world.action.ActionConvert;
+import fr.keyser.wonderfull.world.action.ActionDig;
+import fr.keyser.wonderfull.world.action.ActionDiscardToDig;
 import fr.keyser.wonderfull.world.action.ActionDraft;
 import fr.keyser.wonderfull.world.action.ActionMoveDraftedToProduction;
 import fr.keyser.wonderfull.world.action.ActionPass;
@@ -104,6 +106,8 @@ public class PlayerEmpire {
 			return recycleProduction((ActionRecycleProduction) action, consumer);
 		else if (action instanceof ActionAffectToProduction)
 			return affectToProduction((ActionAffectToProduction) action, consumer);
+		else if (action instanceof ActionDig)
+			return dig((ActionDig) action, consumer);
 		else if (action instanceof ActionConvert) {
 			return convert(consumer);
 		} else if (action instanceof ActionPass) {
@@ -128,8 +132,9 @@ public class PlayerEmpire {
 	public PlayerEmpire draft(List<DraftableCard> inHand) {
 
 		List<DraftedCard> drafteds = Collections.emptyList();
-		if (draft != null)
+		if (draft != null) {
 			drafteds = draft.getDrafteds();
+		}
 
 		return new PlayerEmpire(new EmpireDraftWrapper(resolveEmpire(), new CurrentDraft(drafteds, inHand)), null, null,
 				null);
@@ -139,9 +144,16 @@ public class PlayerEmpire {
 		if (draft == null)
 			throw new IllegalActionException("draftToPlanning");
 
-		EmpirePlanningWrapper planning = new EmpirePlanningWrapper(resolveEmpire(), draft.getDrafteds());
+		EmpirePlanningWrapper planning = new EmpirePlanningWrapper(resolveEmpire(), draft.getDrafteds(),
+				Collections.emptyList());
 		PlayerEmpire undo = new PlayerEmpire(null, planning, null, null);
 		return new PlayerEmpire(null, planning, null, undo);
+	}
+
+	public PlayerEmpire singlePlayerPlanning(List<DraftableCard> cards) {
+		EmpirePlanningWrapper planning = new EmpirePlanningWrapper(resolveEmpire(),
+				cards.stream().map(DraftableCard::draft).collect(toList()), Collections.emptyList());
+		return new PlayerEmpire(null, planning, null, null);
 	}
 
 	public PlayerEmpire startProductionStep(Token step) {
@@ -163,6 +175,24 @@ public class PlayerEmpire {
 			return production.getEmpire();
 
 		return empire;
+	}
+
+	public PlayerEmpire dig(ActionDig action, Consumer<EmpireEvent> consumer) {
+
+		if (planning == null)
+			throw new IllegalActionException("planning");
+
+		return new PlayerEmpire(null, null, planning.dig(action, consumer), null);
+
+	}
+
+	public PlayerEmpire discardToDig(ActionDiscardToDig action, List<DraftableCard> cards,
+			Consumer<EmpireEvent> consumer) {
+		if (planning == null)
+			throw new IllegalActionException("planning");
+		return new PlayerEmpire(null,
+				planning.discardToDig(action, cards.stream().map(DraftableCard::draft).collect(toList()), consumer),
+				null, null);
 	}
 
 	public PlayerEmpire draft(ActionDraft action, Consumer<EmpireEvent> consumer) {
@@ -225,17 +255,20 @@ public class PlayerEmpire {
 		throw new IllegalActionException("convert");
 	}
 
-	public PlayerActionsDTO asPlayerAction() {
+	public PlayerActionsDTO asPlayerAction(boolean singlePlayer) {
 		PlayerActionsDTO action = null;
 
 		if (draft != null) {
 			action = new PlayerActionsDTO();
-			action.setCards(draft.getInHand().stream()
+			List<DraftableCard> inHand = draft.getInHand();
+			action.setCards(inHand.stream()
 					.map(d -> new CardPossibleActions(d.getId(), asList(ArgumentLessAction.DRAFT))).collect(toList()));
 		} else if (planning != null) {
 			action = new PlayerActionsDTO();
 			Empire emp = planning.getEmpire();
-			List<CardPossibleActions> draftedsActions = planning.getDrafteds().stream().map(d -> {
+			List<DraftedCard> drafteds = planning.getDrafteds();
+
+			List<CardPossibleActions> draftedsActions = drafteds.stream().map(d -> {
 				List<PossibleAction> actions = asList(ArgumentLessAction.MOVE_TO_PRODUCTION,
 						ArgumentLessAction.RECYLE_DRAFT);
 
@@ -253,9 +286,21 @@ public class PlayerEmpire {
 			all.addAll(draftedsActions);
 			all.addAll(inProductionActions);
 
-			action.setUndo(undo != null);
+			if (singlePlayer) {
+				List<DraftedCard> choice = planning.getChoice();
+				if (choice.isEmpty()) {
+					action.setDig(drafteds.size() >= 2);
+				} else {
+					all = choice.parallelStream()
+							.map(d -> new CardPossibleActions(d.getId(), asList(ArgumentLessAction.DIG)))
+							.collect(toList());
+				}
+			} else {
+				action.setPass(draftedsActions.isEmpty());
+				action.setUndo(undo != null);
+			}
+
 			action.setCards(all);
-			action.setPass(draftedsActions.isEmpty());
 
 		} else if (production != null) {
 			action = new PlayerActionsDTO();
@@ -296,6 +341,9 @@ public class PlayerEmpire {
 		dto.setDone(done);
 		if (planning != null) {
 			dto.setDrafteds(planning.getDrafteds());
+			List<DraftedCard> choice = planning.getChoice();
+			if (!choice.isEmpty())
+				dto.setChoice(choice);
 			dto.setAvailable(emp.getOnEmpire().asMap());
 		}
 

@@ -94,6 +94,12 @@ public class GameInfo {
 	public GameInfo nextTurn() {
 		return new GameInfo(game.nextTurn(), turn + 1, 0, clock, events, privateEvents);
 	}
+	
+	public GameInfo nextTurnSinglePlayer() {
+		return new GameInfo(game, turn + 1, 0, clock, events, privateEvents);
+	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -124,6 +130,10 @@ public class GameInfo {
 
 	public GameInfo startPlanning() {
 		return new GameInfo(game.startPlanning(), turn, drafteds, clock + 1, events, privateEvents);
+	}
+
+	public GameInfo startSinglePlayerPlanning() {
+		return new GameInfo(game.startSinglePlayerPlanning(), turn, drafteds, clock + 1, events, privateEvents);
 	}
 
 	public GameInfo endProductionStep() {

@@ -2,6 +2,8 @@ package fr.keyser.wonderfull.world.dto;
 
 public class ArgumentLessAction implements PossibleAction {
 
+	public final static PossibleAction DIG = new ArgumentLessAction("dig");
+	
 	public final static PossibleAction DRAFT = new ArgumentLessAction("draft");
 
 	public final static PossibleAction RECYLE_DRAFT = new ArgumentLessAction("recycleDraft");

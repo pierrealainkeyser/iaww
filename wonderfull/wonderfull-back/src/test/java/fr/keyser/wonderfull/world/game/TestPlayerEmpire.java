@@ -95,7 +95,7 @@ public class TestPlayerEmpire {
 		player = player.draft(new ActionDraft(2), consumer);
 
 		logger.debug(printer.writeValueAsString(player.asDTO(false, false)));
-		logger.debug(printer.writeValueAsString(player.asPlayerAction()));
+		logger.debug(printer.writeValueAsString(player.asPlayerAction(false)));
 		player = player.draft(new ActionDraft(3), consumer);
 		player = player.draft(new ActionDraft(4), consumer);
 		logger.debug(printer.writeValueAsString(player));
@@ -139,7 +139,7 @@ public class TestPlayerEmpire {
 		player = player.affectToProduction(new ActionAffectToProduction(4, Map.of(0, Token.MATERIAL)), consumer);
 		logger.debug(printer.writeValueAsString(player));
 		logger.debug(printer.writeValueAsString(player.asDTO(false, false)));
-		logger.debug(printer.writeValueAsString(player.asPlayerAction()));
+		logger.debug(printer.writeValueAsString(player.asPlayerAction(false)));
 
 		logger.debug("Affect 3 material");
 		player = player.affectToProduction(
@@ -165,7 +165,7 @@ public class TestPlayerEmpire {
 		logger.debug("Production energy");
 		player = player.startProductionStep(Token.ENERGY);
 		logger.debug(printer.writeValueAsString(player.asDTO(false, false)));
-		logger.debug(printer.writeValueAsString(player.asPlayerAction()));
+		logger.debug(printer.writeValueAsString(player.asPlayerAction(false)));
 
 	}
 
