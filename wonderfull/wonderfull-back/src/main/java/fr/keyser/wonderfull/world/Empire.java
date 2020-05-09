@@ -150,6 +150,10 @@ public class Empire {
 		return new Empire(builded, newProduction, onEmpire, storedRaw);
 	}
 
+	public Empire withProduction(List<InProductionCard> newProduction) {
+		return new Empire(builded, newProduction, onEmpire, storedRaw);
+	}
+
 	public RecycleInProductionEvent recycleProduction(int targetId) {
 		int index = AbstractCard.findIndex(inProduction, targetId);
 		InProductionCard inProductionCard = inProduction.get(index);

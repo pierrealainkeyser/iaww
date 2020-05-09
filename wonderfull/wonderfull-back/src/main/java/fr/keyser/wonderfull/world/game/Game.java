@@ -3,6 +3,8 @@ package fr.keyser.wonderfull.world.game;
 import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,6 +26,7 @@ import fr.keyser.wonderfull.world.DraftableCard;
 import fr.keyser.wonderfull.world.Empire;
 import fr.keyser.wonderfull.world.EmpireConfiguration;
 import fr.keyser.wonderfull.world.GameConfiguration;
+import fr.keyser.wonderfull.world.InProductionCard;
 import fr.keyser.wonderfull.world.MetaCardDictionnary;
 import fr.keyser.wonderfull.world.MetaCardDictionnaryLoader;
 import fr.keyser.wonderfull.world.Token;
@@ -38,7 +41,10 @@ import fr.keyser.wonderfull.world.event.EmpireEvent;
 
 public class Game {
 
-	@JsonProperty
+	public static final String A_BETTER_WORLD = "a_better_world";
+
+	public static final String TO_THE_CENTER_OF_EARTH = "to_the_center_of_earth";
+
 	private final List<PlayerEmpire> empires;
 
 	@JsonProperty
@@ -46,15 +52,43 @@ public class Game {
 
 	private final GameConfiguration configuration;
 
+	public static List<String> cardsInScenario(String scenario) {
+
+		if (TO_THE_CENTER_OF_EARTH.equals(scenario))
+			return Arrays.asList("polar_base", "super_sonar", "center_of_the_earth", "mega_drill");
+		else if (A_BETTER_WORLD.equals(scenario))
+			return Arrays.asList("wind_turbines", "recycling_station", "universal_vaccine", "aquaculture");
+		else
+			return Collections.emptyList();
+	}
+
 	public static Game bootstrap(MetaCardDictionnaryLoader loader, GameConfiguration configuration) {
 
 		MetaCardDictionnary dictionnary = loader.load(configuration.getDictionaries());
 		Deck deck = Deck.builder(dictionnary).deck();
+		Deck userDeck = deck;
 
 		List<PlayerEmpire> empires = configuration.getEmpires().stream()
 				.map(c -> new PlayerEmpire(Empire.with(deck.resolve("empire/" + c.getEmpire()))))
 				.collect(Collectors.toList());
-		return new Game(configuration, deck, empires);
+
+		if (empires.size() == 1) {
+
+			List<String> cards = cardsInScenario(configuration.getStartingEmpire());
+			if (!cards.isEmpty()) {
+				userDeck = userDeck.prepareForScenario(cards);
+				DraftablesCardsAndDeck next = userDeck.next(cards.size());
+				List<InProductionCard> inProduction = next.getCards().stream().map(s -> s.draft().produce())
+						.collect(Collectors.toList());
+				userDeck = next.getDeck();
+
+				Empire empire = empires.get(0).getEmpire().withProduction(inProduction);
+				empires = Arrays.asList(new PlayerEmpire(empire));
+			}
+
+		}
+
+		return new Game(configuration, userDeck, empires);
 	}
 
 	@JsonCreator
@@ -244,5 +278,9 @@ public class Game {
 		}
 
 		return winner;
+	}
+
+	public List<PlayerEmpire> getEmpires() {
+		return empires;
 	}
 }

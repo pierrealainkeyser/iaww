@@ -2,6 +2,7 @@ package fr.keyser.wonderfull.world;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -90,6 +91,30 @@ public class Deck {
 		public List<DraftableCard> getCards() {
 			return cards;
 		}
+
+	}
+
+	public Deck prepareForScenario(List<String> cards) {
+		List<String> remainnings = new ArrayList<>(cards);
+		List<ProtoCard> newProtos = new ArrayList<>(protocards);
+
+		List<ProtoCard> founds = new ArrayList<>();
+
+		Iterator<ProtoCard> it = newProtos.iterator();
+		while (it.hasNext() && !remainnings.isEmpty()) {
+			ProtoCard next = it.next();
+			String name = next.getName();
+			int index = remainnings.indexOf(name);
+			if (index >= 0) {
+				remainnings.remove(index);
+				it.remove();
+				founds.add(next);
+			}
+		}
+
+		newProtos.addAll(0, founds);
+
+		return new Deck(dictionnary, newProtos, 0);
 
 	}
 
