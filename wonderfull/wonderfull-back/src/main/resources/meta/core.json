@@ -643,6 +643,16 @@
 		"occurence": 2
 	},
 	{
+		"name": "secret_society",
+		"type": "GOLD",
+		"recycle": "GOLD",
+		"cost": "GOLD*3, KRYSTALIUM",		
+		"scoring": {
+			"empire": "BUSINESSMAN"
+		},
+		"occurence": 1
+	},
+	{
 		"name": "museum",
 		"type": "GOLD",
 		"recycle": "DISCOVERY",

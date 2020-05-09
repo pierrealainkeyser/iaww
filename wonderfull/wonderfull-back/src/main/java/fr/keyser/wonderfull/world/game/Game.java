@@ -58,6 +58,14 @@ public class Game {
 			return Arrays.asList("polar_base", "super_sonar", "center_of_the_earth", "mega_drill");
 		else if (A_BETTER_WORLD.equals(scenario))
 			return Arrays.asList("wind_turbines", "recycling_station", "universal_vaccine", "aquaculture");
+		else if ("they_are_among_us".equals(scenario))
+			return Arrays.asList("unknown_technology", "saucer_squadron", "lunar_base", "secret_laboratory");
+		else if ("back_to_the_futur".equals(scenario))
+			return Arrays.asList("research_center", "neuroscience", "time_travel");
+		else if ("end_of_times".equals(scenario))
+			return Arrays.asList("industrial_complex", "underground_city", "underwater_city", "secret_society");
+		else if ("money_has_no_smell".equals(scenario))
+			return Arrays.asList("financial_center", "propaganda_center", "national_monument");
 		else
 			return Collections.emptyList();
 	}

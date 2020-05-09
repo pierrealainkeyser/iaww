@@ -113,6 +113,22 @@ export default {
         {
           value: "a_better_world",
           text: "A Better World"
+        },
+        {
+          value: "they_are_among_us",
+          text: "They're Among Us"
+        },
+        {
+          value: "back_to_the_futur",
+          text: "Back To The Futur"
+        },
+        {
+          value: "end_of_times",
+          text: "End Of Times"
+        },
+        {
+          value: "money_has_no_smell",
+          text: "Money Has No Smell"
         }
       ]
     };
