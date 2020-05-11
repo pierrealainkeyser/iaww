@@ -94,12 +94,14 @@ public class GameInfo {
 	public GameInfo nextTurn() {
 		return new GameInfo(game.nextTurn(), turn + 1, 0, clock, events, privateEvents);
 	}
-	
+
 	public GameInfo nextTurnSinglePlayer() {
 		return new GameInfo(game, turn + 1, 0, clock, events, privateEvents);
 	}
-	
-	
+
+	public boolean singlePlayerDraftedEmpty() {
+		return game.getEmpires().get(0).getPlanning().getDrafteds().isEmpty();
+	}
 
 	@Override
 	public String toString() {

@@ -102,27 +102,31 @@ public class GameAutomatsBuilder {
 		boolean multiplayer = nbPlayers > 1;
 
 		if (multiplayer) {
-			TransitionNode<GameInfo> init = createPlanning(planning, nbPlayers, production);
+			TransitionNode<GameInfo> init = createPlanning(planning, nbPlayers, false, production);
 			init.updateEntry(this::startPlanning);
 		} else {
 
 			Node<GameInfo> first = planning.node("first");
 			Node<GameInfo> second = planning.node("second");
 
-			TransitionNode<GameInfo> firstI = createPlanning(first, nbPlayers, second);
+			TransitionNode<GameInfo> firstI = createPlanning(first, nbPlayers, true, second);
 			firstI.updateEntry(this::startSinglePlayerPlanning);
 
-			TransitionNode<GameInfo> secondI = createPlanning(second, nbPlayers, production);
+			TransitionNode<GameInfo> secondI = createPlanning(second, nbPlayers, false, production);
 			secondI.updateEntry(this::startSinglePlayerPlanning);
 		}
 
 	}
 
-	private TransitionNode<GameInfo> createPlanning(Node<GameInfo> planning, int nbPlayers, Edge production) {
+	private TransitionNode<GameInfo> createPlanning(Node<GameInfo> planning, int nbPlayers, boolean auto,
+			Edge production) {
 		TransitionNode<GameInfo> init = planning.auto("init");
 		Region<GameInfo> players = playersState(planning, nbPlayers);
 		init.to(players);
-		playableRegion(players, production);
+		if (auto)
+			singlePlayerPlanning(players, production);
+		else
+			playableRegion(players, production);
 		return init;
 	}
 
@@ -243,6 +247,23 @@ public class GameAutomatsBuilder {
 		waiting.event(PASS_EVENT, joinPoint).guard(this::acceptDispatchAction);
 		waiting.event(PLAY_EVENT, waiting).guard(this::acceptDispatchAction);
 		waiting.callbackExit(this::mergePayload);
+	}
+
+	private void singlePlayerPlanning(Region<GameInfo> region, Edge next) {
+		Node<GameInfo> input = region.node("input");
+		Node<GameInfo> waiting = input.node(WAITING_STATE);
+		Choice<GameInfo> choice = input.choice("check");
+
+		Edge joinPoint = region.joinTo(next);
+
+		waiting.event(PLAY_EVENT, choice).guard(this::acceptDispatchAction);
+		waiting.callbackExit(this::mergePayload);
+
+		choice.when(this::hasDoneSinglePlayerPlanning, joinPoint).otherwise(waiting);
+	}
+
+	private boolean hasDoneSinglePlayerPlanning(Instance<GameInfo> i, Transition t) {
+		return i.getParent().get(GameInfo::singlePlayerDraftedEmpty);
 	}
 
 	private GameInfo startPlanning(GameInfo container, EventMsg msg) {
