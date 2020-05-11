@@ -75,6 +75,9 @@ public class TestGame {
 		CardPossibleActions c = dto.getActions().getCards().get(0);
 		g = g.dispatch(new ActionDraft(c.getTargetId()).dispatch(0), noop);
 		logger.debug(printer.writeValueAsString(g.asDTO(0, status)));
+		
+		
+		logger.debug(printer.writeValueAsString(reloaded.scoreBoards()));
 
 	}
 

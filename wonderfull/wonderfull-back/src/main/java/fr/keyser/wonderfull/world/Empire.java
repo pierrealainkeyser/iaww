@@ -16,6 +16,7 @@ import fr.keyser.wonderfull.world.event.AffectProductionEvent;
 import fr.keyser.wonderfull.world.event.MoveToProductionEvent;
 import fr.keyser.wonderfull.world.event.RecycleEvent;
 import fr.keyser.wonderfull.world.event.RecycleInProductionEvent;
+import fr.keyser.wonderfull.world.game.PlayerScoreBoard;
 import fr.keyser.wonderfull.world.game.ScoreAnalysis;
 
 public class Empire {
@@ -64,6 +65,17 @@ public class Empire {
 
 	public Empire addTokens(Tokens tokens) {
 		return new Empire(builded, inProduction, onEmpire.add(tokens), storedRaw);
+	}
+
+	public PlayerScoreBoard scoreBoard() {
+		Tokens thisEmpire = cardsInEmpire().add(onEmpire);
+		PlayerScoreBoard.Builder builder = new PlayerScoreBoard.Builder();
+		for (BuildedCard card : builded)
+			builder.add(card, thisEmpire);
+		builder.add(Token.BUSINESSMAN, onEmpire.get(Token.BUSINESSMAN));
+		builder.add(Token.GENERAL, onEmpire.get(Token.GENERAL));
+
+		return builder.build();
 	}
 
 	public int score() {

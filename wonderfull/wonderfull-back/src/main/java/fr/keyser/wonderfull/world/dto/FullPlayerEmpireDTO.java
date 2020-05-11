@@ -8,6 +8,7 @@ import fr.keyser.wonderfull.world.DraftableCard;
 import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.Empire;
 import fr.keyser.wonderfull.world.Token;
+import fr.keyser.wonderfull.world.game.PlayerScoreBoard;
 
 public class FullPlayerEmpireDTO {
 
@@ -15,11 +16,13 @@ public class FullPlayerEmpireDTO {
 
 	private Integer score;
 
+	private PlayerScoreBoard scoreBoard;
+
 	private List<DraftedCard> drafteds;
 
 	private List<DraftableCard> inHand;
-	
-	private List<DraftedCard> choice;	
+
+	private List<DraftedCard> choice;
 
 	private boolean done;
 
@@ -34,7 +37,7 @@ public class FullPlayerEmpireDTO {
 	public List<DraftedCard> getDrafteds() {
 		return drafteds;
 	}
-	
+
 	public List<DraftedCard> getChoice() {
 		return choice;
 	}
@@ -93,6 +96,14 @@ public class FullPlayerEmpireDTO {
 
 	public void setScore(Integer score) {
 		this.score = score;
+	}
+
+	public PlayerScoreBoard getScoreBoard() {
+		return scoreBoard;
+	}
+
+	public void setScoreBoard(PlayerScoreBoard scoreBoard) {
+		this.scoreBoard = scoreBoard;
 	}
 
 }

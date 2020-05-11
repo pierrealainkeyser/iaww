@@ -2,6 +2,7 @@ package fr.keyser.wonderfull.world;
 
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = BuildedCard.Serializer.class)
@@ -29,6 +30,11 @@ public class BuildedCard extends AbstractCard {
 
 	public Token getType() {
 		return meta.getType();
+	}
+
+	@JsonIgnore
+	public Token getScoringType() {
+		return meta.getScoringType();
 	}
 
 	public Value getScoring() {

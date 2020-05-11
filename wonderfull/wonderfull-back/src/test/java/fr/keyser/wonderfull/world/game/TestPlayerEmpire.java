@@ -69,6 +69,8 @@ public class TestPlayerEmpire {
 			assertThat(t.get(Token.BUSINESSMAN)).isEqualTo(2);
 		});
 
+		assertThat(empire.scoreBoard().getContributions()).containsEntry(Token.BUSINESSMAN, 2);
+
 	}
 
 	@Test

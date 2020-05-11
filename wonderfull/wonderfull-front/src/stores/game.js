@@ -36,6 +36,7 @@ function createEmptyEmpire(index, wop) {
 
   return {
     score: 0,
+    scoreBoard:{},
     empire: {
       builded: [],
       inProduction: []
@@ -101,6 +102,7 @@ function mapEmpire(src, target, dictionnary, actions) {
   mapCards(src.empire.builded, target.empire.builded, dictionnary, actions);
   mapCards(src.empire.inProduction, target.empire.inProduction, dictionnary, actions);
   target.score = src.score;
+  target.scoreBoard = src.scoreBoard;
   target.done = src.done;
   target.player = src.player.label;
   target.playerId = src.player.name;

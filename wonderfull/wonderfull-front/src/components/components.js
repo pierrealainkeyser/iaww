@@ -4,6 +4,7 @@
  import CardView from '@/components/game/CardView'
  import SimpleCardView from '@/components/game/SimpleCardView'
  import EmpireTableStats from '@/components/game/EmpireTableStats'
+ import EmpireScoreBoards from '@/components/game/EmpireScoreBoards'
  import TurnStatus from '@/components/game/TurnStatus'
  import Produce from '@/components/game/Produce'
  import Scoring from '@/components/game/Scoring'
@@ -34,6 +35,7 @@
      Vue.component('CardView', CardView);
      Vue.component('SimpleCardView', SimpleCardView);
      Vue.component('EmpireTableStats', EmpireTableStats);
+     Vue.component('EmpireScoreBoards', EmpireScoreBoards);     
      Vue.component('EmpireCards', EmpireCards);
      Vue.component('EmpireActions', EmpireActions);
      Vue.component('EmpireName', EmpireName);
@@ -47,7 +49,7 @@
      Vue.component('EventList', EventList);
      Vue.component('AffectationDialog', AffectationDialog);
      Vue.component('SupremacyDialog', SupremacyDialog);
-     Vue.component('DigDiscardDialog', DigDiscardDialog);     
+     Vue.component('DigDiscardDialog', DigDiscardDialog);
      Vue.component('GameStatusHeader', GameStatusHeader);
      Vue.component('EmpireCardView', EmpireCardView);
      Vue.component('fade-text', FadeText);

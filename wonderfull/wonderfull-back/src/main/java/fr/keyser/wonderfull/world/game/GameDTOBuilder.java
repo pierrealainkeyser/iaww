@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import fr.keyser.fsm.Instance;
 import fr.keyser.wonderfull.world.MetaCardDictionnary;
 import fr.keyser.wonderfull.world.MetaCardDictionnaryLoader;
+import fr.keyser.wonderfull.world.dto.FullPlayerEmpireDTO;
 import fr.keyser.wonderfull.world.dto.GameDTO;
 import fr.keyser.wonderfull.world.game.PlayersStatus.Status;
 
@@ -61,7 +62,13 @@ public class GameDTOBuilder {
 		} else if (GameAutomatsBuilder.END_STATE.equals(first)) {
 			dto.setTerminated(true);
 			dto.setWinner(instance.get(GameInfo::winner));
-			
+
+			List<PlayerScoreBoard> sbs = instance.get(GameInfo::scoreBoards);
+			List<FullPlayerEmpireDTO> empires = dto.getEmpires();
+			for (int i = 0; i < sbs.size(); ++i) {
+				empires.get(i).setScoreBoard(sbs.get(i));
+			}
+
 		}
 
 	}

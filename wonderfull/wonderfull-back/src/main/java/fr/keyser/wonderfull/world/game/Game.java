@@ -291,4 +291,9 @@ public class Game {
 	public List<PlayerEmpire> getEmpires() {
 		return empires;
 	}
+	
+	
+	public List<PlayerScoreBoard> scoreBoards() {
+		return empires.stream().map(pe -> pe.resolveEmpire().scoreBoard()).collect(Collectors.toList());
+	}
 }

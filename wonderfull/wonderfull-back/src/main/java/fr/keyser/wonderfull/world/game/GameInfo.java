@@ -79,6 +79,10 @@ public class GameInfo {
 		return game.winner();
 	}
 
+	public List<PlayerScoreBoard> scoreBoards() {
+		return game.scoreBoards();
+	}
+
 	public GameInfo nextDraft() {
 		return new GameInfo(game.nextDraftStep(turn), turn, drafteds + 1, clock, events, privateEvents).publishEvents();
 	}

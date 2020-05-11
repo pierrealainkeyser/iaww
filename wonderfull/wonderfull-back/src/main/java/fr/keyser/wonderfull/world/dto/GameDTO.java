@@ -126,5 +126,4 @@ public class GameDTO {
 	public void setTurn(int turn) {
 		this.turn = turn;
 	}
-
 }

@@ -13,7 +13,7 @@
   <v-col :lg="monoLayout?7:10" cols="12">
     <v-row dense>
       <v-col cols="12" class="mt-0 pt-0">
-        <GameStatusHeader>
+        <GameStatusHeader @empire="viewEmpire" >
           <v-btn-toggle v-model="layout" class="mr-1" dense group>
             <v-btn small text>
               <v-icon>mdi-fit-to-page-outline</v-icon>

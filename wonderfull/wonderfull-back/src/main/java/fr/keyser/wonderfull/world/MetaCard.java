@@ -1,5 +1,7 @@
 package fr.keyser.wonderfull.world;
 
+import java.util.Iterator;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -76,5 +78,16 @@ public class MetaCard {
 
 	public Value getScoring() {
 		return scoring;
+	}
+
+	public Token getScoringType() {
+		if (scoring != null) {
+			Iterator<Token> it = scoring.getEmpire().keySet().iterator();
+			if (it.hasNext()) {
+				return it.next();
+			}
+		}
+		return type;
+
 	}
 }
