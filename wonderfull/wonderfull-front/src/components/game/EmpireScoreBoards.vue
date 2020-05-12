@@ -13,7 +13,7 @@
   <tbody>
     <tr v-for="(s,index) in stats" :key="index">
       <td class="pl-1">
-        <Token :type="s" :size="20" />
+        <Token :type="s" :size="20" alt />
       </td>
       <td v-for="(empire,i) in empires" :key="i" class="text-center">
         <fade-text :text="empire.scoreBoard[s]" />

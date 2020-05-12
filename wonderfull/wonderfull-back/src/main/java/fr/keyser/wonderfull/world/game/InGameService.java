@@ -2,6 +2,8 @@ package fr.keyser.wonderfull.world.game;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -20,6 +22,8 @@ public class InGameService {
 	private final GameDTOBuilder builder;
 
 	private final ActiveGameRepository repository;
+
+	private final ConcurrentMap<String, Object> locks = new ConcurrentHashMap<>();
 
 	public InGameService(ActiveGameRepository repository, SimpMessageSendingOperations sendingOperations,
 			GameDTOBuilder builder) {
@@ -56,18 +60,25 @@ public class InGameService {
 	}
 
 	private void process(String externalId, Function<ResolvedGame, Instance<GameInfo>> action) {
-		ResolvedGame resolved = repository.findByExternal(externalId);
 
-		Instance<GameInfo> instance = action.apply(resolved);
+		locks.compute(externalId, (k, old) -> {
 
-		repository.update(resolved);
+			ResolvedGame resolved = repository.findByExternal(externalId);
 
-		List<InGameId> players = resolved.getPlayers();
-		List<GameDTO> dtos = builder.computeDTOs(instance);
+			Instance<GameInfo> instance = action.apply(resolved);
 
-		for (int i = 0, size = dtos.size(); i < size; ++i) {
-			send(players.get(i), dtos.get(i));
-		}
+			repository.update(resolved);
+
+			List<InGameId> players = resolved.getPlayers();
+			List<GameDTO> dtos = builder.computeDTOs(instance);
+
+			for (int i = 0, size = dtos.size(); i < size; ++i) {
+				send(players.get(i), dtos.get(i));
+			}
+
+			return old;
+		});
+
 	}
 
 	private void send(InGameId player, GameDTO dto) {
