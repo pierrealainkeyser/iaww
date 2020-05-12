@@ -61,14 +61,22 @@ public class GameDTOBuilder {
 			dto.setStep(state.get(1));
 		} else if (GameAutomatsBuilder.END_STATE.equals(first)) {
 			dto.setTerminated(true);
-			dto.setWinner(instance.get(GameInfo::winner));
 
 			List<PlayerScoreBoard> sbs = instance.get(GameInfo::scoreBoards);
-			List<FullPlayerEmpireDTO> empires = dto.getEmpires();
-			for (int i = 0; i < sbs.size(); ++i) {
-				empires.get(i).setScoreBoard(sbs.get(i));
-			}
+			int size = sbs.size();
+			boolean multi = size > 1;
+			boolean solo = !multi;
+			if (multi)
+				dto.setWinner(instance.get(GameInfo::winner));
 
+			List<FullPlayerEmpireDTO> empires = dto.getEmpires();
+			for (int i = 0; i < size; ++i) {
+				FullPlayerEmpireDTO emp = empires.get(i);
+				emp.setScoreBoard(sbs.get(i));
+				if (solo) {
+					instance.opt(GameInfo::soloRank).ifPresent(emp::setSoloRank);
+				}
+			}
 		}
 
 	}

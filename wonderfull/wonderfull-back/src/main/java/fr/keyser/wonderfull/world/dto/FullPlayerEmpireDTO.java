@@ -9,6 +9,7 @@ import fr.keyser.wonderfull.world.DraftedCard;
 import fr.keyser.wonderfull.world.Empire;
 import fr.keyser.wonderfull.world.Token;
 import fr.keyser.wonderfull.world.game.PlayerScoreBoard;
+import fr.keyser.wonderfull.world.game.SoloRank;
 
 public class FullPlayerEmpireDTO {
 
@@ -17,6 +18,8 @@ public class FullPlayerEmpireDTO {
 	private Integer score;
 
 	private PlayerScoreBoard scoreBoard;
+	
+	private SoloRank soloRank;
 
 	private List<DraftedCard> drafteds;
 
@@ -104,6 +107,14 @@ public class FullPlayerEmpireDTO {
 
 	public void setScoreBoard(PlayerScoreBoard scoreBoard) {
 		this.scoreBoard = scoreBoard;
+	}
+
+	public SoloRank getSoloRank() {
+		return soloRank;
+	}
+
+	public void setSoloRank(SoloRank soloRank) {
+		this.soloRank = soloRank;
 	}
 
 }

@@ -4,7 +4,6 @@ import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -52,22 +51,25 @@ public class Game {
 
 	private final GameConfiguration configuration;
 
-	public static List<String> cardsInScenario(String scenario) {
+	public static SoloScenario soloScenario(String scenario) {
 
 		if (TO_THE_CENTER_OF_EARTH.equals(scenario))
-			return Arrays.asList("polar_base", "super_sonar", "center_of_the_earth", "mega_drill");
+			return new SoloScenario(70, 95, 115, "polar_base", "super_sonar", "center_of_the_earth", "mega_drill");
 		else if (A_BETTER_WORLD.equals(scenario))
-			return Arrays.asList("wind_turbines", "recycling_station", "universal_vaccine", "aquaculture");
+			return new SoloScenario(70, 95, 115, "wind_turbines", "recycling_station", "universal_vaccine",
+					"aquaculture");
 		else if ("they_are_among_us".equals(scenario))
-			return Arrays.asList("unknown_technology", "saucer_squadron", "lunar_base", "secret_laboratory");
+			return new SoloScenario(70, 90, 105, "unknown_technology", "saucer_squadron", "lunar_base",
+					"secret_laboratory");
 		else if ("back_to_the_futur".equals(scenario))
-			return Arrays.asList("research_center", "neuroscience", "time_travel");
+			return new SoloScenario(65, 85, 105, "research_center", "neuroscience", "time_travel");
 		else if ("end_of_times".equals(scenario))
-			return Arrays.asList("industrial_complex", "underground_city", "underwater_city", "secret_society");
+			return new SoloScenario(75, 95, 120, "industrial_complex", "underground_city", "underwater_city",
+					"secret_society");
 		else if ("money_has_no_smell".equals(scenario))
-			return Arrays.asList("financial_center", "propaganda_center", "national_monument");
+			return new SoloScenario(60, 85, 105, "financial_center", "propaganda_center", "national_monument");
 		else
-			return Collections.emptyList();
+			return null;
 	}
 
 	public static Game bootstrap(MetaCardDictionnaryLoader loader, GameConfiguration configuration) {
@@ -82,8 +84,9 @@ public class Game {
 
 		if (empires.size() == 1) {
 
-			List<String> cards = cardsInScenario(configuration.getStartingEmpire());
-			if (!cards.isEmpty()) {
+			SoloScenario solo = soloScenario(configuration.getStartingEmpire());
+			if (solo != null) {
+				List<String> cards = solo.getCards();
 				userDeck = userDeck.prepareForScenario(cards);
 				DraftablesCardsAndDeck next = userDeck.next(cards.size());
 				List<InProductionCard> inProduction = next.getCards().stream().map(s -> s.draft().produce())
@@ -105,6 +108,18 @@ public class Game {
 		this.configuration = configuration;
 		this.deck = deck;
 		this.empires = empires;
+	}
+
+	public SoloRank soloRank() {
+		if (empires.size() == 1) {
+
+			SoloScenario solo = soloScenario(configuration.getStartingEmpire());
+			if (solo != null) {
+				return solo.computeRank(empires.get(0).getEmpire().score());
+			}
+
+		}
+		return null;
 	}
 
 	public Game dispatch(ActionDispatch dispatch, BiConsumer<Integer, EmpireEvent> consumer) {
@@ -291,8 +306,7 @@ public class Game {
 	public List<PlayerEmpire> getEmpires() {
 		return empires;
 	}
-	
-	
+
 	public List<PlayerScoreBoard> scoreBoards() {
 		return empires.stream().map(pe -> pe.resolveEmpire().scoreBoard()).collect(Collectors.toList());
 	}

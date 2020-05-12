@@ -36,7 +36,8 @@ function createEmptyEmpire(index, wop) {
 
   return {
     score: 0,
-    scoreBoard:{},
+    scoreBoard: {},
+    soloRank: null,
     empire: {
       builded: [],
       inProduction: []
@@ -103,6 +104,7 @@ function mapEmpire(src, target, dictionnary, actions) {
   mapCards(src.empire.inProduction, target.empire.inProduction, dictionnary, actions);
   target.score = src.score;
   target.scoreBoard = src.scoreBoard;
+  target.soloRank = src.soloRank;
   target.done = src.done;
   target.player = src.player.label;
   target.playerId = src.player.name;
@@ -479,14 +481,26 @@ export default {
       };
     },
 
+    soloRank: state => {
+      if (state.done && state.empires.length === 1) {
+        return state.empires[0].soloRank;
+      }
+      return null;
+    },
+
     status: state => {
 
       if (state.done) {
         var result = "Game is terminated without a winnner";
-        if (state.winner >= 0) {
-          const player = state.empires[state.winner].player;
-          result = `${player} has won !`;
+        if (state.empires.length > 1) {
+          if (state.winner >= 0) {
+            const player = state.empires[state.winner].player;
+            result = `${player} has won !`;
+          }
+        } else {
+          result = 'End of game';
         }
+
 
         return result;
       }

@@ -78,6 +78,7 @@ public class GameInfo {
 	public Integer winner() {
 		return game.winner();
 	}
+	
 
 	public List<PlayerScoreBoard> scoreBoards() {
 		return game.scoreBoards();
@@ -147,5 +148,9 @@ public class GameInfo {
 		List<EventAt> newEvents = new ArrayList<>(events);
 		Game newGame = game.endProductionStep((player, event) -> newEvents.add(new EventAt(nextClock, player, event)));
 		return new GameInfo(newGame, turn, drafteds, nextClock, newEvents, privateEvents);
+	}
+
+	public SoloRank soloRank() {
+		return game.soloRank();
 	}
 }
