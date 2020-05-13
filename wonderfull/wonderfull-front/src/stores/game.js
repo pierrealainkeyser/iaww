@@ -228,6 +228,7 @@ export default {
   state: {
     id: null,
     clock: -1,
+    acked: -1,
     turn: 0,
     step: null,
     phase: null,
@@ -275,15 +276,18 @@ export default {
         truncateArray(state.empires);
       }
 
+      const previousAcked = state.acked;
+
       state.done = data.terminated;
       state.clock = data.clock;
+      state.acked = data.playerClock;
       state.turn = data.turn;
       state.phase = data.phase;
       state.step = data.step;
       state.winner = data.winner;
 
       const actions = (data.actions || {});
-      state.action.ready = true;
+      state.action.ready = previousAcked < state.acked;
       state.action.pass = actions.pass || false;
       state.action.supremacy = actions.supremacy || false;
       state.action.convert = actions.convert || false;
@@ -307,6 +311,7 @@ export default {
     },
     reset: (state) => {
       state.clock = -1;
+      state.acked = -1;
       state.turn = 0;
       state.step = null;
       state.phase = null;

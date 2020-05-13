@@ -47,6 +47,9 @@ public class GameDTOBuilder {
 
 	private void commons(Instance<GameInfo> instance, GameDTO dto) {
 		dto.setClock(instance.get(GameInfo::getClock));
+		dto.setPlayerClock(instance.get(g -> g.clockFor(dto.getMyself())));
+		int myself = dto.getMyself();
+
 		dto.setTurn(instance.get(GameInfo::getTurn));
 		dto.setEvents(instance.get(GameInfo::getEvents));
 

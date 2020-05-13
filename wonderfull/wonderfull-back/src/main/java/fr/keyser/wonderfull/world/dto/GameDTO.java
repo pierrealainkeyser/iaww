@@ -12,6 +12,8 @@ public class GameDTO {
 	private int myself;
 
 	private int clock;
+	
+	private int playerClock;
 
 	private int turn;
 
@@ -30,22 +32,6 @@ public class GameDTO {
 	private boolean terminated;
 
 	private Integer winner;
-
-	public Integer getWinner() {
-		return winner;
-	}
-
-	public void setWinner(Integer winner) {
-		this.winner = winner;
-	}
-
-	public Boolean getWop() {
-		return wop;
-	}
-
-	public void setWop(Boolean wop) {
-		this.wop = wop;
-	}
 
 	public PlayerActionsDTO getActions() {
 		return actions;
@@ -75,12 +61,24 @@ public class GameDTO {
 		return phase;
 	}
 
+	public int getPlayerClock() {
+		return playerClock;
+	}
+
 	public String getStep() {
 		return step;
 	}
 
 	public int getTurn() {
 		return turn;
+	}
+
+	public Integer getWinner() {
+		return winner;
+	}
+
+	public Boolean getWop() {
+		return wop;
 	}
 
 	public boolean isTerminated() {
@@ -115,6 +113,10 @@ public class GameDTO {
 		this.phase = phase;
 	}
 
+	public void setPlayerClock(int playerClock) {
+		this.playerClock = playerClock;
+	}
+
 	public void setStep(String step) {
 		this.step = step;
 	}
@@ -125,5 +127,13 @@ public class GameDTO {
 
 	public void setTurn(int turn) {
 		this.turn = turn;
+	}
+
+	public void setWinner(Integer winner) {
+		this.winner = winner;
+	}
+
+	public void setWop(Boolean wop) {
+		this.wop = wop;
 	}
 }

@@ -87,7 +87,7 @@ public class TestGameAutomatsBuilder {
 			player0.play(new ActionRecycleDrafted(c.getTargetId()));
 		}
 		dtos = dtoBuilder.computeDTOs(automats.instances().get(0));
-		logger.info("DTO :{}", printer.writeValueAsString(dtos.get(0)));
+		logger.info("DTO :{}", printer.writeValueAsString(dtos));
 
 	}
 
