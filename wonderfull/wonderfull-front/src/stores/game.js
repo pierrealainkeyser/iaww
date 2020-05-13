@@ -287,7 +287,7 @@ export default {
       state.winner = data.winner;
 
       const actions = (data.actions || {});
-      state.action.ready = previousAcked < state.acked;
+      state.action.ready = previousAcked <= state.acked;
       state.action.pass = actions.pass || false;
       state.action.supremacy = actions.supremacy || false;
       state.action.convert = actions.convert || false;
