@@ -25,7 +25,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn @click="scoreBoard=false">Close</v-btn>
-        <v-btn outlined @click="backToLobby">To Lobby</v-btn>
+        <v-btn outlined @click="backToLobby">To The Lobby</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
