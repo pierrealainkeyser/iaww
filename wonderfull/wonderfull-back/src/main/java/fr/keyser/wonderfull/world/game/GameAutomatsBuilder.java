@@ -259,11 +259,11 @@ public class GameAutomatsBuilder {
 		waiting.event(PLAY_EVENT, choice).guard(this::acceptDispatchAction);
 		waiting.callbackExit(this::mergePayload);
 
-		choice.when(this::hasDoneSinglePlayerPlanning, joinPoint).otherwise(waiting);
+		choice.when(this::mayAutoPassSinglePlayer, joinPoint).otherwise(waiting);
 	}
 
-	private boolean hasDoneSinglePlayerPlanning(Instance<GameInfo> i, Transition t) {
-		return i.getParent().get(GameInfo::singlePlayerDraftedEmpty);
+	private boolean mayAutoPassSinglePlayer(Instance<GameInfo> i, Transition t) {
+		return i.getParent().get(GameInfo::mayAutoPassSinglePlayer);
 	}
 
 	private GameInfo startPlanning(GameInfo container, EventMsg msg) {

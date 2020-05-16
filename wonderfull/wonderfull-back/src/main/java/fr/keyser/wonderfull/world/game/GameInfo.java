@@ -116,8 +116,9 @@ public class GameInfo {
 		return new GameInfo(game, turn + 1, 0, clock, clocks, events, privateEvents);
 	}
 
-	public boolean singlePlayerDraftedEmpty() {
-		return game.getEmpires().get(0).getPlanning().getDrafteds().isEmpty();
+	public boolean mayAutoPassSinglePlayer() {
+		EmpirePlanningWrapper planning = game.getEmpires().get(0).getPlanning();
+		return planning.getDrafteds().isEmpty() && planning.getChoice().isEmpty();
 	}
 
 	@Override
