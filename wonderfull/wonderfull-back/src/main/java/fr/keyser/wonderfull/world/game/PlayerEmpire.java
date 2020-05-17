@@ -86,6 +86,11 @@ public class PlayerEmpire {
 	public PlayerEmpire getUndo() {
 		return undo;
 	}
+	
+	@JsonIgnore
+	public boolean isPlanning() {
+		return planning!=null;
+	}
 
 	public Empire getEmpire() {
 		return empire;

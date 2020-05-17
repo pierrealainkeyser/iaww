@@ -140,8 +140,8 @@ public class Game {
 			dispatched = player.discardToDig((ActionDiscardToDig) action, next.getCards(), forward);
 		} else {
 
-			// can't undo when alone
-			if (action instanceof ActionUndo && empires.size() == 1) {
+			// can't undo when alone in planning
+			if (action instanceof ActionUndo && empires.size() == 1 && player.isPlanning()) {
 				throw new IllegalActionException("undo");
 			}
 
