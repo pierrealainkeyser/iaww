@@ -18,7 +18,7 @@ public class SoloScenario {
 		this.scores.put(0, SoloRank.FAILURE);
 		this.scores.put(bronze, SoloRank.BRONZE);
 		this.scores.put(silver, SoloRank.SILVER);
-		this.scores.put(silver, SoloRank.GOLD);
+		this.scores.put(gold, SoloRank.GOLD);
 	}
 
 	public SoloRank computeRank(int score) {
