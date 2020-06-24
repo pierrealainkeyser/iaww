@@ -17,7 +17,7 @@
        has drafted
     <SimpleCardView :card="event.card" />
     </span>
-    <span v-if="'move'===event.type">has moved
+    <span v-if="'move'===event.type"> has moved
     <SimpleCardView :card="event.card" /> to the production line
     </span>
     <span v-if="'recycle_card'===event.type">

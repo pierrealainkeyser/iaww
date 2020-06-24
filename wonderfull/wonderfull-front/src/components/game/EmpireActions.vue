@@ -18,7 +18,7 @@
     <template v-slot:activator="{ on }">
         <v-btn class="ml-1" v-on="on" @click="undo">Undo</v-btn>
       </template>
-    <span>Undo all the actions done in this step, reset to the situation add the begining of the current step</span>
+    <span>Undo all the actions done in this step, reset to the situation at the begining of the current step</span>
   </v-tooltip>
 
   <v-tooltip v-if="action.dig" bottom>
