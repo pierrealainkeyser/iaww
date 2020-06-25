@@ -29,7 +29,7 @@ bootJar.dependsOn buildFront
 copyNpmDist.mustRunAfter buildFront
 
 bootJar {
-	baseName  = 'iaww'
+	archiveBaseName  = 'iaww'
 	layered()
 }
 
