@@ -30,6 +30,7 @@ copyNpmDist.mustRunAfter buildFront
 
 bootJar {
 	baseName  = 'iaww'
+	layered()
 }
 
 

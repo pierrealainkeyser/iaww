@@ -1,6 +1,15 @@
+FROM adoptopenjdk/openjdk11:alpine-jre as builder
+WORKDIR /app
+COPY /build/libs/iaww.jar ./
+RUN java -Djarmode=layertools -jar iaww.jar extract
+
 FROM adoptopenjdk/openjdk11:alpine-jre
 WORKDIR /app
-COPY /build/libs/iaww.jar /application-docker.yaml /app/
-ENV SPRING_PROFILES_ACTIVE=docker
+COPY --from=builder app/dependencies/ ./
+COPY --from=builder app/spring-boot-loader/ ./
+COPY --from=builder app/snapshot-dependencies/ ./
+COPY --from=builder app/application/ ./
+COPY /application-docker.yaml ./
 EXPOSE 80
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=90.0", "-jar", "/app/iaww.jar"]
+ENV SPRING_PROFILES_ACTIVE=docker
+ENTRYPOINT ["java",  "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=90.0", "org.springframework.boot.loader.JarLauncher"]
