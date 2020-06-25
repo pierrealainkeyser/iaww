@@ -12,12 +12,19 @@ public class PlayerGameDescription extends ActiveGameDescription {
 
 	private final boolean terminated;
 
-	public PlayerGameDescription(InstanceId id, String externalId, boolean terminated, String creator,
+	private final Integer score;
+
+	public PlayerGameDescription(InstanceId id, String externalId, boolean terminated, Integer score, String creator,
 			List<String> dictionaries, String startingEmpire, List<UserPrincipal> users, Instant createdAt) {
 		super(id, creator, dictionaries, startingEmpire, users, createdAt);
 		this.externalId = externalId;
 		this.terminated = terminated;
+		this.score = score;
 
+	}
+
+	public Integer getScore() {
+		return score;
 	}
 
 	public boolean isTerminated() {

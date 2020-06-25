@@ -43,11 +43,12 @@ public class GameConfiguration {
 		return startingEmpire;
 	}
 
-	public PlayerGameDescription asDescription(InstanceId id, String user, boolean terminated) {
-		String externalId = empires.stream().filter(e -> e.getUser().getName().equals(user))
-				.map(EmpireConfiguration::getExternalId).findFirst().orElse(null);
-		return new PlayerGameDescription(id, externalId, terminated, creator, dictionaries, startingEmpire, usersList(),
-				createdAt);
+	public PlayerGameDescription asDescription(InstanceId id, String user, boolean terminated, Integer score) {
+		String externalId = empires.stream().filter(e -> e.getUser().getName().equals(user)).findFirst()
+				.map(EmpireConfiguration::getExternalId).orElse(null);
+
+		return new PlayerGameDescription(id, externalId, terminated, score, creator, dictionaries, startingEmpire,
+				usersList(), createdAt);
 
 	}
 
@@ -75,6 +76,16 @@ public class GameConfiguration {
 
 	private List<UserPrincipal> usersList() {
 		return empires.stream().map(EmpireConfiguration::getUser).collect(Collectors.toList());
+	}
+
+	public int indexOfUser(String user) {
+		List<UserPrincipal> usersList = usersList();
+		for (int i = 0; i < usersList.size(); ++i) {
+			if (user.equals(usersList.get(i).getName()))
+				return i;
+		}
+		return -1;
+
 	}
 
 	public Instant getCreatedAt() {

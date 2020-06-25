@@ -218,7 +218,11 @@ export default {
       return `/game/${g.externalId}`;
     },
     formatUsers(g) {
-      return g.users.map(u => u.label).join(', ');
+      const users=g.users.map(u => u.label).join(', ');
+      if(g.terminated){
+        return `${users} | your score: ${g.score}`;
+      }
+      return users;
     },
     formatDict(g) {
       var conf = this.startingEmpires.find(s => s.value === g.startingEmpire);
@@ -237,7 +241,7 @@ export default {
       if (g.dictionaries.indexOf("wop") >= 0)
         text += " + War or Peace";
 
-      return `Empire card : ${text}`;
+      return text;
     },
     formatDate(g) {
       return moment(g.createdAt).format('YYYY/MM/DD HH:mm:ss');

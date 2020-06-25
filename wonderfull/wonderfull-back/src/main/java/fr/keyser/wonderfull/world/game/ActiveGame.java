@@ -35,8 +35,13 @@ public class ActiveGame {
 	}
 
 	GameConfiguration configuration() {
+		Game game = game();
+		return game.getConfiguration();
+	}
+
+	private Game game() {
 		Instance<GameInfo> first = automats.instances().get(0);
-		return first.get(GameInfo::getGame).getConfiguration();
+		return first.get(GameInfo::getGame);
 	}
 
 	public boolean isTerminated() {
@@ -67,7 +72,18 @@ public class ActiveGame {
 	}
 
 	public PlayerGameDescription asDescription(String user) {
-		return configuration().asDescription(automats.getId(), user, isTerminated());
+		boolean terminated = isTerminated();
+
+		Game game = game();
+		GameConfiguration configuration = game.getConfiguration();
+
+		Integer score = null;
+		if (terminated) {
+			int index = configuration.indexOfUser(user);
+			score = game.getEmpires().get(index).getEmpire().score();
+		}
+
+		return configuration.asDescription(automats.getId(), user, terminated, score);
 	}
 
 	public ActiveGameDescription asDescription() {
