@@ -41,6 +41,15 @@ public class TestMetaCardDictionnaryLoader {
 	}
 	
 	@Test
+	void loadAsc() {
+		MetaCardDictionnaryLoader loader = new MetaCardDictionnaryLoader();
+		MetaCardDictionnary dictionnary = loader.load("asc");
+		
+		MetaCard terraformation = dictionnary.resolve("border_patrol");
+		assertThat(terraformation.getBonus()).isEqualTo(Token.GENERAL.one());
+	}
+	
+	@Test
 	void loadWop() {
 		MetaCardDictionnaryLoader loader = new MetaCardDictionnaryLoader();
 		MetaCardDictionnary dictionnary = loader.load("wop");

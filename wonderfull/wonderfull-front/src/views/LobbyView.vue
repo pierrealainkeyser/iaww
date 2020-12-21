@@ -20,6 +20,7 @@
             <div class="d-flex">
               <v-checkbox v-model="additionalDict" label="Kickstarter exclusive cards" value="ks0" />
               <v-checkbox v-model="additionalDict" label="War or Peace" value="wop" class="ml-1" />
+              <v-checkbox v-model="additionalDict" label="Ascension or Corruption" value="asc" class="ml-1" />
             </div>
           </v-col>
 
@@ -240,6 +241,9 @@ export default {
 
       if (g.dictionaries.indexOf("wop") >= 0)
         text += " + War or Peace";
+
+      if (g.dictionaries.indexOf("asc") >= 0)
+          text += " + Ascension or Corruption";
 
       return text;
     },

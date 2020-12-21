@@ -32,6 +32,7 @@ export default {
     }
   },
   getters: {
+
     get: state => {
       return state.label;
     },

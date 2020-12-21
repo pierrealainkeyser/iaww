@@ -74,28 +74,45 @@ public class Game {
 
 	public static Game bootstrap(MetaCardDictionnaryLoader loader, GameConfiguration configuration) {
 
-		MetaCardDictionnary dictionnary = loader.load(configuration.getDictionaries());
+		List<String> dictionaries = configuration.getDictionaries();
+		MetaCardDictionnary dictionnary = loader.load(dictionaries);
 		Deck deck = Deck.builder(dictionnary).deck();
 		Deck userDeck = deck;
 
 		List<PlayerEmpire> empires = configuration.getEmpires().stream()
 				.map(c -> new PlayerEmpire(Empire.with(deck.resolve("empire/" + c.getEmpire()))))
 				.collect(Collectors.toList());
+		int size = empires.size();
+		boolean ascension = dictionaries.contains("asc");
 
-		if (empires.size() == 1) {
+		if (size == 1) {
 
 			SoloScenario solo = soloScenario(configuration.getStartingEmpire());
 			if (solo != null) {
 				List<String> cards = solo.getCards();
 				userDeck = userDeck.prepareForScenario(cards);
+
 				DraftablesCardsAndDeck next = userDeck.next(cards.size());
 				List<InProductionCard> inProduction = next.getCards().stream().map(s -> s.draft().produce())
 						.collect(Collectors.toList());
 				userDeck = next.getDeck();
 
+				if (ascension)
+					userDeck = userDeck.prepareForAscension(3, 2);
+
 				Empire empire = empires.get(0).getEmpire().withProduction(inProduction);
 				empires = Arrays.asList(new PlayerEmpire(empire));
+			} else {
+				if (ascension)
+					userDeck = userDeck.prepareForAscension(3, 2);
 			}
+		}
+
+		if (ascension) {
+			if (size == 2)
+				userDeck = userDeck.prepareForAscension(7, 3);
+			else
+				userDeck = userDeck.prepareForAscension(5, 2);
 
 		}
 

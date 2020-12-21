@@ -2,6 +2,8 @@ package fr.keyser.wonderfull.world;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class AbstractCard {
 
 	public static int findIndex(List<? extends AbstractCard> source, int targetId) {
@@ -33,6 +35,11 @@ public class AbstractCard {
 
 	public int getId() {
 		return id;
+	}
+
+	@JsonIgnore
+	public String getSet() {
+		return meta.getSet();
 	}
 
 	@Override

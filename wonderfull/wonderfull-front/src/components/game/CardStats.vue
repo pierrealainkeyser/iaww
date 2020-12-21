@@ -78,6 +78,10 @@ export default {
         return "War or Peace";
       }
 
+      if ("asc" === gs) {
+        return "Ascension or Corruption";
+      }
+
       return "Core";
     }
   }

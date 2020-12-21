@@ -3,8 +3,10 @@ package fr.keyser.wonderfull.world;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -91,7 +93,26 @@ public class Deck {
 		public List<DraftableCard> getCards() {
 			return cards;
 		}
+	}
 
+	public Deck prepareForAscension(int every, int count) {
+		Predicate<ProtoCard> pred = p -> dictionnary.resolve(p.getName()).getSet().equals("asc");
+		List<ProtoCard> plain = new ArrayList<>(protocards.stream().filter(pred.negate()).collect(Collectors.toList()));
+		LinkedList<ProtoCard> ascension = new LinkedList<>(
+				protocards.stream().filter(pred).collect(Collectors.toList()));
+
+		int index = every;
+		while (!ascension.isEmpty()) {
+
+			for (int i = 0; i < count && !ascension.isEmpty(); ++i) {
+				ProtoCard last = ascension.removeLast();
+				plain.add(index, last);
+			}
+
+			index = Math.min(index + every + count, plain.size());
+		}
+
+		return new Deck(dictionnary, plain, nextIndex);
 	}
 
 	public Deck prepareForScenario(List<String> cards) {
