@@ -11,7 +11,7 @@ services:
     volumes:
       - "/etc/iaww/db:/app/db"
   iaww-letsencrypt:
-    image: linuxserver/letsencrypt
+    image: linuxserver/swag
     container_name: iaww-letsencrypt
     ports:
       - 80:80
@@ -24,7 +24,7 @@ services:
       - URL=pakeyser.ddns.net
       - VALIDATION=http
       - TZ=Europe/Paris
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=999
       - STAGING=false
     
